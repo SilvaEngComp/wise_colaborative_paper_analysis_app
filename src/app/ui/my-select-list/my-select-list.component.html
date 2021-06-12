@@ -1,0 +1,35 @@
+<ion-spinner name="bubbles" *ngIf="isLoading"></ion-spinner>
+
+<div class="div-item" lines="none" *ngIf="!isLoading">
+    <div>
+        <ion-label *ngIf="label" [ngClass]="{'noEditible': edit}">{{label | uppercase}}</ion-label>
+        <ion-icon *ngIf="create" color="medium" (click)="createNew()" name="add-circle-outline"></ion-icon>
+    </div>
+    <ion-item>
+        <ion-label *ngIf="!list">Sem Registros</ion-label>
+        <ion-input [disabled]="edit" (keyup)="busca($event)" [value]="mySelect?.value"></ion-input>
+        <ion-icon *ngIf="!edit" name="caret-down-outline" (click)="showOptions()"></ion-icon>
+    </ion-item>
+
+    <div *ngIf="multiple">
+        <ion-chip *ngFor="let item of mySelectList" mod="ios" outline="true">
+            <ion-label>{{item.value}}</ion-label>
+            <ion-icon (click)="onRemoveMultiple(item)" name="close-outline"></ion-icon>
+        </ion-chip>
+    </div>
+</div>
+
+<div>
+    <div [ngClass]="{'open-div': show}" *ngIf="show" (scroll)="onScroll($event)">
+        <ion-radio-group [value]="mySelect?.id">
+            <ion-list-header>
+                <ion-label class="lb-selecione">ESCOLHA UMA OPÇÃO</ion-label>
+            </ion-list-header>
+            <ion-item (click)="onSelect(item)" *ngFor="let item of list | slice:0:limit " lines="none">
+                <ion-radio [value]="item?.cod"></ion-radio>
+                <ion-label> {{ item?.value | uppercase}}</ion-label>
+            </ion-item>
+        </ion-radio-group>
+
+    </div>
+</div>

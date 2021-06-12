@@ -1,0 +1,74 @@
+<div class="geral">
+    <div class="div-header">
+        <ion-item lines="none" (click)="back()">
+            <ion-icon name="chevron-back-outline" color="dark"></ion-icon>
+            <ion-label> NOVO CURSO</ion-label>
+        </ion-item>
+    </div>
+
+
+    <div class="div-body">
+        <ion-item>
+            <ion-label class="lb-title">
+                INFORMAÇÕES INICIAIS
+            </ion-label>
+        </ion-item>
+
+
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="floating" class="lb-input">*NOME</ion-label>
+                        <ion-input [value]="review?.title" (keyup)="onSetName(inputName.value)" #inputName></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col>
+                    <app-my-select-list [multiple]="true" [edit]="false" [create]="true" label="*instituição" listName="instituition" (selectEmiter)="onSelectInstituition($event)"></app-my-select-list>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <app-my-select-list [multiple]="true" [edit]="false" [create]="true" label="*área de conhecimento" listName="area" (selectEmiter)="onSelectArea($event)"></app-my-select-list>
+                </ion-col>
+            </ion-row>
+
+
+
+
+            <ion-row>
+                <ion-col>
+                    <app-my-select-list [multiple]="true" [edit]="false" [create]="false" label="*colaboradores" listName="members" (selectEmiter)="onSelectMembers($event)"></app-my-select-list>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="floating">QUAL A PERGUNTA QUE DESEJA RESPONDER COM ESSA REVISÃO?</ion-label>
+                        <ion-textarea cols="5" rows="5" [value]="review?.description" (keyup)="onSetQuestion(inputDescription.value)" #inputDescription></ion-textarea>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="floating">OUTRAS INFORMAÇÕES</ion-label>
+                        <ion-textarea cols="5" rows="5" [value]="review?.description" (keyup)="onSetDescription(inputDescription.value)" #inputDescription></ion-textarea>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-button class="btn-finalizar" (click)="finalizar()">
+                        <ion-label>FINALIZAR</ion-label>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+    </div>
+</div>

@@ -1,0 +1,67 @@
+ion-col {
+    display: grid;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.fundo {
+    // background-image: url('../../../assets/images/tela-inicial.webp');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    left: -2%;
+    position: absolute;
+    margin: 0 0.5rem;
+    animation: fadeIn;
+    /* referring directly to the animation's @keyframe declaration */
+    animation-duration: 2s;
+}
+
+ion-grid {
+    position: absolute;
+    bottom: 0px;
+    left: 2%;
+    right: 5%;
+}
+
+.img-google {
+    width: 20px;
+    height: 20px;
+}
+
+//labels
+.lb-conta {
+    margin-left: 25%;
+    color: white;
+    font-size: 3vw;
+    font-weight: 900;
+    font-family: Qanelas;
+}
+
+//buttons
+ion-button {
+    border-radius: 40px;
+}
+
+.btn-google {
+    background-color: white;
+    margin-left: 5%;
+}
+
+.btn-entrar {
+    color: red;
+    margin-right: 30px;
+}
+
+//items
+ion-item {
+    --background: transparent;
+}
+
+.title {
+    font-family: raustila;
+    font-size: 60pt;
+    text-align: center;
+}

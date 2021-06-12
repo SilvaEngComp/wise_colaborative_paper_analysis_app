@@ -1,0 +1,28 @@
+    div {
+        display: grid;
+        align-content: center;
+        align-items: center;
+        align-self: center;
+        animation: fadeIn;
+        animation-duration: 2s;
+        width: 400px;
+        ion-img {
+            margin-left: 100px;
+            margin-right: 100px;
+            width: 50%;
+            height: 50%;
+        }
+        ion-label {
+            font-size: 20pt;
+            font-family: Qanelas-bold;
+            color: var(--ion-color-primary);
+            text-align: center;
+        }
+        ion-icon {
+            margin-left: 130px;
+            margin-right: 150px;
+            font-size: 150px;
+            color: var(--ion-color-primary);
+            --ionicon-stroke-width: 16px;
+        }
+    }

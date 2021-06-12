@@ -1,0 +1,11 @@
+<div class="tooltip " [ngStyle]="{'top':top , 'right':right , 'width':info.length*5+'px'}">
+    <div class="tooltiptext  active" [ngStyle]="{'top':top, 'right':right, 'width':info.length*6+'px'}">
+        {{info}}
+
+        <a [href]="ref" (click)="openLink()" class="active">
+      MAIS...
+</a>
+    </div>
+    <ion-icon color="secondary" name="{{iconName}}"></ion-icon>
+
+</div>

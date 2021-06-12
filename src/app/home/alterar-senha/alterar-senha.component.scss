@@ -1,0 +1,90 @@
+ion-toolbar {
+    .back-button {
+        margin-left: 10px;
+        margin-right: 10px;
+        font-size: 30px;
+        background: var(--ion-color-medium);
+        color: white;
+    }
+    .image-right {
+        margin-left: 10px;
+        margin-right: 10px;
+        font-size: 40px;
+    }
+}
+
+ion-input {
+    margin-left: 2%;
+    width: 300px;
+}
+
+//label
+.title {
+    margin: 16px;
+    font-size: 24pt;
+    text-align: center;
+    font-family: Qanelas-bold;
+    color: var(--ion-color-dark);
+}
+
+.title::before {
+    content: "";
+    width: 120px;
+    height: 1px;
+    background-color: var(--ion-color-dark);
+    position: absolute;
+    bottom: 15px;
+    left: 30%;
+}
+
+.inputs-box {
+    margin-top: 10%;
+    ion-icon {
+        font-size: 30px;
+        color: var(--ion-color-primary)
+    }
+}
+
+.check-item {
+    display: flex;
+    align-content: space-around;
+    margin-left: 10px;
+    ion-label {
+        margin: 5px;
+        font-size: 10pt;
+        color: var(--ion-color-primary);
+        font-family: Qanelas-light;
+        --checkmark-color: var(--ion-color-primary)
+    }
+    ion-checkbox {
+        --border-color: var(--ion-color-primary)
+    }
+}
+
+//buttons
+.btn-redefinir {
+    bottom: 40px;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 5%;
+    --border-radius: 40px;
+    ion-label {
+        font-size: 12pt;
+        color: white;
+        font-family: Qanelas-boldd;
+    }
+}
+
+.erro {
+    font-size: 10pt;
+}
+
+a {
+    position: relative;
+    top: 20%;
+    font-size: 10pt;
+    font-family: Qanelas-light;
+    margin-left: 30%;
+    text-decoration: underline;
+    color: var(--ion-color-medium);
+}

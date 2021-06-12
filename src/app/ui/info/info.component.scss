@@ -1,0 +1,108 @@
+//personalização de info do elemento
+.tooltip {
+    // position: absolute;
+    display: flex;
+    z-index: 2000;
+}
+
+.tooltip .tooltiptext {
+    overflow: auto;
+    visibility: hidden;
+    width: 200px;
+    height: auto;
+    background-color: var(--ion-color-secondary);
+    font-size: 8pt;
+    color: var(--ion-color-light);
+    text-align: right;
+    position: absolute;
+    right: 20px;
+    top: -20px;
+    z-index: 2000;
+    padding: 10px 0px;
+    padding-right: 5px;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.bubble {
+    background-color: #fff;
+    border: 2px solid #333;
+    border-radius: 5px;
+    color: #333;
+    display: inline-block;
+    font: 16px/24px sans-serif;
+    // padding: 12px 24px;
+    position: relative;
+}
+
+
+/* Criando o triângulo */
+
+.bubble.active:after,
+.bubble.active:before {
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid #fff;
+    bottom: -15px;
+    content: '';
+    left: 50%;
+    margin-left: -15px;
+    position: absolute;
+}
+
+
+/* Criando a borda do triângulo */
+
+.bubble.active:before {
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-top: 18px solid;
+    border-top-color: inherit;
+    bottom: -18px;
+    margin-left: -18px;
+}
+
+.tooltiptext ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.tooltiptext::-webkit-scrollbar {
+    width: 1em;
+    border-radius: 20px;
+    background: var(--ion-color-light);
+}
+
+.tooltiptext::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: var(--ion-color-primary);
+}
+
+.tooltiptext::-webkit-scrollbar-corner {
+    background: var(--ion-color-tertiary);
+}
+
+.tooltiptext::-webkit-scrollbar-corner {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.tooltiptext::-webkit-scrollbar-button:single-button {
+    background-color: var(--ion-color-light);
+    display: block;
+    border-style: solid;
+    height: 13px;
+    width: 16px;
+}
+
+.tooltiptext::-webkit-scrollbar-button:single-button:vertical:decrement {
+    border-width: 0 8px 8px 8px;
+    border-color: var(--ion-color-light) var(--ion-color-light) var(--ion-color-primary) var(--ion-color-light);
+}
+
+.tooltiptext::-webkit-scrollbar-button:single-button:vertical:increment {
+    border-width: 8px 8px 0 8px;
+    border-color: var(--ion-color-primary) var(--ion-color-light) var(--ion-color-light) var(--ion-color-light);
+}

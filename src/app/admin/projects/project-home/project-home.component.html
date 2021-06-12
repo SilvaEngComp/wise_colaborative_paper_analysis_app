@@ -1,0 +1,28 @@
+<ion-grid>
+    <ion-row>
+        <ion-col size="2">
+            <ion-card (click)="register()">
+                <ion-card-header>
+                    <ion-icon class="icon-new" name="add-outline"></ion-icon>
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-label>ADD PROJETO</ion-label>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+
+        <ion-col size="3" *ngFor="let review of reviews">
+            <ion-card (click)="openReview(review)">
+                <ion-card-header>
+                    <ion-label>{{review?.title}}</ion-label>
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-item *ngFor="let member of review?.members" lines="none">
+                        <ion-label class="members">{{member?.name}}</ion-label>
+
+                    </ion-item>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+</ion-grid>

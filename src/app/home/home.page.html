@@ -1,0 +1,9 @@
+<ion-content>
+    <app-tela-inicial *ngIf="page==='begin'"></app-tela-inicial>
+    <app-entrar *ngIf="page==='enter'"></app-entrar>
+    <app-splash-screem *ngIf="page==='splash'"></app-splash-screem>
+    <app-response [email]="email" *ngIf="page==='response-code'"></app-response>
+    <app-esqueci-senha *ngIf="page==='recover-password'"></app-esqueci-senha>
+    <app-alterar-senha [user]="user" *ngIf="page==='alter-password'"></app-alterar-senha>
+    <app-registro *ngIf="page==='registro'"></app-registro>
+</ion-content>

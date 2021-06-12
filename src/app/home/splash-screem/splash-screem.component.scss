@@ -1,0 +1,88 @@
+.center {
+    display: grid;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+p {
+    font-size: 5vw;
+    font-family: Qanelas-light;
+    left: 20%;
+    position: absolute;
+    text-decoration: underline;
+    color: var(--ion-color-medium);
+    bottom: 0px;
+    animation: fadeInUp;
+    animation-duration: 1s;
+}
+
+ion-img {
+    width: 100%;
+    height: 100%;
+    animation: zoomIn;
+    animation-duration: 2s;
+}
+
+div {
+    position: absolute;
+    border-radius: 20px;
+    top: 20%;
+    left: 35%;
+    width: 300px;
+    height: 200px;
+    display: inline-block;
+    margin: 0 0.5rem;
+}
+
+.entrada {
+    animation: zoomIn;
+    animation-duration: 2s;
+}
+
+.saida {
+    animation: fadeOut;
+    /* referring directly to the animation's @keyframe declaration */
+    animation-duration: 1.5s;
+}
+
+ion-grid {
+    position: absolute;
+    bottom: 0px;
+    left: 2%;
+    right: 5%;
+}
+
+.img-google {
+    width: 20px;
+    height: 20px;
+}
+
+//labels
+.lb-conta {
+    margin-left: 25%;
+    color: white;
+    font-size: 3vw;
+    font-weight: 900;
+    font-family: Qanelas;
+}
+
+//buttons
+ion-button {
+    border-radius: 40px;
+}
+
+.btn-google {
+    background-color: white;
+    margin-left: 5%;
+}
+
+.btn-entrar {
+    color: red;
+    margin-right: 30px;
+}
+
+//items
+ion-item {
+    --background: transparent;
+}

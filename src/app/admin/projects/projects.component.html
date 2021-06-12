@@ -1,0 +1,7 @@
+<!-- <ion-button (click)="openInLive()">AULA AO VIVO</ion-button> -->
+
+<div class="div-content" [ngSwitch]="page">
+    <app-project-home *ngSwitchCase="'list'" (returnPage)="callbackPageReturn($event)"></app-project-home>
+    <app-review [review]="review" *ngSwitchCase="'review'" (returnPage)="callbackPageReturn($event)"></app-review>
+    <app-register *ngSwitchCase="'register'" (returnPage)="callbackPageReturn($event)"></app-register>
+</div>

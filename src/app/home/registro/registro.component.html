@@ -1,0 +1,55 @@
+<ion-header>
+    <ion-toolbar>
+
+        <ion-buttons>
+            <ion-button (click)="back()">
+                <ion-icon name="arrow-back-outline"></ion-icon>
+                REGISTRO</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+
+            <ion-col size="8">
+                <ion-item class="input">
+                    <ion-label position="floating">Nome completo </ion-label>
+                    <ion-input type="text" [(ngModel)]="user.name"></ion-input>
+                </ion-item>
+
+            </ion-col>
+            <ion-col offset="1">
+                <ion-label class="lb-genero">GÊNERO</ion-label>
+                <div class="div-genero">
+                    <ion-fab-button [ngClass]="{'fab-genero': user?.gender !== 'masculino',
+        'genero-selected': user?.gender === 'masculino'}" (click)="setGenero('masculino')">
+                        <ion-icon name="male-outline"></ion-icon>
+                    </ion-fab-button>
+
+                    <ion-fab-button [ngClass]="{'fab-genero': user?.gender !== 'feminino',
+        'genero-selected': user?.gender === 'feminino'}">
+                        <ion-icon name="female-outline" (click)="setGenero('feminino')"></ion-icon>
+                    </ion-fab-button>
+                </div>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col>
+                <ion-item>
+                    <ion-label>E-mail</ion-label>
+                    <ion-input [(ngModel)]="user.email" (click)="login()"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-button class="btn-entrar" color="tertiary" (click)="register()">ENTRAR</ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+
+</ion-content>
