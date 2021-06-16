@@ -1,0 +1,54 @@
+<ion-toolbar>
+    <ion-buttons>
+        <ion-button (click)="selectBase($event)" fill="outline">
+            <ion-label>{{selectedBase ? selectedBase?.name : 'ESCOLHA UMA BASE'}}</ion-label>
+        </ion-button>
+    </ion-buttons>
+</ion-toolbar>
+
+<ion-grid *ngIf="selectedBase">
+    <ion-row>
+        <ion-col>
+            <ion-label>TAMANHO MÁXIMO 2Mb POR ARQUIVO</ion-label>
+            <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (onFileDrop)="onSelect()" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="drop-zone">
+                Arraste e Solte aqui..
+            </div>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <div class="file-input-container">
+                <label>
+          <input type="file" ng2FileSelect [uploader]="uploader"  (onFileSelected)="onSelect()"/>
+          Escolher arquivos
+        </label>
+            </div>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <ion-label>Arquivo: {{fileName}}</ion-label>
+        </ion-col>
+        <ion-col>
+            <ion-label>Tamanho: {{size}} {{type}}</ion-label>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+
+            <ion-item lines="none">
+                <ion-button slot="start" (click)="cancelar()" color="danger">Cancelar</ion-button>
+                <ion-button slot="end" (click)="upload()" color="success">enviar arquivo</ion-button>
+            </ion-item>
+            <h2>Files: {{ uploader?.queue?.length }}</h2>
+        </ion-col>
+    </ion-row>
+</ion-grid>
+
+<ion-list>
+    <ion-item *ngFor="let item of uploader.queue">
+        <ion-label>
+            {{ item?.file?.name }}
+        </ion-label>
+    </ion-item>
+</ion-list>

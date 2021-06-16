@@ -1,3 +1,6 @@
+import { PaperFilter } from 'src/app/objects/paperFilter';
+/* eslint-disable @typescript-eslint/naming-convention */
+import { Base } from './../objects/base';
 import { Review } from 'src/app/objects/review';
 import { FileReview } from '../objects/fileReview';
 import { HttpClient, HttpEventType } from '@angular/common/http';
@@ -5,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ExceptionService } from './exception.service';
 import { LoginService } from './login.service';
+import { Paper } from '../objects/paper';
 
 @Injectable({
   providedIn: 'root',
@@ -24,16 +28,17 @@ export class PaperService {
 
   async upload(
     formData: FormData,
-    review: Review
-  ): Promise<Review> {
+    review: Review,
+    base: Base
+  ) {
     if (!(await LoginService.getHeaders())) {
       this.checkLogged();
       return Promise.resolve(null);
     }
 
     return this.http
-      .post<Review>(
-        `${environment.API2}/papers/${review.id}/upload}`,
+      .post(
+        `${environment.API2}/papers/base/${base.id}/review/${review.id}/upload`,
         formData,
         {
           headers: await LoginService.getHeaders(true),
@@ -42,15 +47,14 @@ export class PaperService {
       .toPromise();
   }
 
-  async update(fileSubtopic: FileReview) {
+  async get(review_id: number): Promise<Paper[]> {
     if (!(await LoginService.getHeaders())) {
       this.checkLogged();
       return Promise.resolve(null);
     }
     return this.http
-      .patch(
-        `${environment.API2}/filesubtopics/${fileSubtopic.id}`,
-        fileSubtopic,
+      .get<Paper[]>(
+        `${environment.API2}/papers/review/${review_id}`,
         {
           headers: await LoginService.getHeaders(),
         }
@@ -58,6 +62,53 @@ export class PaperService {
       .toPromise();
   }
 
+   async show(filter: PaperFilter): Promise<Paper[]> {
+    if (!(await LoginService.getHeaders())) {
+      this.checkLogged();
+      return Promise.resolve(null);
+    }
+    //  console.log(`${environment.API2}/papers?${filter.getRequest()}`);
+    return this.http
+      .get<Paper[]>(
+        `${environment.API2}/papers?${filter.getRequest()}`,
+        {
+          headers: await LoginService.getHeaders(),
+        }
+      )
+      .toPromise();
+  }
+
+  async update(paper: Paper) {
+    if (!(await LoginService.getHeaders())) {
+      this.checkLogged();
+      return Promise.resolve(null);
+    }
+    // console.log(paper);
+    return this.http
+      .patch(
+        `${environment.API2}/paper_reviews/${paper.paper_review}`,
+        paper,
+        {
+          headers: await LoginService.getHeaders(),
+        }
+      )
+      .toPromise();
+  }
+
+  async ediSearchTerms(base: Base, review: Review, search_terms: string) {
+    if (!(await LoginService.getHeaders())) {
+      this.checkLogged();
+      return Promise.resolve(null);
+    }
+    return this.http
+      .get(
+        `${environment.API2}/paper_reviews/base/${base.id}/review/${review.id}?search_terms=${search_terms}`,
+        {
+          headers: await LoginService.getHeaders(),
+        }
+      )
+      .toPromise();
+  }
   async destroy(fileSubtopic: FileReview) {
     if (!(await LoginService.getHeaders())) {
       this.checkLogged();

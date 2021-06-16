@@ -1,3 +1,5 @@
+import { BaseService } from './../../services/base.service';
+import { PaperService } from 'src/app/services/paper.service';
 import { InstituitionService } from './../../services/instituition.service';
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/member-ordering */
@@ -36,6 +38,8 @@ export class MySelectListComponent implements OnInit, OnDestroy {
     private alertCtrl: AlertController,
     private userService: UserService,
     private areaService: AreaService,
+    private paperSerice: PaperService,
+    private baseService: BaseService
   ) {}
   ngOnDestroy(): void {
     localStorage.removeItem(environment.LOCALSTORAGE + this.listName);
@@ -138,6 +142,12 @@ export class MySelectListComponent implements OnInit, OnDestroy {
     } else if (this.listName == 'area') {
       this.listObj = await this.areaService.get();
       this.list = MySelect.toMySelectAny(this.listObj);
+    }else if (this.listName == 'papers') {
+      this.listObj = await this.paperSerice.get(this.dependence_id);
+      this.list = MySelect.toMySelectPaper(this.listObj);
+    }else if (this.listName == 'bases') {
+      this.listObj = await this.baseService.get();
+      this.list = MySelect.toMySelectAny(this.listObj);
     }
     if (!this.list) {
       this.edit = true;
@@ -172,6 +182,8 @@ export class MySelectListComponent implements OnInit, OnDestroy {
     } else {
       this.onSelectOne(obj);
     }
+        this.show = false;
+
   }
   onSelectOne(obj: MySelect) {
     this.listObj.filter((ele) => {
@@ -180,7 +192,6 @@ export class MySelectListComponent implements OnInit, OnDestroy {
         this.mySelect = obj;
 
         this.selectEmiter.emit(ele);
-        this.show = false;
       }
     });
   }

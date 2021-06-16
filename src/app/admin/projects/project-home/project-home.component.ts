@@ -1,3 +1,4 @@
+import { environment } from './../../../../environments/environment';
 import { ReviewService } from './../../../services/review.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Review } from 'src/app/objects/review';
@@ -26,5 +27,6 @@ this.returnPage.emit({ page: 'register' });
 
   openReview(review: Review) {
     this.returnPage.emit({ page: 'review', review });
+    localStorage.setItem(environment.LOCALSTORAGE + 'r', JSON.stringify(review));
   }
 }

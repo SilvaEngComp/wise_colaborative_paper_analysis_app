@@ -12,7 +12,9 @@ export class FinishActionComponent implements OnInit {
 
   @Input() msg: string;
   @Input() icon: boolean;
+  @Input() duration: number;
   ngOnInit() {
+    this.duration *= 1000;
     if (!this.msg) {
       this.msg = 'operação concluída com sucesso!';
     }
@@ -21,7 +23,7 @@ export class FinishActionComponent implements OnInit {
   starDismiss() {
     setTimeout(() => {
       this.modalCtrl.dismiss();
-    }, 2000);
+    }, this.duration);
   }
 }
 

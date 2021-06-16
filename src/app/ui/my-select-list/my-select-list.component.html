@@ -25,10 +25,10 @@
             <ion-list-header>
                 <ion-label class="lb-selecione">ESCOLHA UMA OPÇÃO</ion-label>
             </ion-list-header>
-            <ion-item (click)="onSelect(item)" *ngFor="let item of list | slice:0:limit " lines="none">
-                <ion-radio [value]="item?.cod"></ion-radio>
-                <ion-label> {{ item?.value | uppercase}}</ion-label>
-            </ion-item>
+            <div class="div-list" *ngFor="let item of list | slice:0:limit ">
+                <ion-label (click)="onSelect(item)" lines="none"> {{ item?.value | uppercase}}</ion-label>
+                <ion-note>{{item?.info}}</ion-note>
+            </div>
         </ion-radio-group>
 
     </div>

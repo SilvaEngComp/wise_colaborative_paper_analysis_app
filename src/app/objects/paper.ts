@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 export class Paper{
+  id: number;
   title: string;
   authors: string;
   publication_title: string;
@@ -14,9 +15,12 @@ export class Paper{
   link: string;
   keywords: string;
   search_terms: string;
-  inspec_controlled_terms: string;
-  not_inspec_controlled_terms: string;
-  mesh_terms: string;
+
+  paper_review: number;
+  status: number;
+  issue: string;
+  relevance: number;
+  observation: string;
 
   constructor(title?: string) {
     this.title = title;

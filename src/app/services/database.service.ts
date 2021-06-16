@@ -1,24 +1,24 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { SQLitePorter } from "@ionic-native/sqlite-porter/ngx";
-import { SQLite, SQLiteObject } from "@ionic-native/sqlite/ngx";
+import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class DatabaseService {
   db: SQLiteObject;
-  databaseName: string = "printfinger.db";
+  databaseName = 'printfinger.db';
   constructor(private sqLite: SQLite, private sqlitePorter: SQLitePorter) {}
 
   async openDatabase() {
     try {
       this.db = await this.sqLite.create({
         name: this.databaseName,
-        location: "default",
+        location: 'default',
       });
       await this.createDatabase();
     } catch (error) {
-      console.log("Ocorreu um erro ao criar o banco de dados", error);
+      console.log('Ocorreu um erro ao criar o banco de dados', error);
     }
   }
 
@@ -34,9 +34,9 @@ export class DatabaseService {
   getCreateTable() {
     const sqls = [];
     sqls.push(
-      "CREATE TABLE IF NOT EXISTS user(id integer primary key AUTOINCREMENT, name varchar(100), gid varchar(25));"
+      'CREATE TABLE IF NOT EXISTS user(id integer primary key AUTOINCREMENT, name varchar(100), gid varchar(25));'
     );
-    return sqls.join("\n");
+    return sqls.join('\n');
   }
 
   excecuteSQL(sql: string, params?: any[]) {

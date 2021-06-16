@@ -1,0 +1,81 @@
+<ion-toolbar>
+    <ion-buttons>
+        <ion-button fill="clear" (click)="back()">
+            <ion-icon class="back-button" slot="start" name="chevron-back-outline"></ion-icon>
+            <ion-label>VOLTAR</ion-label>
+        </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+        <ion-label class="title">Configuração do Protocolo</ion-label>
+
+    </ion-buttons>
+</ion-toolbar>
+
+<ion-grid>
+
+    <ion-row>
+        <ion-col>
+            <ion-label>Perqunta que a pesquisa visa responder</ion-label>
+            <ion-textarea rows="5" cols="5" [value]="review?.question" (keyup)="setQuestion($event)"></ion-textarea>
+        </ion-col>
+    </ion-row>
+
+    <ion-row>
+        <ion-col>
+            <ion-label>Pano de funodo da pesquisa</ion-label>
+            <ion-textarea rows="5" cols="5" [value]="review?.description" (keyup)="setBackground($event)"></ion-textarea>
+        </ion-col>
+    </ion-row>
+
+    <ion-row>
+        <ion-col>
+            <div>
+                <ion-label slot="start">Outras questões</ion-label>
+                <ion-icon slot="start" name="add-circle-outline" (click)="addProtocol()"></ion-icon>
+            </div>
+        </ion-col>
+    </ion-row>
+</ion-grid>
+
+
+<ion-grid>
+    <ion-row>
+        <ion-col>
+            <div>
+                <ion-title>Critérios de Inclusão</ion-title>
+                <ion-label slot="start">Add Critério</ion-label>
+                <ion-icon slot="start" name="add-circle-outline" (click)="addCriteria(1)"></ion-icon>
+            </div>
+        </ion-col>
+    </ion-row>
+    <ion-row class="issue" *ngFor="let criteria of review?.includeCriteria; let i=index">
+        <ion-col>
+            <ion-item>
+                <ion-label position="floating">Critério {{i+1}}</ion-label>
+                <ion-input type="text" placeholder="Digite o critério" [value]="criteria?.answer" (keyup)="setIncludeAnsware($event, i)"></ion-input>
+            </ion-item>
+
+        </ion-col>
+    </ion-row>
+</ion-grid>
+
+
+<ion-grid>
+    <ion-row>
+        <ion-col>
+            <div>
+                <ion-title>Critérios de Exclusão</ion-title>
+                <ion-label slot="start">Add Critério</ion-label>
+                <ion-icon slot="start" name="add-circle-outline" (click)="addCriteria(2)"></ion-icon>
+            </div>
+        </ion-col>
+    </ion-row>
+    <ion-row class="issue" *ngFor="let criteria of review?.excludeCriteria; let i=index">
+        <ion-col>
+            <ion-item>
+                <ion-label position="floating">Critério {{i+1}}</ion-label>
+                <ion-input type="text" placeholder="Digite o critério" [value]="criteria?.answer" (keyup)="setExcludeAnsware($event, i)"></ion-input>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+</ion-grid>

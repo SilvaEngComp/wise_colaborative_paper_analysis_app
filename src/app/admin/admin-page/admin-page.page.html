@@ -6,12 +6,19 @@
             </ion-item>
         </ion-buttons>
         <ion-buttons slot="end" class="menu-right">
-            <ion-item lines="none">
-                <ion-avatar>
-                    <ion-img [src]="socialUser?.photoUrl "></ion-img>
-                </ion-avatar>
-            </ion-item>
-            <ion-label>{{ user?.name }}</ion-label>
+            <ion-list lines="none">
+                <ion-item>
+                    <ion-avatar>
+                        <ion-img [src]="socialUser?.photoUrl "></ion-img>
+                    </ion-avatar>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{ user?.name }}</ion-label>
+
+                </ion-item>
+
+            </ion-list>
+
 
         </ion-buttons>
 
@@ -29,7 +36,7 @@
                         <ion-col>
                             <ion-item lines="none" color="primary">
                                 <ion-button fill="clear" (click)="selectPage(i, item)">
-                                    <ion-label>{{item?.name}}</ion-label>
+                                    <ion-label class="name">{{item?.name}}</ion-label>
                                 </ion-button>
                             </ion-item>
                         </ion-col>

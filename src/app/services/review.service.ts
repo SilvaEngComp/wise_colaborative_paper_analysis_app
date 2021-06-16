@@ -40,7 +40,7 @@ export class ReviewService {
       return Promise.resolve(null);
     }
 
-    console.log(JSON.stringify(review));
+    // console.log(JSON.stringify(review));
 
     return this.http
       .post<Review[]>(

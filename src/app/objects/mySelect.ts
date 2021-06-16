@@ -32,4 +32,13 @@ export class MySelect {
     }
     return mySelect;
   }
+  static toMySelectPaper(list?: any[]) {
+    const mySelect: MySelect[] = [];
+    if (list) {
+      list.filter((item) => {
+        mySelect.push(new MySelect(item.id, item.title, item.authors));
+      });
+    }
+    return mySelect;
+  }
 }

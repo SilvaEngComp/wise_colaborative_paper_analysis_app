@@ -59,6 +59,23 @@
     }
 }
 
+.div-list {
+    cursor: pointer;
+    margin: 15px;
+    display: grid;
+    align-items: flex-start;
+    border-left: 2px solid var(--ion-color-success);
+    ion-label {
+        font-size: 10pt;
+        font-family: Qanelas-light;
+    }
+    ion-note {
+        font-size: 10pt;
+        font-family: Qanelas-thin;
+        color: var(--ion-color-tertiary)
+    }
+}
+
 .div-list-multiple {
     display: flex;
     ion-label {

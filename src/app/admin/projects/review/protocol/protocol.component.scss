@@ -1,0 +1,25 @@
+ ion-textarea {
+     margin-left: auto;
+     margin-right: auto;
+     width: 100%;
+     text-align: justify;
+     border: 1px dotted var(--ion-color-tertiary);
+ }
+ 
+ ion-label {
+     font-family: Qanelas-bold;
+     color: var(--ion-color-secondary);
+ }
+ 
+ .title {
+     font-family: Qanelas-bold;
+     font-size: 16pt;
+     color: var(--ion-color-primary);
+ }
+ 
+ div {
+     display: flex;
+     ion-icon {
+         margin-left: 5px;
+     }
+ }

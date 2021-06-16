@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -47,12 +48,12 @@ import { SQLite } from '@ionic-native/sqlite/ngx';
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              '753162220884-jtq12t62vhn9rk260vh0ss3sau5ju2ja.apps.googleusercontent.com'
+              environment.google_id
             ),
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('530953571263235')
+            provider: new FacebookLoginProvider(environment.facebook_id)
           }
         ],
       } as SocialAuthServiceConfig,

@@ -146,14 +146,6 @@ if (this.platform.is('cordova')){
     }
 
 
-
-    if (this.flag < 5) {
-      this.exceptionService.toastHandler(
-        'Insira um senha que atenda aos requisitos'
-      );
-      return false;
-    }
-
     return true;
   }
 }

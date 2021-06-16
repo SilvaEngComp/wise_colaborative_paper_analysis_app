@@ -103,7 +103,7 @@ export class MySearchBarComponent implements OnInit {
         }
       }
     });
-
+this.show = false;
     this.selectSearchEmiter.emit(this.listObjAux);
   }
 }

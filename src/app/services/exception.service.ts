@@ -21,10 +21,10 @@ export class ExceptionService {
     private router: Router
   ) {}
 
-  async openLoading(msg: string, icon: boolean = true, reload?: boolean ) {
+  async openLoading(msg: string, icon: boolean = true, duration: number = 2, reload?: boolean ) {
     const modal = await this.modalCtrl.create({
       component: FinishActionComponent,
-      componentProps: { msg, icon },
+      componentProps: { msg, icon, duration },
     });
     await modal.present();
 
@@ -43,7 +43,7 @@ export class ExceptionService {
           handler: () => {
             if (exit) {
               localStorage.removeItem(environment.LOCALSTORAGE + 'token');
-              this.router.navigate(['']);
+              window.location.reload();
             }
           },
         },

@@ -51,7 +51,7 @@ export class UserService {
       this.checkLogged();
       return Promise.resolve(null);
     }
-    console.log(`${environment.API2}/users/${id}`);
+    // console.log(`${environment.API2}/users/${id}`);
     return this.http
       .get<User>(`${environment.API2}/users/${id}`, {
         headers: await LoginService.getHeaders(),
@@ -83,11 +83,7 @@ export class UserService {
       .toPromise();
   }
   async newUser(user: User): Promise<User> {
-    if (!(await LoginService.getHeaders())) {
-      this.checkLogged();
-      return Promise.resolve(null);
-    }
-    return this.http
+     return this.http
       .post<User>(`${environment.API}/users/new`, user, {})
       .toPromise();
   }

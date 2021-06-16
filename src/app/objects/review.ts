@@ -1,3 +1,4 @@
+import { Protocol } from './protocol';
 import { Area } from './area';
 import { Instituition } from './instituition';
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -13,10 +14,16 @@ export class Review{
   instituition: Instituition;
   papers: Paper[];
   members: User[];
+  protocol: Protocol[];
+  includeCriteria: Protocol[];
+  excludeCriteria: Protocol[];
 
   constructor() {
     this.papers = [];
     this.members = [];
-    this.areas =[];
+    this.areas = [];
+    this.protocol = new Array<Protocol>();
+    this.includeCriteria = new Array<Protocol>();
+    this.excludeCriteria = new Array<Protocol>();
   }
 }
