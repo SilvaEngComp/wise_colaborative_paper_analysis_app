@@ -1,3 +1,7 @@
+.progress {
+    position: fixed;
+}
+
 .upload {
     border-radius: 20px;
     background: var(--ion-color-primary);
@@ -46,9 +50,10 @@ pdf-viewer {
     ion-title {
         font-family: Qanelas-bold;
     }
-    ion-textarea {
-        margin-left: auto;
-        margin-right: auto;
+}
+
+ion-text {
+    p {
         width: 100%;
         text-align: justify;
     }
@@ -65,5 +70,22 @@ pdf-viewer {
         width: 100%;
         text-align: justify;
         border: 1px dotted var(--ion-color-tertiary);
+    }
+}
+
+.star-sharp {
+    font-size: 40px;
+    color: yellow;
+}
+
+.set-paper {
+    display: flex;
+    align-content: center;
+    ion-input {
+        box-shadow: 2px 2px 2px 2px var(--ion-color-medium);
+        min-width: 100px;
+    }
+    ion-label {
+        margin: 10px;
     }
 }

@@ -4,7 +4,8 @@ export class Protocol{
   question: string;
   answer: string;
 
-  constructor() {
+  constructor(type?: number) {
+    this.type = new ProtocolType(type);
   }
 
   getBaseQuestions() {
@@ -16,6 +17,15 @@ export class Protocol{
 export class ProtocolType{
   id: number;
   name: string;
-  constructor() {
+  constructor(id: number = 1) {
+    if (id >= 1 && id <= 2) {
+      this.id = id;
+      switch (id) {
+        case 1: this.name = 'protocol';
+          break;
+        case 2: this.name = 'criteria';
+          break;
+      }
+}
   }
 }

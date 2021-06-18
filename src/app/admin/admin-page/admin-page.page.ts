@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/adjacent-overload-signatures */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { SocialAuthService, SocialUser } from 'angularx-social-login';
 /* eslint-disable eqeqeq */
 import { LoginService } from './../../services/login.service';
@@ -33,13 +35,12 @@ export class AdminPage implements OnInit {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   menu_size_right: string;
 
-
+  windth_device: number;
   // eslint-disable-next-line @typescript-eslint/member-ordering
   @ViewChild('main', { static: false }) content: IonContent;
 
  socialUser: SocialUser;
-  loggedIn: boolean;
-
+  image: string;
   constructor(
     private platform: Platform,
     private router: Router,
@@ -48,25 +49,37 @@ export class AdminPage implements OnInit {
   ) {
   }
   ngOnInit() {
+    this.windth_device = this.platform.width();
     this.showMenu = true;
     this.menu_itens = Menu.getMenuAdmin();
     this.nivel = 3;
     this.permission = false;
     this.page = '0';
+
     if (localStorage.getItem(environment.LOCALSTORAGE + 'lastPage')) {
       this.page = localStorage.getItem(environment.LOCALSTORAGE + 'lastPage');
+    }
+    if (localStorage.getItem(environment.LOCALSTORAGE + 'ui')) {
+      this.image = localStorage.getItem(environment.LOCALSTORAGE + 'ui');
+    }
+    if (localStorage.getItem(environment.LOCALSTORAGE + 'menu')) {
+      this.showMenu = JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'menu'));
     }
     this.checkPlaftorm();
 
     this.loadUser();
 
   }
+  save() {
+    localStorage.setItem(environment.LOCALSTORAGE + 'ui', this.image);
+  }
 
   loadUser() {
     this.user = LoginService.getToken().user;
     this.authService.authState.subscribe((user) => {
       this.socialUser = user;
-      this.loggedIn = (user != null);
+      this.image = user.photoUrl;
+      this.save();
     });
   }
 
@@ -86,27 +99,34 @@ export class AdminPage implements OnInit {
 
 
   setShowMenu() {
-    this.checkPlaftorm();
     this.showMenu = !this.showMenu;
+    localStorage.setItem(environment.LOCALSTORAGE + 'menu', JSON.stringify(this.showMenu));
+    this.checkPlaftorm();
 
   }
 
   checkPlaftorm() {
     if (this.platform.width() <= 500) {
-      if (this.showMenu) {
+      if (!this.showMenu) {
         this.menu_size_left = '0';
         this.menu_size_right = '12';
-        this.showMenu = false;
       } else {
          this.menu_size_left = '8';
-        this.menu_size_right = '1';
+        this.menu_size_right = '0';
       }
     } else {
-      this.menu_size_left = '2';
-        this.menu_size_right = '9';
+      if (!this.showMenu) {
+        this.menu_size_left = '0';
+        this.menu_size_right = '12';
+      } else {
+         this.menu_size_left = '2';
+        this.menu_size_right = '10';
+      }
     }
 
   }
+
+
 
   selectSubPage(page: any, subpage: any) {
     this.page = page;

@@ -10,6 +10,7 @@ export class Review{
   title: string;
   question: string;
   description: string;
+  permission: boolean;
   areas: Area[];
   instituition: Instituition;
   papers: Paper[];

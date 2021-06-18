@@ -22,9 +22,6 @@
 <div>
     <div [ngClass]="{'open-div': show}" *ngIf="show" (scroll)="onScroll($event)">
         <ion-radio-group [value]="mySelect?.id">
-            <ion-list-header>
-                <ion-label class="lb-selecione">ESCOLHA UMA OPÇÃO</ion-label>
-            </ion-list-header>
             <div class="div-list" *ngFor="let item of list | slice:0:limit ">
                 <ion-label (click)="onSelect(item)" lines="none"> {{ item?.value | uppercase}}</ion-label>
                 <ion-note>{{item?.info}}</ion-note>

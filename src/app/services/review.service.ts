@@ -58,9 +58,10 @@ export class ReviewService {
       this.checkLogged();
       return Promise.resolve(null);
     }
+    console.log(JSON.stringify(review));
     return this.http
       .patch(`${environment.API2}/reviews/${review.id}`, review, {
-        headers: await LoginService.getHeaders(),
+        headers: LoginService.getHeaders(),
       })
       .toPromise();
   }

@@ -42,10 +42,6 @@ ion-segment ion-label {
         font-size: 1.0vw;
         color: white;
     }
-    .menu-logo {
-        width: 103px;
-        height: 60%;
-    }
     ion-icon {
         margin-left: 20px;
         font-size: 30px;
@@ -59,6 +55,7 @@ ion-segment ion-label {
         width: 500px;
     }
     ion-button {
+        min-width: 200px;
         font-size: 5pt;
         background: var(--ion-color-primary);
         color: var(--ion-color-light);
@@ -104,5 +101,19 @@ ion-segment ion-label {
         font-family: Qanelas;
         font-size: 8pt;
         color: var(--ion-color-light);
+    }
+}
+
+@media only screen and (min-width: 500px) {
+    .menu-logo {
+        width: 103px;
+        height: 60%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .menu-logo {
+        width: 50px;
+        height: 30%;
     }
 }

@@ -5,11 +5,11 @@
                 <ion-img src="./assets/icon/favicon.webp" class="menu-logo"></ion-img>
             </ion-item>
         </ion-buttons>
-        <ion-buttons slot="end" class="menu-right">
+        <ion-buttons slot="end" class="menu-right" *ngIf="windth_device>500">
             <ion-list lines="none">
                 <ion-item>
                     <ion-avatar>
-                        <ion-img [src]="socialUser?.photoUrl "></ion-img>
+                        <ion-img [src]="image "></ion-img>
                     </ion-avatar>
                 </ion-item>
                 <ion-item>
@@ -30,8 +30,24 @@
     <ion-grid>
         <ion-row class="content">
             <ion-col [size]="menu_size_left" color="primary" class="menu-lateral" *ngIf="showMenu">
-                <ion-icon src="./assets/icons/menu.svg" (click)="showMenu = !showMenu"></ion-icon>
+                <ion-icon src="./assets/icons/menu.svg" (click)="setShowMenu()"></ion-icon>
                 <ion-grid>
+                    <ion-row *ngIf="windth_device<=500">
+                        <ion-col>
+                            <ion-list lines="none">
+                                <ion-item>
+                                    <ion-avatar>
+                                        <ion-img [src]="image "></ion-img>
+                                    </ion-avatar>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label color="light">{{ user?.name }}</ion-label>
+
+                                </ion-item>
+
+                            </ion-list>
+                        </ion-col>
+                    </ion-row>
                     <ion-row *ngFor="let item of menu_itens; let i=index">
                         <ion-col>
                             <ion-item lines="none" color="primary">

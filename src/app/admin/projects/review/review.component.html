@@ -8,13 +8,17 @@
 
         <ion-button (click)="upload()" [ngClass]="{'upload': !showUpload, 'cancel':showUpload}">
             <ion-icon *ngIf="!showUpload" name="cloud-upload-outline"></ion-icon>
-            <ion-label>{{showUpload ? 'CANCELAR' : 'CARREGAR CSV'}}</ion-label>
+            <ion-label *ngIf="width_device>500">{{showUpload ? 'CANCELAR' : 'CARREGAR CSV'}}</ion-label>
         </ion-button>
         <ion-button (click)="config()">
             <ion-icon name="settings-outline"></ion-icon>
         </ion-button>
         <ion-button (click)="update()">
             <ion-icon name="save-outline"></ion-icon>
+        </ion-button>
+
+        <ion-button (click)="load()">
+            <ion-icon name="refresh-circle-outline"></ion-icon>
         </ion-button>
     </ion-buttons>
 </ion-toolbar>
@@ -34,29 +38,30 @@
             </ion-col>
         </ion-row>
         <ion-row>
-            <ion-col>
+            <ion-col offset="1" size="2">
                 <ion-icon name="play-skip-back-outline" (click)="backPaper()"></ion-icon>
             </ion-col>
 
-            <ion-col>
-                <ion-item>
+            <ion-col size="4">
+                <div class="set-paper">
                     <ion-input [value]="selectedId" (keyup)="setPaper($event)"></ion-input>
                     <ion-label>/{{papers.length}}</ion-label>
-                </ion-item>
+                </div>
 
             </ion-col>
 
-            <ion-col>
+            <ion-col offset="2" size="2">
                 <ion-icon name="play-skip-forward-outline" (click)="nextPaper()"></ion-icon>
             </ion-col>
-            <ion-col>
+            <ion-col size="1">
                 <ion-icon name="options-outline" (click)="show= !show"></ion-icon>
                 <app-my-select-list *ngIf="show" [dependence_id]="review.id" [edit]="false" [create]="false" label="Base" listName="bases" (selectEmiter)="onSelectBase($event)"></app-my-select-list>
 
             </ion-col>
 
         </ion-row>
-
+    </ion-grid>
+    <ion-grid *ngIf="papers.length>0">
         <ion-row>
             <ion-col>
                 <ion-label>Base: {{base?.name}}</ion-label>
@@ -78,7 +83,8 @@
                 <div class="div-title">
                     <ion-label lines="none"> {{ selectedPaper?.title | uppercase}}</ion-label>
                     <ion-note>{{selectedPaper?.authors}}</ion-note>
-                    <ion-note>Doi: {{selectedPaper?.doi}}</ion-note>
+                    <ion-note *ngIf="selectedPaper?.doi">Doi: {{selectedPaper?.doi}}</ion-note>
+                    <ion-note>Ano: {{selectedPaper?.publication_year}}</ion-note>
                 </div>
 
             </ion-col>
@@ -88,19 +94,27 @@
             <ion-col>
                 <ion-item>
                     <ion-title>Abstract</ion-title>
+                    <ion-button (click)="decrease()">
+                        <ion-icon name="remove-outline"></ion-icon>
+                    </ion-button>
+                    <ion-button (click)="increase()">
+                        <ion-icon name="add-outline"></ion-icon>
+                    </ion-button>
                     <ion-icon slot="end" src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" (click)="openLink()"></ion-icon>
 
                 </ion-item>
-                <ion-text>{{selectedPaper?.abstract}}</ion-text>
+                <ion-text>
+                    <p [ngStyle]="{'font-size': abstract_size+'pt'}">{{selectedPaper?.abstract}}</p>
+                </ion-text>
             </ion-col>
         </ion-row>
 
         <ion-row>
             <ion-col>
                 <ion-title></ion-title>
-                <ion-radio-group [value]="selectedPaper?.relevance" (ionChange)="setRelevance($event)">
+                <ion-radio-group [value]="selectedPaper?.relevance" mod="ios" (ionChange)="setRelevance($event)">
                     <ion-list-header>
-                        <ion-label>Relevância</ion-label>
+                        <ion-label>*Relevância</ion-label>
                     </ion-list-header>
                     <div class="relevance">
 
@@ -122,11 +136,17 @@
 
                 </ion-radio-group>
             </ion-col>
+            <ion-col>
+                <ion-item lines='none'>
+                    <ion-icon slot="end" color="primary" name="star-outline" *ngIf="!selectedPaper?.star" (click)="setStar()"></ion-icon>
+                    <ion-icon slot="end" color="primary" name="star-sharp" *ngIf="selectedPaper?.star" (click)="setStar()"></ion-icon>
+                </ion-item>
+            </ion-col>
         </ion-row>
 
         <ion-row class="issue">
             <ion-col>
-                <ion-title>Problema abordado</ion-title>
+                <ion-title>*Problema abordado</ion-title>
                 <ion-textarea rows="5" cols="5" maxlength="2000" [value]="selectedPaper?.issue" (keyup)="setIssue($event)"></ion-textarea>
                 <ion-note>{{selectedPaper?.issue?.length}}/2000</ion-note>
             </ion-col>
@@ -134,10 +154,50 @@
 
         <ion-row class="issue">
             <ion-col>
-                <ion-title>Observações</ion-title>
-                <ion-textarea rows="5" cols="5" maxlength="2000" [value]="selectedPaper?.observation" (keyup)="setObservation($event)"></ion-textarea>
-                <ion-note>{{selectedPaper?.observation?.length}}/2000</ion-note>
+                <ion-item>
+                    <ion-label position="floating">Expressões chave relacionadas</ion-label>
+                    <ion-input placeholder="Digite as palavras ou expressões chave relacionadas ao trabalho" #observationInput (keyup.enter)="setObservation($event, observationInput)"></ion-input>
+                </ion-item>
+
+                <ion-chip *ngFor="let obs of observations; let i=index" mod="ios" outline="true">
+                    <ion-label>{{obs}}</ion-label>
+                    <ion-icon (click)="onRemoveObservation(i)" name="close-outline"></ion-icon>
+                </ion-chip>
             </ion-col>
+
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid *ngIf="papers.length>0">
+
+        <ion-row>
+            <ion-col>
+                <ion-label>Progresso {{progress | percent}} </ion-label>
+                <ion-progress-bar [value]="progress"></ion-progress-bar>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col offset="1" size="2">
+                <ion-icon name="play-skip-back-outline" (click)="backPaper()"></ion-icon>
+            </ion-col>
+
+            <ion-col size="4">
+                <div class="set-paper">
+                    <ion-input [value]="selectedId" (keyup)="setPaper($event)"></ion-input>
+                    <ion-label>/{{papers.length}}</ion-label>
+                </div>
+
+            </ion-col>
+
+            <ion-col offset="2" size="2">
+                <ion-icon name="play-skip-forward-outline" (click)="nextPaper()"></ion-icon>
+            </ion-col>
+            <ion-col size="1">
+                <ion-icon name="options-outline" (click)="show= !show"></ion-icon>
+                <app-my-select-list *ngIf="show" [dependence_id]="review.id" [edit]="false" [create]="false" label="Base" listName="bases" (selectEmiter)="onSelectBase($event)"></app-my-select-list>
+
+            </ion-col>
+
         </ion-row>
     </ion-grid>
 </div>

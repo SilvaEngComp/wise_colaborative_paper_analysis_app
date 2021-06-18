@@ -78,14 +78,14 @@ export class PaperService {
       .toPromise();
   }
 
-  async update(paper: Paper) {
+  async update(paper: Paper): Promise<Paper[]> {
     if (!(await LoginService.getHeaders())) {
       this.checkLogged();
       return Promise.resolve(null);
     }
-    // console.log(paper);
+    console.log(JSON.stringify(paper));
     return this.http
-      .patch(
+      .patch<Paper[]>(
         `${environment.API2}/paper_reviews/${paper.paper_review}`,
         paper,
         {
@@ -123,4 +123,7 @@ export class PaperService {
       )
       .toPromise();
   }
+
+
+
 }

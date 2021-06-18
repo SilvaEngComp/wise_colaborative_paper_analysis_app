@@ -19,8 +19,9 @@ export class Paper{
   paper_review: number;
   status: number;
   issue: string;
-  relevance: number;
+  relevance: string;
   observation: string;
+  star: boolean;
 
   constructor(title?: string) {
     this.title = title;

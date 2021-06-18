@@ -5,10 +5,15 @@
 
 export const environment = {
   production: false,
-  API: 'http://localhost:8000/api',
-  API2: 'http://localhost:8000/api/v2',
-  BASE_STORAGE_URL: 'http://localhost:8000/storage/',
-  FIREBASEMESSAGE: 'https://fcm.googleapis.com/fcm/send',
+  // API: 'http://localhost:8000/api',
+  // API2: 'http://localhost:8000/api/v2',
+  // BASE_STORAGE_URL: 'http://localhost:8000/storage/',
+  // FIREBASEMESSAGE: 'https://fcm.googleapis.com/fcm/send',
+
+  API: 'https://apis.enginydigitaleco.com/systematic_review_api/public/api',
+  API2: 'https://apis.enginydigitaleco.com/systematic_review_api/public/api/v2',
+  BASE_STORAGE_URL: 'https://apis.enginydigitaleco.com/systematic_review_api/public/storage/',
+
   JTSI: 'https://meet.jit.si',
   LOCALSTORAGE: 'SYSREVIEW.',
 google_id: '126915381156-8oeahjgjg2h5tpd10io3blcit9m21h1g.apps.googleusercontent.com',

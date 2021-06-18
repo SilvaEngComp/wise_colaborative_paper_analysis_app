@@ -7,12 +7,18 @@
     </ion-buttons>
     <ion-buttons slot="end">
         <ion-label class="title">Configuração do Protocolo</ion-label>
-
+        <ion-button (click)="update()">
+            <ion-icon name="save-outline"></ion-icon>
+        </ion-button>
     </ion-buttons>
 </ion-toolbar>
 
 <ion-grid>
-
+    <ion-row>
+        <ion-col>
+            <app-my-select-list [multiple]="true" [edit]="false" [create]="false" label="*colaboradores" listName="members" (selectEmiter)="onSelectMembers($event)"></app-my-select-list>
+        </ion-col>
+    </ion-row>
     <ion-row>
         <ion-col>
             <ion-label>Perqunta que a pesquisa visa responder</ion-label>
