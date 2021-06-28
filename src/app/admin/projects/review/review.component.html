@@ -29,8 +29,22 @@
 
 <ion-spinner name="bubbles" *ngIf="!loading"></ion-spinner>
 <div *ngIf="loading">
-    <ion-grid *ngIf="papers.length>0">
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-label>Base: {{base?.name}}</ion-label>
+            </ion-col>
+            <ion-col class="issue">
+                <ion-label> String de busca: {{selectedPaper?.search_terms |lowercase}}</ion-label>
+                <ion-textarea *ngIf="edit" rows="5" cols="5" maxlength="500" [value]="selectedPaper?.search_terms" (keyup)="setSearchTerms($event)"></ion-textarea>
+                <ion-note *ngIf="edit">{{selectedPaper?.search_terms?.length}}/500</ion-note>
 
+            </ion-col>
+            <ion-col size="1">
+                <ion-icon *ngIf="!edit" name="create-outline" (click)="edit = !edit"></ion-icon>
+                <ion-icon *ngIf="edit" name="checkmark-done-outline" (click)="edit = !edit"></ion-icon>
+            </ion-col>
+        </ion-row>
         <ion-row>
             <ion-col>
                 <ion-label>Progresso {{progress | percent}} </ion-label>
@@ -55,28 +69,19 @@
             </ion-col>
             <ion-col size="1">
                 <ion-icon name="options-outline" (click)="show= !show"></ion-icon>
+
+            </ion-col>
+
+        </ion-row>
+        <ion-row>
+            <ion-col>
                 <app-my-select-list *ngIf="show" [dependence_id]="review.id" [edit]="false" [create]="false" label="Base" listName="bases" (selectEmiter)="onSelectBase($event)"></app-my-select-list>
 
             </ion-col>
-
         </ion-row>
     </ion-grid>
     <ion-grid *ngIf="papers.length>0">
-        <ion-row>
-            <ion-col>
-                <ion-label>Base: {{base?.name}}</ion-label>
-            </ion-col>
-            <ion-col class="issue">
-                <ion-label> String de busca: {{selectedPaper?.search_terms |lowercase}}</ion-label>
-                <ion-textarea *ngIf="edit" rows="5" cols="5" maxlength="500" [value]="selectedPaper?.search_terms" (keyup)="setSearchTerms($event)"></ion-textarea>
-                <ion-note *ngIf="edit">{{selectedPaper?.search_terms?.length}}/500</ion-note>
 
-            </ion-col>
-            <ion-col size="1">
-                <ion-icon *ngIf="!edit" name="create-outline" (click)="edit = !edit"></ion-icon>
-                <ion-icon *ngIf="edit" name="checkmark-done-outline" (click)="edit = !edit"></ion-icon>
-            </ion-col>
-        </ion-row>
 
         <ion-row>
             <ion-col>
@@ -85,6 +90,7 @@
                     <ion-note>{{selectedPaper?.authors}}</ion-note>
                     <ion-note *ngIf="selectedPaper?.doi">Doi: {{selectedPaper?.doi}}</ion-note>
                     <ion-note>Ano: {{selectedPaper?.publication_year}}</ion-note>
+                    <ion-note>link: {{selectedPaper?.link}}</ion-note>
                 </div>
 
             </ion-col>
@@ -100,7 +106,7 @@
                     <ion-button (click)="increase()">
                         <ion-icon name="add-outline"></ion-icon>
                     </ion-button>
-                    <ion-icon slot="end" src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" (click)="openLink()"></ion-icon>
+                    <ion-icon slot="end" src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" (click)="openSciHub()"></ion-icon>
 
                 </ion-item>
                 <ion-text>
@@ -189,13 +195,19 @@
 
             </ion-col>
 
-            <ion-col offset="2" size="2">
+            <ion-col offset="1" size="2">
                 <ion-icon name="play-skip-forward-outline" (click)="nextPaper()"></ion-icon>
             </ion-col>
             <ion-col size="1">
                 <ion-icon name="options-outline" (click)="show= !show"></ion-icon>
                 <app-my-select-list *ngIf="show" [dependence_id]="review.id" [edit]="false" [create]="false" label="Base" listName="bases" (selectEmiter)="onSelectBase($event)"></app-my-select-list>
 
+            </ion-col>
+            <ion-col size="1">
+                <ion-spinner name="bubbles" *ngIf="updatting"></ion-spinner>
+                <ion-button (click)="update()" *ngIf="!updatting" fill="clear">
+                    <ion-icon name="save-outline"></ion-icon>
+                </ion-button>
             </ion-col>
 
         </ion-row>

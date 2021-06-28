@@ -20,18 +20,23 @@
                 </ion-item>
 
             </ion-col>
-            <ion-col offset="1">
-                <ion-label class="lb-genero">GÊNERO</ion-label>
+            <ion-col>
                 <div class="div-genero">
-                    <ion-fab-button [ngClass]="{'fab-genero': user?.gender !== 'masculino',
+                    <ion-list>
+                        <ion-fab-button [ngClass]="{'fab-genero': user?.gender !== 'masculino',
         'genero-selected': user?.gender === 'masculino'}" (click)="setGenero('masculino')">
-                        <ion-icon name="male-outline"></ion-icon>
-                    </ion-fab-button>
+                            <ion-icon name="male-outline"></ion-icon>
+                        </ion-fab-button>
+                        <ion-note>Masculino</ion-note>
+                    </ion-list>
 
-                    <ion-fab-button [ngClass]="{'fab-genero': user?.gender !== 'feminino',
+                    <ion-list>
+                        <ion-fab-button [ngClass]="{'fab-genero': user?.gender !== 'feminino',
         'genero-selected': user?.gender === 'feminino'}">
-                        <ion-icon name="female-outline" (click)="setGenero('feminino')"></ion-icon>
-                    </ion-fab-button>
+                            <ion-icon name="female-outline" (click)="setGenero('feminino')"></ion-icon>
+                        </ion-fab-button>
+                        <ion-note>Feminino</ion-note>
+                    </ion-list>
                 </div>
             </ion-col>
         </ion-row>

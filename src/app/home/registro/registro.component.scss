@@ -37,6 +37,10 @@ ion-fab-button {
     color: var(--ion-color-medium);
 }
 
+ion-list {
+    margin-left: 20%;
+}
+
 .div-genero {
     display: flex;
     align-content: space-between;
@@ -45,7 +49,8 @@ ion-fab-button {
 .lb-genero {
     text-align: center;
     font-family: Qanelas-bold;
-    color: var(--ion-color-medium-shade)
+    color: var(--ion-color-medium-shade);
+    margin-left: 20%;
 }
 
 .genero-selected {

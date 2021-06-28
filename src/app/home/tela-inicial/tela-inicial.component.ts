@@ -48,7 +48,9 @@ export class TelaInicialComponent implements OnInit {
 
   gid: string;
   is_cordova: boolean;
+
   ngOnInit() {
+    this.is_cordova = this.platform.width() <= 500 ? true : false;
     this.fingerPrintLogin();
   }
 

@@ -1,20 +1,29 @@
-<ion-content [fullscreen]="true" color="primary">
-    <ion-item lines="none">
+<div class="general">
+    <ion-item lines="none" class="title" *ngIf="!is_cordova">
         <ion-label color="light" class="title">
             Systematic Reviews
         </ion-label>
     </ion-item>
+
+
+    <div class="title" *ngIf="is_cordova">
+        <p color="light">
+            Systematic Reviews
+        </p>
+    </div>
     <ion-grid>
         <ion-row>
-            <ion-col offset="3" size="3">
+            <ion-col>
                 <ion-button (click)="login(1)" fill="clear" class="btn btn-google">
                     <ion-img class="img-google" src="./assets/images/google.webp"> </ion-img>
                     <ion-label>CONTINUAR</ion-label>
                 </ion-button>
             </ion-col>
-            <ion-col size="3">
-                <ion-button (click)="login(2)" fill="clear" class="btn">
-                    <ion-img src="./assets/images/facebook.webp"> </ion-img>
+            <ion-col>
+                <ion-button (click)="login(2)" fill="clear" class="btn-facebook">
+                    <ion-icon color="light" name="logo-facebook"></ion-icon>
+                    <ion-label color="light">CONTINUAR</ion-label>
+
                 </ion-button>
             </ion-col>
         </ion-row>
@@ -27,15 +36,6 @@
                 </ion-button>
             </ion-col>
         </ion-row>
-        <!-- <ion-row>
-            <ion-col>
-                <ion-item>
-                    <ion-icon *ngIf="gid" color="light" name="finger-print-outline" (click)="fingerPrintLogin()"></ion-icon>
-                    <ion-label class="lb-conta">Já tem uma conta? </ion-label>
-                    <ion-button (click)="option('enter')" class="btn-entrar" fill="clear">Entrar</ion-button>
-                </ion-item>
-            </ion-col>
-        </ion-row> -->
 
     </ion-grid>
-</ion-content>
+</div>

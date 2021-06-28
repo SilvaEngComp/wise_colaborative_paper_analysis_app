@@ -11,7 +11,7 @@ import {  Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PaperService } from 'src/app/services/paper.service';
 import { PaperFilter } from 'src/app/objects/paperFilter';
 import { Paper } from 'src/app/objects/paper';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -33,12 +33,16 @@ export class ReviewComponent implements OnInit {
   updatting: boolean;
   @Input() review: Review;
   width_device: number;
+  scihub: string;
   constructor(
     private exeptionService: ExceptionService,
     private platform: Platform,
-    private paperService: PaperService) { }
+    private paperService: PaperService,
+    private iab: InAppBrowser,
+  ) { }
 
   ngOnInit() {
+    this.scihub = environment.scihub;
     this.width_device = this.platform.width();
     this.abstract_size = 12;
     if (!this.review) {
@@ -61,26 +65,31 @@ export class ReviewComponent implements OnInit {
   }
 
   initialization() {
-    this.selectedPaper.search_terms = String(this.selectedPaper.search_terms);
-    this.selectedPaper.relevance = String(this.selectedPaper.relevance);
+
+    if (this.selectedPaper){
+      this.selectedPaper.search_terms = String(this.selectedPaper.search_terms);
+
+      this.selectedPaper.relevance = String(this.selectedPaper.relevance);
 
 
-    if (this.selectedPaper.observation) {
-      this.observations = this.selectedPaper.observation.split(',');
-    } else {
-      this.observations = [];
+      if (this.selectedPaper.observation) {
+        this.observations = this.selectedPaper.observation.split(',');
+      } else {
+        this.observations = [];
+      }
+
+      if (this.selectedPaper.issue) {
+        this.selectedPaper.issue = String(this.selectedPaper.issue);
+      } else {
+        this.selectedPaper.relevance = '';
+      }
+      this.save();
     }
-
-    if (this.selectedPaper.issue) {
-      this.selectedPaper.issue = String(this.selectedPaper.issue);
-    } else {
-      this.selectedPaper.relevance  = '';
-    }
-    this.save();
   }
   onSelectBase(base: Base) {
     this.base = base;
     this.show = !this.show;
+    this.selectedPaper = null;
     this.load();
     this.save();
   }
@@ -145,7 +154,6 @@ export class ReviewComponent implements OnInit {
 
     const filter = new PaperFilter(this.base.id, this.review.id);
     this.papers = await this.paperService.show(filter);
-
     if (this.selectedPaper) {
     this.calcProgress();
     } else {
@@ -176,7 +184,16 @@ this.returnPage.emit({ page: 'list' });
 
 
   openLink() {
-    window.open(this.selectedPaper.link, '_blank');
+    const link = environment.scihub + this.selectedPaper.link;
+    const browser = this.iab.create(link);
+  }
+
+  openSciHub() {
+    let link = environment.scihub + this.selectedPaper.link;
+    if (this.selectedPaper.doi) {
+    link = environment.scihub +  this.selectedPaper.doi;
+    }
+    window.open(link, '_blank');
   }
 
   setIssue(ev) {

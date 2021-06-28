@@ -183,7 +183,6 @@ export class MySelectListComponent implements OnInit, OnDestroy {
       this.onSelectOne(obj);
     }
         this.show = false;
-
   }
   onSelectOne(obj: MySelect) {
     this.listObj.filter((ele) => {
@@ -195,26 +194,30 @@ export class MySelectListComponent implements OnInit, OnDestroy {
       }
     });
   }
-  checkMultipleSelected(item: MySelect) {
+   checkMultipleSelected(item: MySelect) {
     this.mySelectList.filter((m) => {
       if (item.id == m.id) {
         this.mySelectList.push(item);
+        this.listObj.filter((obj) => {
+          if (obj.id == m.id) {
+            this.listObjAux.push(obj);
+          }
+        });
       }
     });
   }
   onSelectMultiple(ev) {
-    const listObjAux = [];
     this.listObj.filter((obj) => {
       if (obj.id == ev.id) {
-        if (this.mySelectList.indexOf(ev)<0) {
+        if (this.mySelectList.indexOf(ev) < 0) {
           this.mySelectList.push(ev);
-          listObjAux.push(obj);
+          this.listObjAux.push(obj);
         }
-             }
+      }
     });
 
     this.save();
-    this.selectEmiter.emit(listObjAux);
+    this.selectEmiter.emit(this.listObjAux);
   }
 
    onRemoveMultiple(ev: MySelect) {

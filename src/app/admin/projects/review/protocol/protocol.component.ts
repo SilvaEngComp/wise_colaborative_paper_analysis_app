@@ -65,6 +65,10 @@ review: Review;
 
   }
 
+  setTitle(ev) {
+    this.review.title = ev.target.value;
+    this.save();
+  }
   setQuestion(ev) {
     this.review.question = ev.target.value;
     this.save();

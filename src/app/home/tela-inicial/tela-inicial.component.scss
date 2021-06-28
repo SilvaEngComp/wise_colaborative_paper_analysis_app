@@ -1,22 +1,17 @@
+.general {
+    width: 100%;
+    height: 100%;
+    background-color: var(--ion-color-primary);
+    overflow-y: auto;
+    position: absolute;
+    top: 0px;
+}
+
 ion-col {
     display: grid;
     align-content: center;
     align-items: center;
     text-align: center;
-}
-
-.fundo {
-    // background-image: url('../../../assets/images/tela-inicial.webp');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    width: 100%;
-    height: 100%;
-    left: -2%;
-    position: absolute;
-    margin: 0 0.5rem;
-    animation: fadeIn;
-    /* referring directly to the animation's @keyframe declaration */
-    animation-duration: 2s;
 }
 
 ion-grid {
@@ -31,15 +26,6 @@ ion-grid {
     height: 20px;
 }
 
-//labels
-.lb-conta {
-    margin-left: 25%;
-    color: white;
-    font-size: 3vw;
-    font-weight: 900;
-    font-family: Qanelas;
-}
-
 //buttons
 ion-button {
     border-radius: 40px;
@@ -47,12 +33,19 @@ ion-button {
 
 .btn-google {
     background-color: white;
-    margin-left: 5%;
+    ion-label {
+        font-family: Qanelas-bold;
+        margin-left: 5%;
+    }
 }
 
-.btn-entrar {
-    color: red;
-    margin-right: 30px;
+.btn-facebook {
+    margin-left: 5%;
+    background-color: blue;
+    ion-label {
+        font-family: Qanelas-bold;
+        margin-left: 5%;
+    }
 }
 
 //items
@@ -60,8 +53,24 @@ ion-item {
     --background: transparent;
 }
 
-.title {
-    font-family: raustila;
-    font-size: 60pt;
-    text-align: center;
+@media only screen and (max-width: 500px) {
+    .title {
+        width: 100%;
+        text-align: center;
+        p {
+            color: white;
+            font-family: raustila;
+            font-size: 42pt;
+        }
+    }
+}
+
+@media only screen and (min-width: 500px) {
+    .title {
+        text-align: center;
+        ion-label {
+            font-family: raustila;
+            font-size: 60pt;
+        }
+    }
 }

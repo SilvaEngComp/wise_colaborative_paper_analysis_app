@@ -1,5 +1,7 @@
 {
   "name": "systematic_review",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

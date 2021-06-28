@@ -16,6 +16,14 @@
 <ion-grid>
     <ion-row>
         <ion-col>
+            <ion-label>Nome do projeto</ion-label>
+            <ion-input rows="5" cols="5" [value]="review?.title" (keyup)="setTitle($event)"></ion-input>
+        </ion-col>
+    </ion-row>
+
+
+    <ion-row>
+        <ion-col>
             <app-my-select-list [multiple]="true" [edit]="false" [create]="false" label="*colaboradores" listName="members" (selectEmiter)="onSelectMembers($event)"></app-my-select-list>
         </ion-col>
     </ion-row>
@@ -28,7 +36,7 @@
 
     <ion-row>
         <ion-col>
-            <ion-label>Pano de funodo da pesquisa</ion-label>
+            <ion-label>Pano de fundo da pesquisa</ion-label>
             <ion-textarea rows="5" cols="5" [value]="review?.description" (keyup)="setBackground($event)"></ion-textarea>
         </ion-col>
     </ion-row>

@@ -16,7 +16,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 
 import  {  PdfViewerModule  }  from  'ng2-pdf-viewer';
 import { QuestionComponent } from './review/protocol/question/question.component';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 @NgModule({
   declarations: [
     ProjectsComponent,
@@ -40,6 +40,7 @@ import { QuestionComponent } from './review/protocol/question/question.component
   ],
   exports: [
     ProjectsComponent
-  ]
+  ],
+  providers: [InAppBrowser]
 })
 export class ProjectsModule { }
