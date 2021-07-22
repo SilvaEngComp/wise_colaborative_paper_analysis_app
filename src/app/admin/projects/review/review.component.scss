@@ -1,3 +1,24 @@
+@media (max-width: 500px) {
+    .div-title {
+        width: 100%;
+        margin: 5px;
+        display: grid;
+        align-items: flex-start;
+        p {
+            margin-right: 60px;
+            width: 300px;
+            font-size: 12pt;
+            font-family: Qanelas-bold;
+        }
+        ion-note {
+            margin: 5px;
+            font-size: 10pt;
+            font-family: Qanelas-light;
+            color: var(--ion-color-tertiary)
+        }
+    }
+}
+
 .progress {
     position: fixed;
 }
@@ -27,7 +48,7 @@
     margin: 5px;
     display: grid;
     align-items: flex-start;
-    ion-label {
+    p {
         font-size: 12pt;
         font-family: Qanelas-bold;
     }
@@ -88,4 +109,13 @@ ion-text {
     ion-label {
         margin: 10px;
     }
+}
+
+.lb-title {
+    margin: 15px;
+    font-family: Qanelas;
+    font-size: 20pt;
+    font-weight: 900;
+    text-align: center;
+    color: var(--ion-color-dark);
 }

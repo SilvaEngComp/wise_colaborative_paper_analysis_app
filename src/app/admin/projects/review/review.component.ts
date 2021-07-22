@@ -59,7 +59,8 @@ export class ReviewComponent implements OnInit {
     if (localStorage.getItem(environment.LOCALSTORAGE + 'p')) {
       this.selectedPaper = JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'p'));
       this.initialization();
-     }
+    }
+    this.selectedId = null;
 
     this.load();
   }
@@ -142,12 +143,19 @@ export class ReviewComponent implements OnInit {
           break;
         }
       }
-      const progress = this.selectedId / this.papers.length;
-      this.progress = Number(progress.toFixed(2));
-      if (change) {
-        this.selectedPaper = this.papers[this.selectedId - 1];
+
+      if (!this.selectedId) {
+        this.selectedId = this.papers.length;
+        this.selectedPaper = this.papers[this.papers.length - 1];
+      } else {
+        const progress = this.selectedId / this.papers.length;
+        this.progress = Number(progress.toFixed(2));
+        if (change) {
+          this.selectedPaper = this.papers[this.selectedId - 1];
+        }
       }
     }
+
   }
   async load() {
     this.loading = false;

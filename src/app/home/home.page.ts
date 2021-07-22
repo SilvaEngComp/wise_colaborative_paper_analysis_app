@@ -28,6 +28,13 @@ export class HomePage implements OnInit {
     this.page = option;
   }
 
+   doRefresh(event) {
+     setTimeout(() => {
+      window.location.reload();
+      event.target.complete();
+    }, 1000);
+  }
+
   start() {
     this.option('splash');
     setTimeout(() => {

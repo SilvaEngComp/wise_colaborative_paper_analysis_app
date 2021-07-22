@@ -31,8 +31,8 @@ export class ProjectsComponent implements OnInit {
   ngOnInit() {
     this.page = 'list';
 
-    if (localStorage.getItem(environment.LOCALSTORAGE + 'curse-page')) {
-      this.page = localStorage.getItem(environment.LOCALSTORAGE + 'curse-page');
+    if (localStorage.getItem(environment.LOCALSTORAGE + 'review-page')) {
+      this.page = localStorage.getItem(environment.LOCALSTORAGE + 'review-page');
     }
 
     this.projectMenu.subscribe((obj) => {
@@ -41,6 +41,7 @@ export class ProjectsComponent implements OnInit {
       localStorage.removeItem(environment.LOCALSTORAGE + 'callbackPage');
       this.save();
     });
+
   }
 
   async openInLive() {
@@ -60,7 +61,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   save() {
-    localStorage.setItem(environment.LOCALSTORAGE + 'curse-page', this.page);
+    localStorage.setItem(environment.LOCALSTORAGE + 'review-page', this.page);
   }
 
   callbackPageReturn(obj) {

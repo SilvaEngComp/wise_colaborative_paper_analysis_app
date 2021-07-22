@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable max-len */
 /* eslint-disable eqeqeq */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -20,7 +22,7 @@ import { UserService } from 'src/app/services/user.service';
 import { AvailableResult, BiometryType, Credentials, NativeBiometric } from 'capacitor-native-biometric';
 const { FacebookLogin } = Plugins;
 
-import { SocialAuthService } from 'angularx-social-login';
+import { SocialAuthService, SocialUser } from 'angularx-social-login';
 import {
   FacebookLoginProvider,
   GoogleLoginProvider,
@@ -46,12 +48,17 @@ export class TelaInicialComponent implements OnInit {
     private platform: Platform,
   ) {}
 
+
   gid: string;
   is_cordova: boolean;
-
+  user: SocialUser;
+   loggedIn: boolean;
   ngOnInit() {
     this.is_cordova = this.platform.width() <= 500 ? true : false;
-    this.fingerPrintLogin();
+     this.authService.authState.subscribe((user) => {
+      this.user = user;
+      this.loggedIn = (user != null);
+    });
   }
 
   async option(option: string) {
@@ -108,18 +115,24 @@ export class TelaInicialComponent implements OnInit {
 
   login(op) {
     if (environment.production) {
-      if (op == 1) {
-        this.googleLogin();
-      } else if (op == 2) {
-        this.facebookLogin();
+      console.log(this.user);
+      if (!this.user) {
+        if (op == 1) {
+          this.googleLogin();
+        } else if (op == 2) {
+          this.facebookLogin();
+        }
+      } else {
+        this.socialLogin(this.user.email);
       }
     }else {
       this.socialLogin('silvaengcomp@gmail.com');
     }
   }
 
-   async facebookLogin() {
-if (this.is_cordova) {
+  async facebookLogin() {
+    console.log(this.platform.is('cordova'));
+if (this.platform.is('cordova')) {
       this.googlePlus
         .login({})
         .then((result) => {
@@ -142,7 +155,7 @@ if (this.is_cordova) {
   }
 
   googleLogin() {
-    if (this.is_cordova) {
+      if (this.is_cordova) {
       this.googlePlus
         .login({})
         .then((result) => {
@@ -150,8 +163,10 @@ if (this.is_cordova) {
           this.socialLogin(result.email);
           // se estiver cadastrado efetua o login no servidor fkdeb
         })
-        .catch((error) => this.exceptionService.erro(error));
+                .catch((error) => this.exceptionService.alertDialog('certifíque-se de estar usando o google chrome e ative o modo desktop.Após fazer o login pode desativar o modo desktop', 'Erro de Conexão Google'));
+
     } else {
+
       this.authService
         .signIn(GoogleLoginProvider.PROVIDER_ID)
         .then((result) => {
@@ -160,7 +175,8 @@ if (this.is_cordova) {
           this.socialLogin(result.email );
           // se estiver cadastrado efetua o login no servidor fkdeb
         })
-        .catch((error) => console.log(error));
+                .catch((error) => this.exceptionService.alertDialog('certifíque-se de estar usando o google chrome ou ative o modo desktop', 'Erro de Conexão Google'));
+
     }
   }
 

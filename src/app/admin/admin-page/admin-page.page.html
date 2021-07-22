@@ -51,7 +51,7 @@
                     <ion-row *ngFor="let item of menu_itens; let i=index">
                         <ion-col>
                             <ion-item lines="none" color="primary">
-                                <ion-button fill="clear" (click)="selectPage(i, item)">
+                                <ion-button fill="clear" (click)="selectPage(i)">
                                     <ion-label class="name">{{item?.name}}</ion-label>
                                 </ion-button>
                             </ion-item>

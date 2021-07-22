@@ -20,7 +20,6 @@ export class ProjectHomeComponent implements OnInit {
   async load() {
     this.reviews = await this.reviewService.get();
 
-    console.log(this.reviews);
   }
   register() {
 this.returnPage.emit({ page: 'register' });

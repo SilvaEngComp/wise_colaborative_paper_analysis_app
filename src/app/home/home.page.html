@@ -2,4 +2,7 @@
     <app-tela-inicial *ngIf="page==='begin'"></app-tela-inicial>
     <app-splash-screem *ngIf="page==='splash'"></app-splash-screem>
     <app-registro *ngIf="page==='registro'"></app-registro>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 </ion-content>

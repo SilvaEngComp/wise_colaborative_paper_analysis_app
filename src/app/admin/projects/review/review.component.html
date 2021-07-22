@@ -86,7 +86,7 @@
         <ion-row>
             <ion-col>
                 <div class="div-title">
-                    <ion-label lines="none"> {{ selectedPaper?.title | uppercase}}</ion-label>
+                    <p> {{ selectedPaper?.title | uppercase}}</p>
                     <ion-note>{{selectedPaper?.authors}}</ion-note>
                     <ion-note *ngIf="selectedPaper?.doi">Doi: {{selectedPaper?.doi}}</ion-note>
                     <ion-note>Ano: {{selectedPaper?.publication_year}}</ion-note>
@@ -211,5 +211,12 @@
             </ion-col>
 
         </ion-row>
+
+        <!-- <ion-row>
+            <ion-col>
+                <ion-label class="lb-title">PDF COMPLETO DO ARTIGO</ion-label>
+                <iframe [src]="selectedPaper?.link | safeUrl" width="100%" height="500px"></iframe>
+            </ion-col>
+        </ion-row> -->
     </ion-grid>
 </div>

@@ -134,12 +134,11 @@ export class AdminPage implements OnInit {
     this.checkPlaftorm();
   }
 
-  selectPage(page: any, item) {
-    // item.showSub = !item.showSub;
+  selectPage(page: any) {
     if (page != '4') {
     this.checkPlaftorm();
 
-      this.page = page;
+      this.page = String(page);
       localStorage.setItem(environment.LOCALSTORAGE + 'lastPage', this.page);
     } else {
       localStorage.clear();

@@ -8,6 +8,7 @@ import {
   ModalController,
 } from '@ionic/angular';
 import { FinishActionComponent } from '../ui/finish-action/finish-action.component';
+import { SocialAuthService } from 'angularx-social-login';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +19,16 @@ export class ExceptionService {
     private toastCtrl: ToastController,
     private loadCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private router: Router
+        private authService: SocialAuthService,
+
   ) {}
+
+
+  logout() {
+    this.authService.signOut();
+    localStorage.removeItem(environment.LOCALSTORAGE + 'token');
+              window.location.reload();
+  }
 
   async openLoading(msg: string, icon: boolean = true, duration: number = 2, reload?: boolean ) {
     const modal = await this.modalCtrl.create({
@@ -42,8 +51,7 @@ export class ExceptionService {
           text: 'OK',
           handler: () => {
             if (exit) {
-              localStorage.removeItem(environment.LOCALSTORAGE + 'token');
-              window.location.reload();
+              this.logout();
             }
           },
         },
