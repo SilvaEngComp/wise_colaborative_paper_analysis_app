@@ -51,13 +51,17 @@ export class TelaInicialComponent implements OnInit {
 
   gid: string;
   is_cordova: boolean;
-  user: SocialUser;
+  socialUser: SocialUser;
+  user: User;
    loggedIn: boolean;
   ngOnInit() {
-    this.is_cordova = this.platform.width() <= 500 ? true : false;
-     this.authService.authState.subscribe((user) => {
-      this.user = user;
-      this.loggedIn = (user != null);
+    this.user = new User();
+    this.is_cordova = this.platform.is('cordova');
+     this.authService.authState.subscribe((result) => {
+       this.user.email = result.email;
+          this.user.image = result.photoUrl;
+          this.socialLogin();
+      this.loggedIn = (result != null);
     });
   }
 
@@ -71,7 +75,8 @@ export class TelaInicialComponent implements OnInit {
       const result = await this.db.excecuteSQL(sql);
       if (result.rows.length > 0) {
         const user = result.rows.item(0);
-        this.gid = user.gid;
+         this.user.email = user.gid;
+
         if (this.gid) {
           NativeBiometric.isAvailable().then(
   (result: AvailableResult) => {
@@ -83,6 +88,7 @@ export class TelaInicialComponent implements OnInit {
       NativeBiometric.getCredentials({
         server: 'www.example.com',
       }).then((credentials: Credentials) => {
+        console.log(credentials);
         // Authenticate using biometrics before logging the user in
         NativeBiometric.verifyIdentity({
           reason: 'For easy log in',
@@ -91,7 +97,7 @@ export class TelaInicialComponent implements OnInit {
           description: 'Maybe a description too?',
         }).then(
           () => {
-            this.socialLogin(this.gid);
+            this.socialLogin();
             // this.login(credentials.username, credentials.password);
           },
           (error) => {
@@ -115,29 +121,29 @@ export class TelaInicialComponent implements OnInit {
 
   login(op) {
     if (environment.production) {
-      console.log(this.user);
-      if (!this.user) {
+      if (!this.user.email) {
         if (op == 1) {
           this.googleLogin();
         } else if (op == 2) {
           this.facebookLogin();
         }
       } else {
-        this.socialLogin(this.user.email);
+        this.socialLogin();
       }
-    }else {
-      this.socialLogin('silvaengcomp@gmail.com');
+    } else {
+      this.user.email = 'silvaengcomp@gmail.com';
+      this.socialLogin();
     }
   }
 
   async facebookLogin() {
-    console.log(this.platform.is('cordova'));
-if (this.platform.is('cordova')) {
+if (this.is_cordova) {
       this.googlePlus
         .login({})
         .then((result) => {
-          this.exceptionService.loadingFunction();
-          this.socialLogin(result.email );
+          this.user.email = result.email;
+          this.user.image = result.photoUrl;
+          this.socialLogin();
           // se estiver cadastrado efetua o login no servidor fkdeb
         })
         .catch((error) => this.exceptionService.erro(error));
@@ -146,8 +152,9 @@ if (this.platform.is('cordova')) {
         .signIn(FacebookLoginProvider.PROVIDER_ID)
         .then((result) => {
           this.exceptionService.loadingFunction();
-          const googleUser: any = result;
-          this.socialLogin(result.email );
+          this.user.email = result.email;
+          this.user.image = result.photoUrl;
+          this.socialLogin();
           // se estiver cadastrado efetua o login no servidor fkdeb
         })
         .catch((error) => console.log(error));
@@ -159,8 +166,9 @@ if (this.platform.is('cordova')) {
       this.googlePlus
         .login({})
         .then((result) => {
-          this.exceptionService.loadingFunction();
-          this.socialLogin(result.email);
+           this.user.email = result.email;
+          this.user.image = result.photoUrl;
+          this.socialLogin();
           // se estiver cadastrado efetua o login no servidor fkdeb
         })
                 .catch((error) => this.exceptionService.alertDialog('certifíque-se de estar usando o google chrome e ative o modo desktop.Após fazer o login pode desativar o modo desktop', 'Erro de Conexão Google'));
@@ -170,97 +178,38 @@ if (this.platform.is('cordova')) {
       this.authService
         .signIn(GoogleLoginProvider.PROVIDER_ID)
         .then((result) => {
-          this.exceptionService.loadingFunction();
-          const googleUser: any = result;
-          this.socialLogin(result.email );
+           this.user.email = result.email;
+          this.user.image = result.photoUrl;
+          this.socialLogin();
           // se estiver cadastrado efetua o login no servidor fkdeb
         })
                 .catch((error) => this.exceptionService.alertDialog('certifíque-se de estar usando o google chrome ou ative o modo desktop', 'Erro de Conexão Google'));
-
     }
   }
 
-  socialLogin( email?: string) {
+  is_loading: boolean;
+  socialLogin() {
+    this.is_loading = true;
     this.loginService
-      .loginByGoogleId(email)
+      .socialLogin(this.user)
       .then((token) => {
-        LoginService.setToken(token);
-        this.exceptionService.openLoading('Bem Vindo!', false);
+        if (token) {
+          this.is_loading = false;
 
-        this.router.navigate(['admin']);
+          LoginService.setToken(token);
+
+          this.router.navigate(['admin']);
+          this.exceptionService.openLoading('Bem Vindo!', false);
+        }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        this.is_loading = false;
+
+        this.exceptionService.erro(error);
+      });
   }
 
-  // googleLogin() {
 
-  //   if(this.platform)
-
-  //   this.googlePlus
-  //     .login({})
-  //     .then((result) => {
-  //       this.exceptionService.loadingFunction();
-  //       const googleUser: GoogleUser = result;
-
-  //       // se estiver cadastrado efetua o login no servidor fkdeb
-  //       this.loginService
-  //         .loginByGoogleId(googleUser.userId)
-  //         .then((token) => {
-  //           this.exceptionService.success(false);
-  //           localStorage.setItem(
-  //             environment.LOCALSTORAGE + "token",
-  //             JSON.stringify(token.token)
-  //           );
-
-  //           localStorage.setItem(
-  //             environment.LOCALSTORAGE + "gid",
-  //             googleUser.userId
-  //           );
-  //           this.router.navigate(["admin"]);
-  //         })
-  //         .catch((erro) => {
-  //           console.log(erro);
-  //           console.log(googleUser.email);
-  //           this.loginService
-  //             .checkExistentUser(googleUser.email)
-  //             .then((user) => {
-  //               console.log("existent: " + user);
-
-  //               user.google_id = googleUser.userId;
-  //               //se o user já estiver cadastrado, o sistema adiciona o google_id e efetua o login
-  //               this.userService.update(user).then(() => {
-  //                 this.loginService.socialLogin().then((token) => {
-  //                   this.exceptionService.success(false);
-  //                   console.log(token.token.token);
-  //                   localStorage.setItem(
-  //                     environment.LOCALSTORAGE + "token",
-  //                     JSON.stringify(token.token.token)
-  //                   );
-  //                   this.router.navigate(["admin"]);
-  //                 });
-  //               });
-  //             })
-  //             .catch((error) => {
-  //               console.log(error);
-  //               this.exceptionService.erro(error);
-
-  //               // Definindo dados para cadastro de user
-  //               // const user: User = new User();
-  //               // user.name = googleUser.givenName;
-  //               // user.google_id = googleUser.userId;
-  //               // user.lastname = googleUser.familyName;
-  //               // user.image_google = googleUser.imageUrl;
-  //               // user.contact.email = googleUser.email;
-  //               // user.password =
-  //               //   "753162220884-cbml7q0lnmclee88mq9q42pscrsvqa30.apps.googleusercontent.com";
-  //               // user.roles.push(new Role());
-  //               // console.log("new: " + user);
-  //               // this.newUser(user);
-  //             });
-  //         });
-  //     })
-  //     .catch((error) => console.log(error));
-  // }
   getFacebookUserData(accessToken) {
     // login via api do facebook
     this.loginService.loginFacebook(accessToken).then((facebookUser) => {

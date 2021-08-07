@@ -122,20 +122,6 @@ export class UserService {
       })
       .toPromise();
   }
-  async deleteImage(user: User): Promise<User> {
-    if (!(await LoginService.getHeaders())) {
-      this.checkLogged();
-      return Promise.resolve(null);
-    }
-    return this.http
-      .delete<User>(
-        `${environment.API2}/users/image/${user.id}/${user.image.name}`,
-        {
-          headers: await LoginService.getHeaders(),
-        }
-      )
-      .toPromise();
-  }
 
   consultaCep(cep: string): Promise<any> {
     return this.http.get<any>(`${environment.API}/cep/${cep}`).toPromise();

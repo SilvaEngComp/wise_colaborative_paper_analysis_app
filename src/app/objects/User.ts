@@ -6,9 +6,7 @@ export class User {
   email: string;
   password: string;
   level: number;
-  image: TempFile;
-  image_facebook: string;
-  image_google: string;
+  image: string;
   fid: string;
   gid: string;
   policy: number;
@@ -16,7 +14,6 @@ export class User {
   gender: string;
 
 
-  constructor(role_id: number = 5) {
-    this.image = new TempFile();
+  constructor() {
   }
 }

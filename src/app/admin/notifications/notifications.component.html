@@ -1,0 +1,12 @@
+<ion-grid>
+    <ion-row *ngFor="let notify of notifications">
+        <ion-col>
+            <ion-item>
+                <ion-note>{{notify?.created_at | date:'dd/MM/yyyy'}}</ion-note>
+            </ion-item>
+            <ion-item>
+                <ion-text>{{notify?.message}}</ion-text>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+</ion-grid>

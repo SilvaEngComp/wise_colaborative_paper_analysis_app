@@ -17,6 +17,7 @@ import { PolicyModule } from './policy/policy.module';
 import { TransmissionComponent } from './transmission/transmission.component';
 import { VideoconferenciaComponent } from './transmission/videoconferencia/videoconferencia.component';
 import { AdminPage } from './admin-page.page';
+import { NotificationsComponent } from '../notifications/notifications.component';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { AdminPage } from './admin-page.page';
     TransmissionComponent,
     VideoconferenciaComponent,
     TutorialComponent,
-    ChatComponent
+    ChatComponent,
+    NotificationsComponent
   ],
   providers: [],
   entryComponents: [TransmissionComponent, PolicyComponent],

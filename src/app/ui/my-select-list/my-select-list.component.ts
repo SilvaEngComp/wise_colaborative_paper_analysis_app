@@ -165,13 +165,13 @@ export class MySelectListComponent implements OnInit, OnDestroy {
   save() {
     if (this.multiple) {
       localStorage.setItem(
-        environment.LOCALSTORAGE + this.listName,
-        JSON.stringify(this.mySelectList)
+        environment.LOCALSTORAGE + this.listName,btoa(
+        JSON.stringify(this.mySelectList))
       );
     } else {
       localStorage.setItem(
         environment.LOCALSTORAGE + this.listName,
-        JSON.stringify(this.mySelect)
+        atob(JSON.stringify(this.mySelect))
       );
     }
   }
@@ -182,7 +182,8 @@ export class MySelectListComponent implements OnInit, OnDestroy {
     } else {
       this.onSelectOne(obj);
     }
-        this.show = false;
+    this.show = false;
+    this.save();
   }
   onSelectOne(obj: MySelect) {
     this.listObj.filter((ele) => {
@@ -216,7 +217,6 @@ export class MySelectListComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.save();
     this.selectEmiter.emit(this.listObjAux);
   }
 

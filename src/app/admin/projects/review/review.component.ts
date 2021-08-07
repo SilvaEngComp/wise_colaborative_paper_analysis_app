@@ -4,7 +4,7 @@ import { Base } from './../../../objects/base';
 /* eslint-disable @typescript-eslint/prefer-for-of */
 import { environment } from './../../../../environments/environment';
 /* eslint-disable @typescript-eslint/member-ordering */
-import { IonInput, Platform, PopoverController } from '@ionic/angular';
+import { IonInput, ModalController, Platform, PopoverController } from '@ionic/angular';
 import { Review } from './../../../objects/review';
 import { ExceptionService } from './../../../services/exception.service';
 import {  Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
@@ -12,6 +12,7 @@ import { PaperService } from 'src/app/services/paper.service';
 import { PaperFilter } from 'src/app/objects/paperFilter';
 import { Paper } from 'src/app/objects/paper';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { MembersComponent } from './members/members.component';
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -38,6 +39,7 @@ export class ReviewComponent implements OnInit {
     private exeptionService: ExceptionService,
     private platform: Platform,
     private paperService: PaperService,
+    private modalCtrl: ModalController,
     private iab: InAppBrowser,
   ) { }
 
@@ -168,8 +170,20 @@ export class ReviewComponent implements OnInit {
     this.calcProgress(true);
     }
     this.loading = true;
+  }
 
+  async addMembers() {
+    const modal = await this.modalCtrl.create({
+      component: MembersComponent,
+      componentProps: ({ review: this.review })
+    });
+    modal.present();
 
+    const { data } = await modal.onDidDismiss();
+
+    if (data) {
+      this.review = data.review;
+    }
   }
 
   onSelectPaper(paper: Paper) {

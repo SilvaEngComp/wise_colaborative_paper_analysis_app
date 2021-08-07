@@ -141,6 +141,7 @@ export class AdminPage implements OnInit {
       this.page = String(page);
       localStorage.setItem(environment.LOCALSTORAGE + 'lastPage', this.page);
     } else {
+      this.authService.signOut();
       localStorage.clear();
       this.router.navigate(['/']);
     }

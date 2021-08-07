@@ -11,7 +11,10 @@
             Systematic Reviews
         </p>
     </div>
-    <ion-grid>
+
+    <ion-spinner name="bubbles" *ngIf="is_loading"></ion-spinner>
+
+    <ion-grid *ngIf="!is_loading">
         <ion-row>
             <ion-col>
                 <ion-button (click)="login(1)" fill="clear" class="btn btn-google">
@@ -23,7 +26,6 @@
                 <ion-button (click)="login(2)" fill="clear" class="btn-facebook">
                     <ion-icon color="light" name="logo-facebook"></ion-icon>
                     <ion-label color="light">CONTINUAR</ion-label>
-
                 </ion-button>
             </ion-col>
         </ion-row>

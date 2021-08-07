@@ -1,3 +1,4 @@
+import { MembersComponent } from './review/members/members.component';
 import { ProtocolComponent } from './review/protocol/protocol.component';
 import { LoadPaperComponent } from './review/load-paper/load-paper.component';
 import { BasesComponent } from './review/bases/bases.component';
@@ -28,6 +29,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     LoadPaperComponent,
     ProtocolComponent,
     QuestionComponent,
+    MembersComponent
   ],
   imports: [
     CommonModule,

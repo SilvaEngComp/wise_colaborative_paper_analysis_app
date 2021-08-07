@@ -74,7 +74,7 @@ review: Review;
     this.save();
   }
 
-   async onSelectMembers(members: User[]) {
+    onSelectMembers(members: User[]) {
     this.review.members = members;
     this.save();
    }

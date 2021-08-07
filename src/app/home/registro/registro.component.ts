@@ -2,11 +2,10 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Router } from '@angular/router';
 import { LoginService } from './../../services/login.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, ModalController, Platform } from '@ionic/angular';
 import { ExceptionService } from 'src/app/services/exception.service';
 import { UserService } from 'src/app/services/user.service';
-import { environment } from 'src/environments/environment';
 import { User } from 'src/app/objects/User';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { SocialAuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
@@ -22,7 +21,6 @@ export class RegistroComponent implements OnInit {
     private router: Router,
     private usuarioService: UserService,
     private exceptionService: ExceptionService,
-    private modalCtrl: ModalController,
     private loginService: LoginService,
     private googlePlus: GooglePlus,
     private authService: SocialAuthService,
@@ -51,7 +49,7 @@ export class RegistroComponent implements OnInit {
         .newUser(this.user)
         .then(() => {
           this.loginService
-      .loginByGoogleId(this.user.email)
+      .socialLogin(this.user)
       .then((token) => {
         LoginService.setToken(token);
         this.exceptionService.openLoading('Bem Vindo!', false);
@@ -95,6 +93,8 @@ if (this.platform.is('cordova')){
         .then((result) => {
           this.exceptionService.loadingFunction();
           this.user.email  = result.email;
+          this.user.name  = result.name;
+          this.user.image  = result.photoUrl;
           // se estiver cadastrado efetua o login no servidor fkdeb
         })
         .catch((error) => this.exceptionService.erro(error));
@@ -103,8 +103,9 @@ if (this.platform.is('cordova')){
         .signIn(FacebookLoginProvider.PROVIDER_ID)
         .then((result) => {
           this.exceptionService.loadingFunction();
-          const googleUser: any = result;
           this.user.email  = result.email;
+          this.user.name = result.name;
+          this.user.image  = result.photoUrl;
           // se estiver cadastrado efetua o login no servidor fkdeb
         })
         .catch((error) => console.log(error));
@@ -117,7 +118,9 @@ if (this.platform.is('cordova')){
         .login({})
         .then((result) => {
           this.exceptionService.loadingFunction();
-          this.user.email  = result.email;
+          this.user.email = result.email;
+          this.user.name = result.name;
+          this.user.image  = result.photoUrl;
           // se estiver cadastrado efetua o login no servidor fkdeb
         })
         .catch((error) => this.exceptionService.erro(error));
@@ -126,8 +129,9 @@ if (this.platform.is('cordova')){
         .signIn(GoogleLoginProvider.PROVIDER_ID)
         .then((result) => {
           this.exceptionService.loadingFunction();
-          const googleUser: any = result;
-          this.user.email  = result.email;
+          this.user.email = result.email;
+          this.user.name = result.name;
+          this.user.image  = result.photoUrl;
           // se estiver cadastrado efetua o login no servidor fkdeb
         })
         .catch((error) => console.log(error));

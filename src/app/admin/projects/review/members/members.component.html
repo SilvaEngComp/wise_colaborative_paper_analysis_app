@@ -1,0 +1,43 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-button fill="clear" (click)="back()">
+            <ion-icon class="back-button" slot="start" name="chevron-back-outline"></ion-icon>
+            <ion-label>VOLTAR</ion-label>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-chip *ngFor="let member of review?.members">
+                    <ion-avatar lines="none">
+                        <ion-img [src]="member?.image"></ion-img>
+                    </ion-avatar>
+                    <ion-label>{{member?.name}}</ion-label>
+                    <ion-icon name="close-outline" (click)="deleteMember(member)"></ion-icon>
+
+                </ion-chip>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                Pesquise o usuário através do email
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <app-my-select-list [multiple]="true" [edit]="false" [create]="false" label="*colaboradores" listName="members" (selectEmiter)="onSelectMembers($event)"></app-my-select-list>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col>
+                <ion-spinner name="bubbles" *ngIf="is_loading"></ion-spinner>
+                <ion-button (click)="finish()" [disabled]="is_loading">Adicionar</ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+</ion-content>

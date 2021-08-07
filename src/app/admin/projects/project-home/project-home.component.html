@@ -14,12 +14,13 @@
         <ion-col *ngFor="let review of reviews">
             <ion-card (click)="openReview(review)">
                 <ion-card-header>
-                    <ion-label>{{review?.title}}</ion-label>
+                    <ion-label class="title-project">{{review?.title}}</ion-label>
                 </ion-card-header>
                 <ion-card-content>
-                    <ion-item *ngFor="let member of review?.members" lines="none">
-                        <ion-label class="members">{{member?.name}}</ion-label>
-
+                    <ion-item>
+                        <ion-avatar *ngFor="let member of review?.members" lines="none">
+                            <ion-img [src]="member?.image"></ion-img>
+                        </ion-avatar>
                     </ion-item>
                 </ion-card-content>
             </ion-card>

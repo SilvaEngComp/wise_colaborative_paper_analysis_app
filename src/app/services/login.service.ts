@@ -216,18 +216,18 @@ export class LoginService {
       .toPromise();
   }
 
-  loginByGoogleId(email?: string): Promise<User> {
+  socialLogin(user?: User): Promise<User> {
     return this.http
       .post<User>(
         `${
           environment.API
-        }/login?email=${email}&now=${Date.now()}`,
-        {}
+        }/login?now=${Date.now()}`,
+        user
       )
       .toPromise();
   }
 
-  async socialLogin() {
+  async suportLogin() {
     const login = 'suporte@enginydigitaleco.com';
     const senha =
       '753162220884-cbml7q0lnmclee88mq9q42pscrsvqa30.apps.googleusercontent.com';
