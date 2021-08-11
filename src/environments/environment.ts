@@ -5,14 +5,14 @@
 
 export const environment = {
   production: false,
-  API: 'http://localhost:8000/api',
-  API2: 'http://localhost:8000/api/v2',
-  BASE_STORAGE_URL: 'http://localhost:8000/storage/',
-  FIREBASEMESSAGE: 'https://fcm.googleapis.com/fcm/send',
+  // API: 'http://localhost:8000/api',
+  // API2: 'http://localhost:8000/api/v2',
+  // BASE_STORAGE_URL: 'http://localhost:8000/storage/',
+  // FIREBASEMESSAGE: 'https://fcm.googleapis.com/fcm/send',
 
-  // API: 'https://apis.enginydigitaleco.com/systematic_review_api/public/api',
-  // API2: 'https://apis.enginydigitaleco.com/systematic_review_api/public/api/v2',
-  // BASE_STORAGE_URL: 'https://apis.enginydigitaleco.com/systematic_review_api/public/storage/',
+  API: 'https://apis.enginydigitaleco.com/systematic_review_api/public/api',
+  API2: 'https://apis.enginydigitaleco.com/systematic_review_api/public/api/v2',
+  BASE_STORAGE_URL: 'https://apis.enginydigitaleco.com/systematic_review_api/public/storage/',
 
   scihub: 'https://sci-hub.se/',
   JTSI: 'https://meet.jit.si',

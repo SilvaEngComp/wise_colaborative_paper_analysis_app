@@ -13,7 +13,7 @@ export class Menu{
 
     static getMenuAdmin() {
         const menuGeral: Menu[] = [];
-       const  menu_itens: string[] = ['PROJETOS', 'REUNIÕES',
+       const  menu_itens: string[] = ['PROJETOS', 'NOTIFICAÇÕES', 'REUNIÕES',
     'CHAT', 'TUTORIAIS', 'SAIR'];
 
     //   let cont = 0;

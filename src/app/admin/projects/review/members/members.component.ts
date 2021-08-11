@@ -43,6 +43,7 @@ export class MembersComponent implements OnInit {
   deleteMember(member: User) {
     this.is_loading = true;
     this.reviewService.deleteMember(this.review, member).then((review) => {
+      console.log()
       this.review.members = review.members;
       this.back();
     });

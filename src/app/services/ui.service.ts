@@ -1,5 +1,6 @@
 /* eslint-disable eqeqeq */
 import { Injectable, EventEmitter, Output } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +16,13 @@ export class UiService {
   static loadImageEmitter: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {}
+ static setBackPpage(page: string) {
+    localStorage.setItem(environment.LOCALSTORAGE + 'back-page', page);
+  }
 
-  // static setMenu(menu: string) {
-  //   this.emitirMenu.emit(menu);
-  // }
+  static getBackPpage() {
+    return localStorage.getItem(environment.LOCALSTORAGE + 'back-page');
+  }
 
   static convertNumber(valor: string) {
     let v = valor.replace('.', '');

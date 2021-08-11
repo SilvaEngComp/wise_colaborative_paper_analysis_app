@@ -26,7 +26,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content scroll-y="false">
     <ion-grid>
         <ion-row class="content">
             <ion-col [size]="menu_size_left" color="primary" class="menu-lateral" *ngIf="showMenu">
@@ -64,9 +64,10 @@
                 <ion-icon *ngIf="!showMenu" color="primary" name="menu-sharp" (click)="setShowMenu()"></ion-icon>
 
                 <app-projects *ngIf="page==='0'"></app-projects>
-                <app-transmission *ngIf="page==='1'"></app-transmission>
-                <app-chat *ngIf="page==='2'"></app-chat>
-                <app-tutorial *ngIf="page==='3'"></app-tutorial>
+                <app-notifications *ngIf="page==='1'"></app-notifications>
+                <app-transmission *ngIf="page==='2'"></app-transmission>
+                <app-chat *ngIf="page==='3'"></app-chat>
+                <app-tutorial *ngIf="page==='4'"></app-tutorial>
             </ion-col>
         </ion-row>
     </ion-grid>

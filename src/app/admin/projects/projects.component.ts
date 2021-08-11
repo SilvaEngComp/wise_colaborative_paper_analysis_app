@@ -1,7 +1,7 @@
 import { PaperService } from './../../services/paper.service';
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { Paper } from 'src/app/objects/paper';
 import { Review } from 'src/app/objects/review';
 import { ExceptionService } from 'src/app/services/exception.service';
@@ -19,17 +19,18 @@ export class ProjectsComponent implements OnInit {
   projects: Review[];
   constructor(
     private modalCrl: ModalController,
-    private paperService: PaperService,
-    private exceptionService: ExceptionService
+    private platform: Platform,
   ) {}
 
   review: Review;
   callbackPage: string;
   paper: Paper;
   page: string;
+  height: number;
 
   ngOnInit() {
     this.page = 'list';
+      this.height = this.platform.height()*0.7;
 
     if (localStorage.getItem(environment.LOCALSTORAGE + 'review-page')) {
       this.page = localStorage.getItem(environment.LOCALSTORAGE + 'review-page');

@@ -17,6 +17,10 @@
             <ion-icon name="person-add-outline"></ion-icon>
         </ion-button>
 
+        <ion-button (click)="visualization()">
+            <ion-icon name="bar-chart-outline"></ion-icon>
+        </ion-button>
+
         <ion-button (click)="load()">
             <ion-icon name="refresh-circle-outline"></ion-icon>
         </ion-button>
@@ -124,20 +128,20 @@
                     </ion-list-header>
                     <div class="relevance">
 
-                        <ion-item lines='none'>
+                        <div lines='none'>
                             <ion-label>Baixa</ion-label>
                             <ion-radio slot="start" value="1"></ion-radio>
-                        </ion-item>
+                        </div>
 
-                        <ion-item lines='none'>
+                        <div lines='none'>
                             <ion-label>Média</ion-label>
                             <ion-radio slot="start" value="2"></ion-radio>
-                        </ion-item>
+                        </div>
 
-                        <ion-item lines='none'>
+                        <div lines='none'>
                             <ion-label>Alta</ion-label>
                             <ion-radio slot="start" value="3"></ion-radio>
-                        </ion-item>
+                        </div>
                     </div>
 
                 </ion-radio-group>

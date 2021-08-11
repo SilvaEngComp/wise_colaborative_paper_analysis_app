@@ -19,6 +19,7 @@ export class Paper{
   paper_review: number;
   status: number;
   issue: string;
+  relevanceTex: string;
   relevance: string;
   observation: string;
   star: boolean;

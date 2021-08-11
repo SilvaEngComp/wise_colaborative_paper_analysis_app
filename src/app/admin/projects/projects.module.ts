@@ -19,6 +19,10 @@ import  {  PdfViewerModule  }  from  'ng2-pdf-viewer';
 import { QuestionComponent } from './review/protocol/question/question.component';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { VisualizationComponent } from './review/visualization/visualization.component';
+import { VisualizationMenuComponent } from './review/visualization/visualization-menu/visualization-menu.component';
+import { PaperSelectedComponent } from './review/visualization/paper-selected/paper-selected.component';
+import { WordRankingComponent } from './review/visualization/word-ranking/word-ranking.component';
 @NgModule({
   declarations: [
     ProjectsComponent,
@@ -29,7 +33,11 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     LoadPaperComponent,
     ProtocolComponent,
     QuestionComponent,
-    MembersComponent
+    MembersComponent,
+    VisualizationComponent,
+    VisualizationMenuComponent,
+    PaperSelectedComponent,
+    WordRankingComponent
   ],
   imports: [
     CommonModule,

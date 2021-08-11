@@ -28,8 +28,10 @@ export class NotificationService {
       return Promise.resolve(null);
     }
 
+    const user = LoginService.getToken().user;
+
     return this.http
-      .get<Notify[]>(`${environment.API2}/notifications`, {
+      .get<Notify[]>(`${environment.API2}/notifications/user/${user.id}`, {
         headers: await LoginService.getHeaders(),
       })
       .toPromise();

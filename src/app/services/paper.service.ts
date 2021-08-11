@@ -67,7 +67,6 @@ export class PaperService {
       this.checkLogged();
       return Promise.resolve(null);
     }
-    //  console.log(`${environment.API2}/papers?${filter.getRequest()}`);
     return this.http
       .get<Paper[]>(
         `${environment.API2}/papers?${filter.getRequest()}`,

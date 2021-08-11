@@ -12,10 +12,13 @@ export class NotificationsComponent implements OnInit {
   notifications: Notify[];
   constructor(private notificationService: NotificationService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.load();
+  }
 
-  load() {
-
+  async load() {
+    this.notifications = await this.notificationService.get();
+    console.log(this.notifications);
   }
 
 }

@@ -1,8 +1,9 @@
-<!-- <ion-button (click)="openInLive()">AULA AO VIVO</ion-button> -->
-
-<div class="div-content" [ngSwitch]="page">
+<div class="open-div" [ngSwitch]="page" [ngStyle]="{'height': height+'px'}">
     <app-project-home *ngSwitchCase="'list'" (returnPage)="callbackPageReturn($event)"></app-project-home>
     <app-review [review]="review" *ngSwitchCase="'review'" (returnPage)="callbackPageReturn($event)"></app-review>
     <app-register *ngSwitchCase="'register'" (returnPage)="callbackPageReturn($event)"></app-register>
     <app-protocol *ngSwitchCase="'protocol'" (returnPage)="callbackPageReturn($event)"></app-protocol>
+    <app-visualization *ngSwitchCase="'visualization'" (returnPage)="callbackPageReturn($event)"></app-visualization>
+    <app-paper-selected *ngSwitchCase="'paper-selected'" (returnPage)="callbackPageReturn($event)"></app-paper-selected>
+    <app-word-ranking *ngSwitchCase="'word-ranking'" (returnPage)="callbackPageReturn($event)"></app-word-ranking>
 </div>

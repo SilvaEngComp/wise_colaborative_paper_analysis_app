@@ -199,6 +199,9 @@ this.returnPage.emit({ page: 'list' });
   config() {
     this.returnPage.emit({ page: 'protocol' });
   }
+  visualization() {
+    this.returnPage.emit({ page: 'visualization' });
+  }
   loadStatus(ev) {
     this.showUpload = false;
     this.load();

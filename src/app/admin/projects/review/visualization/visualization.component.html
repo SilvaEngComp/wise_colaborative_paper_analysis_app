@@ -1,0 +1,107 @@
+<ion-toolbar>
+    <ion-buttons>
+        <ion-button fill="clear" (click)="back()">
+            <ion-icon class="back-button" slot="start" name="chevron-back-outline"></ion-icon>
+            <ion-label>VOLTAR</ion-label>
+        </ion-button>
+
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+        <ion-label>
+            PAPERS ANALISADOS
+        </ion-label>
+    </ion-buttons>
+</ion-toolbar>
+
+
+<ion-spinner name="bubbles" *ngIf="!loading"></ion-spinner>
+
+<div class="open-div" [ngStyle]="{'height': height+'px'}" *ngIf="loading" (scroll)="onScroll($event)">
+    <ion-item (click)="openRanking()">
+        <ion-label>RANKING DE PALAVRAS</ion-label>
+        <ion-icon name="git-branch-sharp"></ion-icon>
+    </ion-item>
+    <ion-grid *ngIf="windth_device>500">
+        <ion-row>
+            <ion-col size="2">
+                <ion-label>RELEVÂNCIA</ion-label>
+            </ion-col>
+            <ion-col>
+                <ion-label>TÍTULO</ion-label>
+            </ion-col>
+            <ion-col>
+                <ion-label>PROBLEMA</ion-label>
+            </ion-col>
+            <ion-col size="2">
+                <ion-label>ANO</ion-label>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let paper of papers | slice:0:limit">
+            <ion-col size="2">
+                <ion-item lines="none">
+                    <ion-icon color="warning" name="star-sharp" *ngIf="paper?.star"></ion-icon>
+                    <ion-label slot="end">{{paper?.relevance}}</ion-label>
+                </ion-item>
+
+            </ion-col>
+            <ion-col>
+                <ion-label>{{paper?.title}}</ion-label>
+            </ion-col>
+            <ion-col>
+                <ion-label>{{paper?.observation}}</ion-label>
+            </ion-col>
+            <ion-col size="2">
+                <ion-item detail="true" lines="none" (click)="openPaper(paper)">
+                    <ion-label>{{paper?.publication_year}}</ion-label>
+
+                </ion-item>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <div *ngIf="windth_device<=500">
+        <ion-card *ngFor="let paper of papers | slice:0:limit">
+            <ion-card-header>
+                <ion-item lines="none">
+                    <ion-icon color="warning" name="star-sharp" *ngIf="paper?.star"></ion-icon>
+                    <ion-icon slot="end" name="ellipsis-vertical-sharp" (click)="openMenu(paper, $event)"></ion-icon>
+                </ion-item>
+            </ion-card-header>
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+                        <ion-label><strong>RELEVÂNCIA:</strong> {{paper?.relevanceTex}}</ion-label>
+                    </ion-col>
+                    <ion-col>
+                        <ion-label><strong>ANO:</strong> {{paper?.publication_year}}</ion-label>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <ion-label><strong>TÍTULO:</strong> {{paper?.title}}</ion-label>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row>
+                    <ion-col>
+                        <ion-item lines="none">
+                            <ion-card-subtitle>Proposta do paper:</ion-card-subtitle>
+                        </ion-item>
+                        <ion-card-content>
+                            <ion-textarea readonly="readonly" cols="5" rows="3"> {{paper?.issue}}</ion-textarea>
+                        </ion-card-content>
+                        <ion-item lines="none">
+                            <ion-card-subtitle>Termos que chamaram atenção:</ion-card-subtitle>
+                        </ion-item>
+                        <ion-card-content>
+                            <ion-label> {{paper?.observation}}</ion-label>
+                        </ion-card-content>
+                    </ion-col>
+                </ion-row>
+
+
+            </ion-grid>
+        </ion-card>
+    </div>
+</div>
