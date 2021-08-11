@@ -7,18 +7,19 @@ import { environment } from './../../../../environments/environment';
 import { IonInput, ModalController, Platform, PopoverController } from '@ionic/angular';
 import { Review } from './../../../objects/review';
 import { ExceptionService } from './../../../services/exception.service';
-import {  Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {  AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PaperService } from 'src/app/services/paper.service';
 import { PaperFilter } from 'src/app/objects/paperFilter';
 import { Paper } from 'src/app/objects/paper';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { MembersComponent } from './members/members.component';
+import { ReviewMenuComponent } from './review-menu/review-menu.component';
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
   styleUrls: ['./review.component.scss'],
 })
-export class ReviewComponent implements OnInit {
+export class ReviewComponent implements OnInit, AfterViewInit {
   @Output() returnPage: EventEmitter<any> = new EventEmitter<any>();
   showUpload: boolean;
   papers: Paper[] = [];
@@ -40,12 +41,17 @@ export class ReviewComponent implements OnInit {
     private platform: Platform,
     private paperService: PaperService,
     private modalCtrl: ModalController,
+    private popCtrl: PopoverController,
     private iab: InAppBrowser,
   ) { }
+  ngAfterViewInit(): void {
+     this.width_device = this.platform.width();
+    console.log(this.width_device);
+  }
 
   ngOnInit() {
     this.scihub = environment.scihub;
-    this.width_device = this.platform.width();
+
     this.abstract_size = 12;
     if (!this.review) {
       if (localStorage.getItem(environment.LOCALSTORAGE + 'r')) {
@@ -200,6 +206,7 @@ this.returnPage.emit({ page: 'list' });
     this.returnPage.emit({ page: 'protocol' });
   }
   visualization() {
+    this.loading = false;
     this.returnPage.emit({ page: 'visualization' });
   }
   loadStatus(ev) {
@@ -207,6 +214,36 @@ this.returnPage.emit({ page: 'list' });
     this.load();
   }
 
+  async mobibleMenu(ev) {
+    const pop = await this.popCtrl.create({
+      component: ReviewMenuComponent,
+      event:ev
+    });
+
+    pop.present();
+
+    const { data } = await pop.onWillDismiss();
+
+    if (data) {
+      switch (data.op) {
+        case 1:
+          this.upload();
+          break;
+        case 2:
+          this.config();
+          break;
+        case 3:
+          this.addMembers();
+          break;
+        case 4:
+          this.visualization();
+          break;
+        case 5:
+          this.load();
+          break;
+      }
+    }
+}
 
   openLink() {
     const link = environment.scihub + this.selectedPaper.link;

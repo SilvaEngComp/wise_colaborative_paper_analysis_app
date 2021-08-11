@@ -1,5 +1,6 @@
+import { UiService } from 'src/app/services/ui.service';
 /* eslint-disable max-len */
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Paper } from 'src/app/objects/paper';
 import { WordCaount } from 'src/app/objects/visualization';
 import { environment } from 'src/environments/environment';
@@ -9,19 +10,32 @@ import { environment } from 'src/environments/environment';
   templateUrl: './word-ranking.component.html',
   styleUrls: ['./word-ranking.component.scss'],
 })
-export class WordRankingComponent implements OnInit {
+export class WordRankingComponent implements OnInit, AfterViewInit {
+@Output() returnPage: EventEmitter<any> = new EventEmitter<any>();
 
   papers: Paper[];
   issueLlist: WordCaount[]=[];
   abstractLlist: WordCaount[]=[];
-
+  loading: boolean;
   constructor() { }
+  ngAfterViewInit(): void {
+        this.wordsCount();
+    this.loading = true;
+  }
 
   ngOnInit() {
+
     if (localStorage.getItem(environment.LOCALSTORAGE + 'vps')) {
         this.papers = JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'vps'));
     }
-    this.wordsCount();
+
+    UiService.setBackPpage('visualization');
+  }
+
+
+  back() {
+    const page = UiService.getBackPpage();
+this.returnPage.emit({ page });
   }
 
   wordsCount() {

@@ -23,6 +23,7 @@ import { VisualizationComponent } from './review/visualization/visualization.com
 import { VisualizationMenuComponent } from './review/visualization/visualization-menu/visualization-menu.component';
 import { PaperSelectedComponent } from './review/visualization/paper-selected/paper-selected.component';
 import { WordRankingComponent } from './review/visualization/word-ranking/word-ranking.component';
+import { ReviewMenuComponent } from './review/review-menu/review-menu.component';
 @NgModule({
   declarations: [
     ProjectsComponent,
@@ -37,7 +38,8 @@ import { WordRankingComponent } from './review/visualization/word-ranking/word-r
     VisualizationComponent,
     VisualizationMenuComponent,
     PaperSelectedComponent,
-    WordRankingComponent
+    WordRankingComponent,
+    ReviewMenuComponent,
   ],
   imports: [
     CommonModule,

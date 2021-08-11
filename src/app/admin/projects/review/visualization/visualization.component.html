@@ -18,10 +18,10 @@
 <ion-spinner name="bubbles" *ngIf="!loading"></ion-spinner>
 
 <div class="open-div" [ngStyle]="{'height': height+'px'}" *ngIf="loading" (scroll)="onScroll($event)">
-    <ion-item (click)="openRanking()">
+    <ion-button (click)="openRanking()">
         <ion-label>RANKING DE PALAVRAS</ion-label>
         <ion-icon name="git-branch-sharp"></ion-icon>
-    </ion-item>
+    </ion-button>
     <ion-grid *ngIf="windth_device>500">
         <ion-row>
             <ion-col size="2">

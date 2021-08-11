@@ -4,11 +4,11 @@
         <ion-label>VOLTAR</ion-label>
     </ion-button>
 
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" *ngIf="width_device>500">
 
         <ion-button (click)="upload()" [ngClass]="{'upload': !showUpload, 'cancel':showUpload}">
             <ion-icon *ngIf="!showUpload" name="cloud-upload-outline"></ion-icon>
-            <ion-label *ngIf="width_device>500">{{showUpload ? 'CANCELAR' : 'CARREGAR CSV'}}</ion-label>
+            <ion-label>{{showUpload ? 'CANCELAR' : 'CARREGAR CSV'}}</ion-label>
         </ion-button>
         <ion-button (click)="config()">
             <ion-icon name="settings-outline"></ion-icon>
@@ -25,6 +25,15 @@
             <ion-icon name="refresh-circle-outline"></ion-icon>
         </ion-button>
     </ion-buttons>
+    <ion-buttons slot="end" *ngIf="width_device<=500">
+        <ion-button *ngIf="showUpload" (click)="upload()" [ngClass]="{'cancel':showUpload}">
+            <ion-label>CANCELAR</ion-label>
+        </ion-button>
+        <ion-button (click)="mobibleMenu($event)">
+            <ion-icon name="ellipsis-horizontal-circle-sharp"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+
 </ion-toolbar>
 
 
