@@ -37,35 +37,34 @@ export class NotificationService {
       .toPromise();
   }
 
-  async upload(
-    formData: FormData,
-    notification: Notify
-  ): Promise<Notify> {
+  async update(notification: Notify): Promise<Notify[]> {
     if (!(await LoginService.getHeaders())) {
       this.checkLogged();
       return Promise.resolve(null);
     }
+    const user = LoginService.getToken().user;
+
 
     return this.http
-      .post<Notify>(
-        `${environment.API2}/papers/${notification.id}/upload}`,
-        formData,
+      .patch<Notify[]>(
+        `${environment.API2}/notifications/${notification.id}/user/${user.id}`,
+        notification,
         {
-          headers: await LoginService.getHeaders(true),
+          headers: await LoginService.getHeaders(),
         }
       )
       .toPromise();
   }
 
-  async update(notification: Notify) {
+  async destoy(notification: Notify): Promise<Notify[]> {
     if (!(await LoginService.getHeaders())) {
       this.checkLogged();
       return Promise.resolve(null);
     }
+    const user = LoginService.getToken().user;
     return this.http
-      .patch(
-        `${environment.API2}/filesubtopics/${notification.id}`,
-        notification,
+      .delete<Notify[]>(
+        `${environment.API2}/notifications/${notification.id}/user/${user.id}`,
         {
           headers: await LoginService.getHeaders(),
         }

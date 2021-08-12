@@ -19,7 +19,7 @@
                 <ion-card-content>
                     <ion-item>
                         <ion-avatar *ngFor="let member of review?.members" lines="none">
-                            <ion-img [src]="member?.image"></ion-img>
+                            <ion-img *ngIf="member?.accepted===1" [src]="member?.image"></ion-img>
                         </ion-avatar>
                     </ion-item>
                 </ion-card-content>

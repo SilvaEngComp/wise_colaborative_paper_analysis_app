@@ -21,4 +21,26 @@ export class NotificationsComponent implements OnInit {
     console.log(this.notifications);
   }
 
+  setSaw(notify: Notify) {
+    notify.has_saw = true;
+    this.notificationService.update(notify).then(notifications => {
+      this.notifications = notifications;
+    });
+
+  }
+
+  responseEnvite(notify: Notify, resp: boolean=false ) {
+     notify.invitation = resp;
+     notify.has_saw = resp;
+    this.notificationService.update(notify).then(notifications => {
+      this.notifications = notifications;
+    });
+  }
+
+  deleteNotification(notify: Notify) {
+    this.notificationService.update(notify).then(notifications => {
+      this.notifications = notifications;
+    });
+  }
+
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { TempFile } from './tempImage';
 
 export class User {
@@ -12,7 +13,9 @@ export class User {
   policy: number;
   active: number;
   gender: string;
-
+  fcm_web_key: string;
+  fcm_mobile_key: string;
+  accepted: number;
 
   constructor() {
   }

@@ -1,0 +1,12 @@
+.has-saw {
+    --background: rgba(34, 139, 34, 0.6);
+    ion-note {
+        color: var(--ion-color-light);
+    }
+}
+
+ion-text {
+    margin-top: 20px;
+    font-family: Qanelas;
+    color: var(--ion-color-dark);
+}

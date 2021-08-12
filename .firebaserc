@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "systematic-review-456d2": {
+      "hosting": {
+        "app": [
+          "systematic-review-456d2"
+        ]
+      }
+    }
+  }
+}

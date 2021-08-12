@@ -1,6 +1,5 @@
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import {
   ToastController,
   LoadingController,
@@ -9,6 +8,8 @@ import {
 } from '@ionic/angular';
 import { FinishActionComponent } from '../ui/finish-action/finish-action.component';
 import { SocialAuthService } from 'angularx-social-login';
+import { PushNotify } from '../objects/pushNotification';
+import { UiService } from './ui.service';
 
 @Injectable({
   providedIn: 'root',
@@ -41,6 +42,29 @@ export class ExceptionService {
       modal.onWillDismiss().then(() => window.location.reload());
     }
   }
+
+   async pushMessage(msg: PushNotify) {
+    const audio = new Audio(msg.audio);
+    audio.play();
+    const toast = await this.alertCtrl.create({
+      header: msg.title,
+      message: msg.body,
+      mode: 'ios',
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            if (msg.click_action) {
+              UiService.pageMenu.emit(msg.click_action);
+            }
+          },
+        },
+      ],
+    });
+
+    toast.present();
+  }
+
 
   async alertDialog(message: string, header: string = '', exit?: boolean) {
     const toast = await this.alertCtrl.create({

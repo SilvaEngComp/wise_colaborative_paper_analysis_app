@@ -12,6 +12,10 @@ import { UiService } from 'src/app/services/ui.service';
 import { Router } from '@angular/router';
 import { Menu } from 'src/app/objects/menu';
 import { User } from 'src/app/objects/User';
+import { ExceptionService } from 'src/app/services/exception.service';
+import { FcmService } from 'src/app/services/fcm.service';
+import { MessagingService } from 'src/app/services/messaging.service';
+import { PushNotify } from 'src/app/objects/pushNotification';
 
 
 @Component({
@@ -44,7 +48,10 @@ export class AdminPage implements OnInit {
   constructor(
     private platform: Platform,
     private router: Router,
-    private authService: SocialAuthService
+    private authService: SocialAuthService,
+    private exceptionService: ExceptionService,
+        private messagingService: MessagingService,
+    private fcmService: FcmService,
 
   ) {
   }
@@ -65,9 +72,25 @@ export class AdminPage implements OnInit {
     if (localStorage.getItem(environment.LOCALSTORAGE + 'menu')) {
       this.showMenu = JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'menu'));
     }
+      if (LoginService.getToken()) {
+      this.user = LoginService.getToken().user;
+      if (!this.platform.is('cordova')) {
+        if (this.user.fcm_web_key) {
+          this.listenForMessages();
+        } else {
+          this.requestPermission();
+        }
+      } else {
+        this.fcmService.initPush();
+      }
+    }
     this.checkPlaftorm();
 
     this.loadUser();
+
+    UiService.pageMenu.subscribe(menu => {
+      this.selectPage(menu);
+    });
 
   }
   save() {
@@ -82,6 +105,34 @@ export class AdminPage implements OnInit {
       this.save();
     });
   }
+  listenForMessages() {
+    console.log('oi');
+    this.messagingService.getMessages().subscribe(
+      async (msg: any) => {
+        console.log('NEW MESSAGE: ', msg);
+        const push: PushNotify = new PushNotify(
+          msg.notification.title,
+          msg.notification.body,
+          null,
+          msg.notification.click_action
+        );
+        this.exceptionService.pushMessage(push);
+      },
+      async (err) => {
+        this.exceptionService.alertDialog(err, 'Erro!');
+      }
+    );
+  }
+
+  requestPermission() {
+    this.messagingService.requestPermission().subscribe(
+      async (token) => {},
+      async (err) => {
+        this.exceptionService.alertDialog(err, 'Erro!');
+      }
+    );
+  }
+
 
   doRefresh(ev: any){
     window.location.reload();
@@ -135,7 +186,7 @@ export class AdminPage implements OnInit {
   }
 
   selectPage(page: any) {
-    if (page != '4') {
+    if (page != '5') {
     this.checkPlaftorm();
 
       this.page = String(page);

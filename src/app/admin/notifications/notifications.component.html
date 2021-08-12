@@ -1,12 +1,35 @@
-<ion-grid>
-    <ion-row *ngFor="let notify of notifications">
-        <ion-col>
-            <ion-item>
-                <ion-note>{{notify?.created_at | date:'dd/MM/yyyy'}}</ion-note>
-            </ion-item>
-            <ion-item>
-                <ion-text>{{notify?.message}}</ion-text>
-            </ion-item>
-        </ion-col>
-    </ion-row>
-</ion-grid>
+<ion-list *ngFor="let notify of notifications">
+    <!-- Sliding item with text options on both sides -->
+    <ion-item-sliding>
+        <ion-item [ngClass]="{'has-saw': !notify?.has_saw }" (click)="setSaw(notify)">
+
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+                        <ion-note>{{notify?.created_at | date:'dd/MM/yyyy'}}</ion-note><br><br>
+
+                        <ion-text>{{notify?.message}}</ion-text>
+                    </ion-col>
+                </ion-row>
+                <ion-row *ngIf="notify?.has_saw">
+                    <ion-col *ngIf="notify?.invitation">
+                        <ion-item>
+                            <ion-button color="secondary" (click)="responseEnvite(notify)">
+                                <ion-label>RECUSAR</ion-label>
+                            </ion-button>
+
+                            <ion-button (click)="responseEnvite(notify,true)">
+                                <ion-label>ACEITAR</ion-label>
+                            </ion-button>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-item>
+        <ion-item-options side="end">
+            <ion-item-option (click)="deleteNotification(notify)" color="danger">
+                <ion-icon name="trash-outline"></ion-icon>
+            </ion-item-option>
+        </ion-item-options>
+    </ion-item-sliding>
+</ion-list>
