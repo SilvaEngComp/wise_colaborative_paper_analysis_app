@@ -4,7 +4,6 @@ export const environment = {
  API: 'https://apis.enginydigitaleco.com/systematic_review_api/public/api',
   API2: 'https://apis.enginydigitaleco.com/systematic_review_api/public/api/v2',
   BASE_STORAGE_URL: 'https://apis.enginydigitaleco.com/systematic_review_api/public/storage/',
-  FIREBASEMESSAGE: 'https://fcm.googleapis.com/fcm/send',
   scihub: 'https://sci-hub.se/',
   JTSI: 'https://meet.jit.si',
   LOCALSTORAGE: 'SYSREVIEW.',

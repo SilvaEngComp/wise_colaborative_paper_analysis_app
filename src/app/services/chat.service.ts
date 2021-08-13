@@ -1,21 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Review } from '../objects/review';
+import { Chat, ChatUser } from '../objects/chat';
 import { User } from '../objects/User';
 import { ExceptionService } from './exception.service';
 import { LoginService } from './login.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class ReviewService {
-  constructor(
+export class ChatService {
+
+ constructor(
     private http: HttpClient,
     private exceptionService: ExceptionService
   ) {}
   //  static creditBanners = new EventEmitter<CreditBanner[]>();
-  checkLogged() {
+
+  async checkLogged() {
     this.exceptionService.alertDialog(
       'Infelizmente sua conexão expirou. Saia e faça login novamente',
       'CONEXÃO EXPIRADA',
@@ -23,32 +25,40 @@ export class ReviewService {
     );
   }
 
-  async get(): Promise<Review[]> {
+  async get(to: number): Promise<Chat[]> {
     if (!(await LoginService.getHeaders())) {
       this.checkLogged();
       return Promise.resolve(null);
     }
-
-    const user = LoginService.getToken().user;
-    console.log(`${environment.API2}/reviews/user/${user.id}`);
+    const sender = LoginService.getToken().user;
     return this.http
-      .get<Review[]>(`${environment.API2}/reviews/user/${user.id}`, {
+      .get<Chat[]>(`${environment.API2}/chats/receiver/${to}/sender/${sender.id}`, {
         headers: await LoginService.getHeaders(),
       })
       .toPromise();
   }
-  async store(review: Review): Promise<Review[]> {
+
+  async getUsers(): Promise<ChatUser[]> {
     if (!(await LoginService.getHeaders())) {
       this.checkLogged();
       return Promise.resolve(null);
     }
-
-    // console.log(JSON.stringify(review));
-
     return this.http
-      .post<Review[]>(
-        `${environment.API2}/reviews`,
-        review,
+      .get<ChatUser[]>(`${environment.API2}/chats/getUsers`, {
+        headers: await LoginService.getHeaders(),
+      })
+      .toPromise();
+  }
+
+  async store(chat: Chat): Promise<Chat[]> {
+    if (!(await LoginService.getHeaders())) {
+      this.checkLogged();
+      return Promise.resolve(null);
+    }
+    return this.http
+      .post<Chat[]>(
+        `${environment.API2}/chats`,
+        chat,
         {
           headers: await LoginService.getHeaders(),
         }
@@ -56,76 +66,46 @@ export class ReviewService {
       .toPromise();
   }
 
-  async update(review: Review) {
-    if (!(await LoginService.getHeaders())) {
-      this.checkLogged();
-      return Promise.resolve(null);
-    }
-    console.log(JSON.stringify(review));
-    return this.http
-      .patch(`${environment.API2}/reviews/${review.id}`, review, {
-        headers: LoginService.getHeaders(),
-      })
-      .toPromise();
-  }
-  async publish(review: Review, publish: boolean) {
+  async messagesRead(user: User) {
     if (!(await LoginService.getHeaders())) {
       this.checkLogged();
       return Promise.resolve(null);
     }
     return this.http
       .get(
-        `${environment.API2}/reviews/${review.id}/publish/${publish}`,
+        `${environment.API2}/chats/messagesRead/user/${user.id}`,
         {
           headers: await LoginService.getHeaders(),
         }
       )
       .toPromise();
   }
-  async destroy(review: Review) {
+
+  async update(chat: Chat) {
     if (!(await LoginService.getHeaders())) {
       this.checkLogged();
       return Promise.resolve(null);
     }
     return this.http
-      .delete(`${environment.API2}/reviews/${review.id}`, {
+      .patch(
+        `${environment.API2}/chats/${chat.id}`,
+        chat,
+        {
+          headers: await LoginService.getHeaders(),
+        }
+      )
+      .toPromise();
+  }
+
+  async destroy(chat: Chat) {
+    if (!(await LoginService.getHeaders())) {
+      this.checkLogged();
+      return Promise.resolve(null);
+    }
+    return this.http
+      .delete(`${environment.API2}/chats/${chat.id}`, {
         headers: await LoginService.getHeaders(),
       })
-      .toPromise();
-  }
-
-  async updateMembers(review: Review): Promise<Review> {
-    if (!(await LoginService.getHeaders())) {
-      this.checkLogged();
-      return Promise.resolve(null);
-    }
-    console.log(JSON.stringify(review));
-
-    return this.http
-      .post<Review>(
-        `${environment.API2}/review_users/${review.id}`,
-        review,
-        {
-          headers: await LoginService.getHeaders(),
-        }
-      )
-      .toPromise();
-  }
-
-  async deleteMember(review: Review, member: User): Promise<Review> {
-    if (!(await LoginService.getHeaders())) {
-      this.checkLogged();
-      return Promise.resolve(null);
-    }
-    console.log(JSON.stringify(review));
-
-    return this.http
-      .delete<Review>(
-        `${environment.API2}/review_users/review/${review.id}/user/${member.id}`,
-        {
-          headers: await LoginService.getHeaders(),
-        }
-      )
       .toPromise();
   }
 }

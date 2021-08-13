@@ -11,6 +11,9 @@ export class UiService {
  @Output()
   static emitirMenu: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output()
+  static emitirTo: EventEmitter<any> = new EventEmitter<any>();
+
   // eslint-disable-next-line @typescript-eslint/member-ordering
   @Output()
   static loadImageEmitter: EventEmitter<any> = new EventEmitter<any>();

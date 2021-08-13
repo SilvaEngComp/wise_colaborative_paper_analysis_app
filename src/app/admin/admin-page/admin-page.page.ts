@@ -109,13 +109,15 @@ export class AdminPage implements OnInit {
     console.log('oi');
     this.messagingService.getMessages().subscribe(
       async (msg: any) => {
+
         console.log('NEW MESSAGE: ', msg);
         const push: PushNotify = new PushNotify(
           msg.notification.title,
           msg.notification.body,
-          null,
+          msg.notification.icon,
           msg.notification.click_action
         );
+        // this.exceptionService.onSuccess(msg);
         this.exceptionService.pushMessage(push);
       },
       async (err) => {

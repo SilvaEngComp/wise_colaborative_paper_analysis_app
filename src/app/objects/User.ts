@@ -17,6 +17,7 @@ export class User {
   fcm_mobile_key: string;
   accepted: number;
 
-  constructor() {
-  }
+  constructor(name?: string) {
+    this.name = name;
+    }
 }

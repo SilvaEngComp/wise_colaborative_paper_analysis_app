@@ -1,29 +1,73 @@
-.search {
-    --background: var(--ion-color-medium-tint);
-    ion-searchbar {
-        --border-radius: 20px;
-    }
+.conversation {
+    background: #efebe9;
+}
+
+.emojiContainer {
+    margin-top: 80px;
+    animation: fadeInUp;
+    animation-duration: 1s;
+}
+
+.emojOut {
+    animation: fadeOutDown;
+    animation-duration: 1s;
 }
 
 .me {
     --background: var(--ion-color-medium)
 }
 
-.users {
-    ion-label {
-        font-size: 16px;
-        font-family: Qanelas-bold;
-        margin: 10px;
-        color: var(--ion-color-dark)
+.chat-message {
+    margin: 5px;
+    background: white;
+    div {
+        margin: 15px;
+        max-width: 200px;
+        ion-label {
+            font-size: 20px;
+            font-family: Qanelas;
+            color: var(--ion-color-dark)
+        }
     }
     ion-note {
-        font-size: 12px;
-        font-family: Qanelas-light;
-        margin: 10px;
+        font-size: 10px;
+        font-family: Qanelas-bold;
         color: var(--ion-color-dark)
     }
-    ion-row {
-        border-bottom: 1px solid var(--ion-color-medium);
+}
+
+.chat-message-left {
+    border-radius: 0 10px 10px 30px;
+}
+
+.chat-message-right {
+    border-radius: 10px 0px 30px 10px;
+    ion-note {
+        float: right;
+    }
+}
+
+.set-message {
+    z-index: 2000;
+    height: 80px;
+    width: 100%;
+    position: absolute;
+    bottom: 15px;
+    border-radius: 20px;
+    left: 0px;
+    ;
+    ion-item {
+        --background: var(--ion-color-medium);
+        --border-radius: 20px;
+        ion-textarea {
+            margin: 5px;
+            background: var(--ion-color-light);
+            border-radius: 20px;
+            border: 1px solid var(--ion-color-medium)
+        }
+        ion-icon {
+            margin-top: 20px;
+        }
     }
 }
 

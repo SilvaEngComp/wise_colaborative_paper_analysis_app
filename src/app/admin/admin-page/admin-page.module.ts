@@ -18,7 +18,7 @@ import { TransmissionComponent } from './transmission/transmission.component';
 import { VideoconferenciaComponent } from './transmission/videoconferencia/videoconferencia.component';
 import { AdminPage } from './admin-page.page';
 import { NotificationsComponent } from '../notifications/notifications.component';
-
+import { ChatModule } from '../chat/chat.module';
 @NgModule({
   imports: [
     HttpClientModule,
@@ -29,14 +29,14 @@ import { NotificationsComponent } from '../notifications/notifications.component
     BrMaskerModule,
     UiModule,
     PolicyModule,
-    ProjectsModule
+    ProjectsModule,
+    ChatModule,
   ],
   declarations: [
     AdminPage,
     TransmissionComponent,
     VideoconferenciaComponent,
     TutorialComponent,
-    ChatComponent,
     NotificationsComponent
   ],
   providers: [],

@@ -1,0 +1,73 @@
+<ion-toolbar class="me">
+    <ion-buttons>
+        <ion-button fill="clear" (click)="back()">
+            <ion-icon class="back-button" slot="start" name="chevron-back-outline"></ion-icon>
+            <ion-label>VOLTAR</ion-label>
+        </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+        <ion-item lines="none" class="me">
+            <ion-avatar>
+                <ion-img [src]="to?.image"></ion-img>
+            </ion-avatar>
+            <ion-label>{{to?.name}}</ion-label>
+        </ion-item>
+    </ion-buttons>
+</ion-toolbar>
+
+
+<div *ngIf="to">
+    <ion-grid class="conversation">
+        <ion-row [ngStyle]="{'height': height+'px'}">
+            <ion-col>
+                <div #convGrid class="scroll-grid" [ngStyle]="{'height': height*0.7+'px'}" [scrollTop]="convGrid.scrollHeight">
+                    <ion-grid>
+                        <ion-row *ngFor="let chat of chats; let i=index">
+
+                            <ion-col *ngIf="chat?.sender?.id !== me.id" size="4" class="chat-message chat-message-left">
+                                <ion-note>{{chat?.date | date: 'dd/MM/yyyy hh:mm:ss'}}</ion-note>
+
+                                <div class="">
+                                    <ion-label>{{chat?.message}}</ion-label>
+
+                                </div>
+                            </ion-col>
+
+                            <ion-col offset="7" size="4" *ngIf="chat?.sender?.id=== me.id" class="chat-message chat-message-right">
+                                <ion-note>{{chat?.date | date: 'dd/MM/yyyy hh:mm:ss'}}</ion-note>
+
+                                <div class="">
+                                    <ion-label>{{chat?.message}}</ion-label>
+
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                    <div [ngClass]="{'emojiContainer': showEmojiPicker, 'emojOut':!showEmojiPicker}" [style.height]="showEmojiPicker?'300px':'0px'">
+
+                        <ion-icon *ngIf="showEmojiPicker" name="close-outline" (click)="showEmojiPicker = !showEmojiPicker"></ion-icon>
+                        <emoji-picker (onEmojiSelect)="addEmoji($event)"></emoji-picker>
+                    </div>
+                </div>
+            </ion-col>
+        </ion-row>
+
+    </ion-grid>
+
+    <ion-footer>
+        <ion-row class="set-message">
+            <ion-col>
+
+                <ion-item>
+                    <ion-icon (click)="showEmojiPicker = !showEmojiPicker" color="tertiary" name="happy"></ion-icon>
+
+                    <ion-textarea (keyup.enter)="sendMessage()" [(ngModel)]="chat.message" cols="5" rows="2" placeholder="Digite uma menagem"></ion-textarea>
+                    <ion-icon name="send-outline" (click)="sendMessage()"></ion-icon>
+                </ion-item>
+
+
+            </ion-col>
+        </ion-row>
+    </ion-footer>
+</div>

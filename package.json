@@ -41,6 +41,7 @@
     "cordova-plugin-inappbrowser": "^5.0.0",
     "cordova-plugin-splashscreen": "^6.0.0",
     "firebase": "^7.0 || ^8.0",
+    "ionic4-emoji-picker": "0.0.2",
     "ng2-file-upload": "^1.4.0",
     "ng2-pdf-viewer": "^7.0.1",
     "rxjs": "~6.6.0",

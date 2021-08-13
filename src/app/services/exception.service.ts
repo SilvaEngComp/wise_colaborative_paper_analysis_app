@@ -5,11 +5,13 @@ import {
   LoadingController,
   AlertController,
   ModalController,
+  Platform,
 } from '@ionic/angular';
 import { FinishActionComponent } from '../ui/finish-action/finish-action.component';
 import { SocialAuthService } from 'angularx-social-login';
 import { PushNotify } from '../objects/pushNotification';
 import { UiService } from './ui.service';
+// import { NotificationsService } from 'angular2-notifications';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +22,10 @@ export class ExceptionService {
     private toastCtrl: ToastController,
     private loadCtrl: LoadingController,
     private alertCtrl: AlertController,
-        private authService: SocialAuthService,
+    private authService: SocialAuthService,
+    // private notiWeb: NotificationsService,
+    private platform: Platform,
+
 
   ) {}
 
@@ -43,19 +48,24 @@ export class ExceptionService {
     }
   }
 
-   async pushMessage(msg: PushNotify) {
+
+  async pushMessage(msg: PushNotify) {
     const audio = new Audio(msg.audio);
     audio.play();
-    const toast = await this.alertCtrl.create({
+    const toast = await this.toastCtrl.create({
       header: msg.title,
       message: msg.body,
       mode: 'ios',
+
       buttons: [
         {
+      icon: 'chatbubbles-outline',
           text: 'OK',
           handler: () => {
             if (msg.click_action) {
               UiService.pageMenu.emit(msg.click_action);
+              console.log(msg.icon);
+              UiService.emitirTo.emit(msg.icon);
             }
           },
         },

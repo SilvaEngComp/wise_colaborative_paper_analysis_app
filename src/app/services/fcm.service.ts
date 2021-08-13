@@ -93,7 +93,6 @@ export class FcmService {
           id: 1,
           schedule: { at: new Date(Date.now() + 1000 * 5) },
           sound: push.audio,
-          attachments: [{ id: '1', url: push.icon }],
           actionTypeId: 'yes',
           extra: {
             data: 'Acesse o App FKDEB para mais informações',
