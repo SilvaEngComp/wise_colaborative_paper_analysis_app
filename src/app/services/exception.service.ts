@@ -50,7 +50,6 @@ export class ExceptionService {
 
 
   async pushMessage(msg: PushNotify) {
-              UiService.emitirRefreshUserChat.emit(msg.icon);
 
     const audio = new Audio(msg.audio);
     audio.play();
@@ -67,7 +66,6 @@ export class ExceptionService {
           handler: () => {
             if (msg.click_action) {
               UiService.pageMenu.emit(msg.click_action);
-              console.log(msg.icon);
               UiService.emitirTo.emit(msg.icon);
             }
           },
@@ -76,6 +74,16 @@ export class ExceptionService {
     });
 
     toast.present();
+
+    if (localStorage.getItem(environment.LOCALSTORAGE + 'to')) {
+   if (JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'to')).id === msg.icon.id) {
+              UiService.emitirTo.emit(msg.icon);
+     return;
+   }
+    }
+
+              UiService.emitirRefreshUserChat.emit(msg.icon);
+
   }
 
 

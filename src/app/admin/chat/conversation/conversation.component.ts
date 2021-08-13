@@ -3,6 +3,7 @@
 /* eslint-disable max-len */
 import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { IonGrid, Platform } from '@ionic/angular';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { Chat } from 'src/app/objects/chat';
 import { User } from 'src/app/objects/User';
 import { ChatService } from 'src/app/services/chat.service';
@@ -27,8 +28,9 @@ export class ConversationComponent implements OnInit, AfterViewInit {
   showEmojiPicker: boolean;
   chats: Chat[] = [];
   is_small: boolean;
+  message: string;
 
-  @ViewChild('convGrid', { static: false }) convGrid: ElementRef;
+  @ViewChild('convGrid', { static: false }) convGrid: any;
 
   constructor(private chatService: ChatService, private platform: Platform,private exceptionService: ExceptionService) { }
   ngAfterViewInit(): void {
@@ -36,6 +38,7 @@ export class ConversationComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.message = '';
     if (localStorage.getItem(environment.LOCALSTORAGE + 'to')) {
       this.to = JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'to'));
     }
@@ -49,33 +52,44 @@ export class ConversationComponent implements OnInit, AfterViewInit {
       this.to = to;
       this.loadConversation();
     });
-
   }
 
   back() {
       this.returnPage.emit({ page: 'users' });
 }
   async loadConversation() {
+
     this.chats =null;
     this.chats = await this.chatService.get(this.to.id);
-
+        this.scrollBottom();
   }
 
+  scrollBottom() {
+ setTimeout(() => {
+      this.convGrid.nativeElement.scrollTop = this.convGrid.nativeElement.scrollHeight;
 
+    }, 500);
+
+}
+  openEmoji() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+    this.scrollBottom();
+}
   addEmoji(ev) {
-    if (!this.chat.message) {
-      this.chat.message = '';
+    if (!this.message) {
+      this.message = '';
     }
-    this.chat.message += ev.data;
+    this.message += ev.data;
   }
 
   sendMessage() {
-    if (this.chat.message.length > 0) {
+    if (this.message.length > 0) {
       this.showEmojiPicker = false;
-      const chat = this.chat;
-      this.chat.message = '';
-      this.chatService.store(chat).then(messages => {
+      this.chat.message = this.message;
+      this.message = '';
+      this.chatService.store(this.chat).then(messages => {
         this.chats = messages;
+        this.scrollBottom();
       }).catch(error => this.exceptionService.erro(error));
     }
   }

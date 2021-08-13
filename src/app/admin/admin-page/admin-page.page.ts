@@ -105,7 +105,7 @@ export class AdminPage implements OnInit {
     this.messagingService.getMessages().subscribe(
       async (msg: any) => {
 
-        console.log('NEW MESSAGE: ', msg);
+        // console.log('NEW MESSAGE: ', msg);
         const push: PushNotify = new PushNotify(
           msg.notification.title,
           msg.notification.body,
