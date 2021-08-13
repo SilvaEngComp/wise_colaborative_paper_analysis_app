@@ -75,11 +75,7 @@ export class AdminPage implements OnInit {
       if (LoginService.getToken()) {
       this.user = LoginService.getToken().user;
       if (!this.platform.is('cordova')) {
-        if (this.user.fcm_web_key) {
-          this.listenForMessages();
-        } else {
           this.requestPermission();
-        }
       } else {
         this.fcmService.initPush();
       }
@@ -106,7 +102,6 @@ export class AdminPage implements OnInit {
     });
   }
   listenForMessages() {
-    console.log('oi');
     this.messagingService.getMessages().subscribe(
       async (msg: any) => {
 
@@ -128,7 +123,9 @@ export class AdminPage implements OnInit {
 
   requestPermission() {
     this.messagingService.requestPermission().subscribe(
-      async (token) => {},
+      async (token) => {
+          this.listenForMessages();
+      },
       async (err) => {
         this.exceptionService.alertDialog(err, 'Erro!');
       }

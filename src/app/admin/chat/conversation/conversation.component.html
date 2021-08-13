@@ -1,12 +1,10 @@
 <ion-toolbar class="me">
     <ion-buttons>
-        <ion-button fill="clear" (click)="back()">
+        <ion-button fill="clear" (click)="back()" *ngIf="is_small">
             <ion-icon class="back-button" slot="start" name="chevron-back-outline"></ion-icon>
             <ion-label>VOLTAR</ion-label>
         </ion-button>
-    </ion-buttons>
 
-    <ion-buttons slot="end">
         <ion-item lines="none" class="me">
             <ion-avatar>
                 <ion-img [src]="to?.image"></ion-img>
@@ -14,6 +12,8 @@
             <ion-label>{{to?.name}}</ion-label>
         </ion-item>
     </ion-buttons>
+
+
 </ion-toolbar>
 
 
@@ -22,7 +22,8 @@
         <ion-row [ngStyle]="{'height': height+'px'}">
             <ion-col>
                 <div #convGrid class="scroll-grid" [ngStyle]="{'height': height*0.7+'px'}" [scrollTop]="convGrid.scrollHeight">
-                    <ion-grid>
+                    <ion-spinner name="bubbles" *ngIf="!chats"></ion-spinner>
+                    <ion-grid *ngIf="!chats">
                         <ion-row *ngFor="let chat of chats; let i=index">
 
                             <ion-col *ngIf="chat?.sender?.id !== me.id" size="4" class="chat-message chat-message-left">

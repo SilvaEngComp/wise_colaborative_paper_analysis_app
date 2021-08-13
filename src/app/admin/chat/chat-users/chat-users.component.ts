@@ -18,7 +18,6 @@ export class ChatUsersComponent implements OnInit {
 
 
   chatUsers: ChatUser[] = [];
-  to: User;
   height: number;
   left: number;
   right: number;
@@ -36,20 +35,19 @@ export class ChatUsersComponent implements OnInit {
 
     this.loadUsers();
 
-    UiService.emitirTo.subscribe(to => {
-
-      this.to = to;
+    UiService.emitirRefreshUserChat.subscribe(to => {
+      this.loadUsers();
       this.saveTo(to);
     });
   }
 
-  async setTo(user: User) {
+  async setTo(chatUser: ChatUser) {
     if (this.platform.width() <= 500) {
       this.returnPage.emit({ page: 'conversation' });
     }
-    UiService.emitirTo.emit(user);
-    await this.chatService.messagesRead(user);
-    this.saveTo(user);
+    this.chatUsers[this.chatUsers.indexOf(chatUser)].notRead = 0;
+    UiService.emitirTo.emit(chatUser.user);
+    this.saveTo(chatUser.user);
   }
 
 

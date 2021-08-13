@@ -32,11 +32,13 @@ export class MessagingService {
   requestPermission() {
     return this.afMessaging.requestToken.pipe(
       tap((token) => {
-        this.store(token, 1).then((user) => {
-          const token = LoginService.getToken();
-          token.user = user;
-          LoginService.setToken(token);
-        });
+        if (token !== LoginService.getToken().user.fcm_web_key) {
+          this.store(token, 1).then((user) => {
+            const token = LoginService.getToken();
+            token.user = user;
+            LoginService.setToken(token);
+          });
+        }
       })
     );
   }

@@ -47,6 +47,7 @@ export class ConversationComponent implements OnInit, AfterViewInit {
 
     UiService.emitirTo.subscribe(to => {
       this.to = to;
+      this.loadConversation();
     });
 
   }
@@ -55,8 +56,9 @@ export class ConversationComponent implements OnInit, AfterViewInit {
       this.returnPage.emit({ page: 'users' });
 }
   async loadConversation() {
-
+    this.chats =null;
     this.chats = await this.chatService.get(this.to.id);
+
   }
 
 
@@ -65,15 +67,16 @@ export class ConversationComponent implements OnInit, AfterViewInit {
       this.chat.message = '';
     }
     this.chat.message += ev.data;
-    this.showEmojiPicker = false;
   }
 
   sendMessage() {
+    if (this.chat.message.length > 0) {
+      this.showEmojiPicker = false;
+      const chat = this.chat;
       this.chat.message = '';
-
-    this.chatService.store(this.chat).then(messages => {
-      this.chats = messages;
-    }).catch(error => this.exceptionService.erro(error));
+      this.chatService.store(chat).then(messages => {
+        this.chats = messages;
+      }).catch(error => this.exceptionService.erro(error));
+    }
   }
-
 }

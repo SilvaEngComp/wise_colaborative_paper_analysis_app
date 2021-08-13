@@ -55,6 +55,7 @@ export class ChatService {
       this.checkLogged();
       return Promise.resolve(null);
     }
+    console.log(chat);
     return this.http
       .post<Chat[]>(
         `${environment.API2}/chats`,

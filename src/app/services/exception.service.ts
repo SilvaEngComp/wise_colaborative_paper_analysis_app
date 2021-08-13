@@ -50,12 +50,15 @@ export class ExceptionService {
 
 
   async pushMessage(msg: PushNotify) {
+              UiService.emitirRefreshUserChat.emit(msg.icon);
+
     const audio = new Audio(msg.audio);
     audio.play();
     const toast = await this.toastCtrl.create({
       header: msg.title,
       message: msg.body,
       mode: 'ios',
+      duration:2000,
 
       buttons: [
         {

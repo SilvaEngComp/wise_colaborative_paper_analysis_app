@@ -8,7 +8,7 @@
     <ion-searchbar></ion-searchbar>
 </ion-item>
 <ion-grid [ngStyle]="{'height': height+'px'}" class="scroll-grid users">
-    <ion-row *ngFor="let chartUser of chatUsers" (click)="setTo(chartUser?.user)">
+    <ion-row *ngFor="let chartUser of chatUsers" (click)="setTo(chartUser)">
         <ion-col>
             <ion-item lines="none">
                 <ion-avatar>

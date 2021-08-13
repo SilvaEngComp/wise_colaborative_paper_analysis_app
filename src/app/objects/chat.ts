@@ -9,8 +9,8 @@ export class Chat{
   receiver: User;
   date: string;
 
-  constructor( sender?: User, receiver?: User, message?: string, date?: string) {
-    this.message = message;
+  constructor( sender?: User, receiver?: User, date?: string) {
+    this.message ='';
     this.date = date;
     this.sender = sender;
     this.receiver = receiver;
