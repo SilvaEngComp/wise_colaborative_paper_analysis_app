@@ -51,33 +51,38 @@ export class ExceptionService {
 
   async pushMessage(msg: PushNotify) {
 
+    if (msg.icon.audio) {
     const audio = new Audio(msg.audio);
     audio.play();
-    const toast = await this.toastCtrl.create({
-      header: msg.title,
-      message: msg.body,
-      mode: 'ios',
-      duration:2000,
 
-      buttons: [
-        {
-      icon: 'chatbubbles-outline',
-          text: 'OK',
-          handler: () => {
-            if (msg.click_action) {
-              UiService.pageMenu.emit(msg.click_action);
-              UiService.emitirTo.emit(msg.icon);
-            }
+    }
+
+    if (!msg.icon.delete) {
+      const toast = await this.toastCtrl.create({
+        header: msg.title,
+        message: msg.body,
+        mode: 'ios',
+        duration: 2000,
+
+        buttons: [
+          {
+            icon: 'chatbubbles-outline',
+            text: 'OK',
+            handler: () => {
+              if (msg.click_action) {
+                UiService.pageMenu.emit(msg.click_action);
+                UiService.emitirTo.emit(msg.icon);
+              }
+            },
           },
-        },
-      ],
-    });
+        ],
+      });
 
-    toast.present();
-
+      toast.present();
+    }
     if (localStorage.getItem(environment.LOCALSTORAGE + 'to')) {
-   if (JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'to')).id === msg.icon.id) {
-              UiService.emitirTo.emit(msg.icon);
+   if (JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'to')).id === msg.icon.user.id) {
+     UiService.emitirTo.emit(msg.icon.user);
      return;
    }
     }

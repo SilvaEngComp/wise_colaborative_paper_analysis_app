@@ -6,7 +6,7 @@ import { ChatService } from 'src/app/services/chat.service';
 import { LoginService } from 'src/app/services/login.service';
 import { UiService } from 'src/app/services/ui.service';
 import { environment } from 'src/environments/environment';
-import { MenuChatComponent } from '../menu-chat/menu-chat.component';
+import { MenuChatUsersComponent } from './menu-chat-users/menu-chat-users.component';
 
 @Component({
   selector: 'app-chat-users',
@@ -50,6 +50,9 @@ export class ChatUsersComponent implements OnInit {
     this.saveTo(chatUser.user);
   }
 
+  checkFavorite() {
+      this.chatUsers.sort((a, b) => (a.chatConfig.favorite > b.chatConfig.favorite) ? -1 : 1);
+  }
 
 
   saveTo(user: User) {
@@ -65,18 +68,48 @@ export class ChatUsersComponent implements OnInit {
   }
   }
 
-  async openMenu(ev) {
+  async openMenu(ev, chatUser: ChatUser) {
     const pop = await this.popCtrl.create({
-      component: MenuChatComponent,
+      component: MenuChatUsersComponent,
+      componentProps: ({chatUser}),
       event: ev
     });
 
     pop.present();
+
+    const { data } = await pop.onWillDismiss();
+    if (data) {
+      this.setChatConfig(data.op, chatUser);
+    }
+  }
+
+  setChatConfig(op, chatUser) {
+     if (op === 'silenciar') {
+        chatUser.chatConfig.audio = false;
+     }
+     if(op==='ativar som') {
+        chatUser.chatConfig.audio = true;
+      }
+
+      if (op === 'fixar') {
+        chatUser.chatConfig.favorite = true;
+    }
+
+    if(op === 'desafixar') {
+        chatUser.chatConfig.favorite = false;
+      }
+
+      this.chatService.chatConfig(chatUser.chatConfig).then(chatUsers => {
+        this.chatUsers = chatUsers;
+  this.checkFavorite();
+
+      });
   }
 
 
 async  loadUsers() {
   this.chatUsers = await this.chatService.getUsers();
+  this.checkFavorite();
 }
 
 }

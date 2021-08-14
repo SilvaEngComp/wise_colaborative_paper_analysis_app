@@ -21,27 +21,41 @@
     <ion-grid class="conversation">
         <ion-row [ngStyle]="{'height': height+'px'}">
             <ion-col>
-                <div #convGrid class="scroll-grid" [ngStyle]="{'height': height*0.7+'px'}" [scrollTop]="convGrid.scrollHeight">
+                <div #convGrid class="scroll-grid" [ngStyle]="{'height': height*0.7+'px'}">
                     <ion-spinner name="bubbles" *ngIf="!chats"></ion-spinner>
                     <ion-grid *ngIf="chats">
                         <ion-row *ngFor="let chat of chats; let i=index">
 
-                            <ion-col *ngIf="chat?.sender?.id !== me.id" size="4" class="chat-message chat-message-left">
-                                <ion-note>{{chat?.date | date: 'dd/MM/yyyy hh:mm:ss'}}</ion-note>
+                            <ion-col offset="4" *ngIf="chat?.change">
+                                <ion-chip color="primary">
+                                    <ion-label>{{chat?.date | checkDate}}</ion-label>
 
-                                <div class="">
-                                    <ion-label>{{chat?.message}}</ion-label>
+                                </ion-chip>
 
-                                </div>
                             </ion-col>
 
-                            <ion-col offset="7" size="4" *ngIf="chat?.sender?.id=== me.id" class="chat-message chat-message-right">
-                                <ion-note>{{chat?.date | date: 'dd/MM/yyyy hh:mm:ss'}}</ion-note>
+                            <ion-col *ngIf="chat?.sender?.id !== me?.id" size="8" class="chat-message chat-message-left">
+                                <ion-icon name="ellipsis-vertical-outline" (click)="menuConversation($event, chat)"></ion-icon>
+                                <div class="">
+                                    <ion-label>{{chat?.message}}</ion-label>
+
+                                </div>
+                                <ion-note>{{chat?.date | date:'HH:mm'}}</ion-note>
+
+                            </ion-col>
+
+
+
+                            <ion-col offset="4" size="8" *ngIf="chat?.sender?.id=== me?.id" class="chat-message chat-message-right">
+                                <ion-icon name="ellipsis-vertical-outline" (click)="menuConversation($event, chat)"></ion-icon>
+
 
                                 <div class="">
                                     <ion-label>{{chat?.message}}</ion-label>
 
                                 </div>
+                                <ion-note>{{chat?.date | date:'HH:mm'}}</ion-note>
+
                             </ion-col>
                         </ion-row>
                     </ion-grid>

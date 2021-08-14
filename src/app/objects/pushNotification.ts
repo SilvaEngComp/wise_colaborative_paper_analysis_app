@@ -3,7 +3,7 @@ import { User } from './User';
 export class PushNotify {
   title: string;
   body: string;
-  icon: User;
+  icon: PushOption;
   message: string;
   click_action: string;
   audio: string;
@@ -19,4 +19,10 @@ export class PushNotify {
     this.icon = JSON.parse(icon);
     this.click_action = click_action;
   }
+}
+
+export interface PushOption{
+  user: User;
+  delete: boolean;
+  audio: boolean;
 }

@@ -1,4 +1,5 @@
-import { User } from "./User";
+/* eslint-disable @typescript-eslint/naming-convention */
+import { User } from './User';
 
 export class TokenAccess {
   token: string;

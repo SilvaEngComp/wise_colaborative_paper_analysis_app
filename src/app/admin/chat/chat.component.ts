@@ -1,15 +1,8 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { User } from './../../objects/User';
 import { Component, OnInit } from '@angular/core';
-import { Chat, ChatUser } from 'src/app/objects/chat';
-import { ChatService } from 'src/app/services/chat.service';
 import { environment } from 'src/environments/environment';
-import { UserService } from 'src/app/services/user.service';
-import { Platform, PopoverController } from '@ionic/angular';
-import { LoginService } from 'src/app/services/login.service';
-import { MenuChatComponent } from './menu-chat/menu-chat.component';
-import { UiService } from 'src/app/services/ui.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-chat',

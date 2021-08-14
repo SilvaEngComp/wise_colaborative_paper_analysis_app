@@ -9,7 +9,7 @@
             <ion-list lines="none">
                 <ion-item>
                     <ion-avatar>
-                        <ion-img [src]="image "></ion-img>
+                        <ion-img [src]="user?.image"></ion-img>
                     </ion-avatar>
                 </ion-item>
                 <ion-item>
@@ -29,7 +29,7 @@
 <ion-content scroll-y="false">
     <ion-grid>
         <ion-row class="content">
-            <ion-col [size]="menu_size_left" color="primary" class="menu-lateral" *ngIf="showMenu">
+            <ion-col [size]="menu_size_left" color="primary" [ngClass]="{'menu-lateral': true, 'menu-in':showMenu, 'menu-out':!showMenu}" *ngIf="showMenu" [ngStyle]="{'height': height+'px'}">
                 <ion-icon src="./assets/icons/menu.svg" (click)="setShowMenu()"></ion-icon>
                 <ion-grid>
                     <ion-row *ngIf="windth_device<=500">
@@ -37,7 +37,7 @@
                             <ion-list lines="none">
                                 <ion-item>
                                     <ion-avatar>
-                                        <ion-img [src]="image "></ion-img>
+                                        <ion-img [src]="user?.image "></ion-img>
                                     </ion-avatar>
                                 </ion-item>
                                 <ion-item>

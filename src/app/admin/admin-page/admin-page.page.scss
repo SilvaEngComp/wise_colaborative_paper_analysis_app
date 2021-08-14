@@ -104,6 +104,18 @@ ion-segment ion-label {
     }
 }
 
+.menu-in {
+    animation: fadeInLeft;
+    /* referring directly to the animation's @keyframe declaration */
+    animation-duration: 1s;
+}
+
+.menu-out {
+    animation: fadeOutLeft;
+    /* referring directly to the animation's @keyframe declaration */
+    animation-duration: 1s;
+}
+
 @media only screen and (min-width: 500px) {
     .menu-logo {
         width: 103px;

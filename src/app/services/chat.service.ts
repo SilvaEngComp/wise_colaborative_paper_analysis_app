@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Chat, ChatUser } from '../objects/chat';
+import { Chat, ChatConfig, ChatUser } from '../objects/chat';
 import { User } from '../objects/User';
 import { ExceptionService } from './exception.service';
 import { LoginService } from './login.service';
@@ -97,14 +97,29 @@ export class ChatService {
       )
       .toPromise();
   }
-
-  async destroy(chat: Chat) {
+  async chatConfig(chatConfig: ChatConfig) {
     if (!(await LoginService.getHeaders())) {
       this.checkLogged();
       return Promise.resolve(null);
     }
     return this.http
-      .delete(`${environment.API2}/chats/${chat.id}`, {
+      .patch(
+        `${environment.API2}/chat_configs/${chatConfig.id}`,
+        chatConfig,
+        {
+          headers: await LoginService.getHeaders(),
+        }
+      )
+      .toPromise();
+  }
+
+  async destroy(chat: Chat, op: number = 0) {
+    if (!(await LoginService.getHeaders())) {
+      this.checkLogged();
+      return Promise.resolve(null);
+    }
+    return this.http
+      .delete(`${environment.API2}/chats/${chat.id}/op/${op}`, {
         headers: await LoginService.getHeaders(),
       })
       .toPromise();

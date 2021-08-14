@@ -25,6 +25,12 @@
     ion-row {
         border-bottom: 1px solid var(--ion-color-medium);
     }
+    .audio {
+        float: right;
+    }
+    .favorite {
+        float: right;
+    }
 }
 
 .scroll-grid {

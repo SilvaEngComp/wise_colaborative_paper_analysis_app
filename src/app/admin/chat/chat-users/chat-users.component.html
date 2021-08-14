@@ -2,15 +2,16 @@
     <ion-avatar>
         <ion-img [src]="me?.image"></ion-img>
     </ion-avatar>
-    <ion-icon slot="end" name="ellipsis-vertical-outline" (click)="openMenu($event)"></ion-icon>
 </ion-item>
 <ion-item class="search">
     <ion-searchbar></ion-searchbar>
 </ion-item>
+<ion-spinner name="bubbles" *ngIf="!chatUsers"></ion-spinner>
 <ion-grid [ngStyle]="{'height': height+'px'}" class="scroll-grid users">
-    <ion-row *ngFor="let chartUser of chatUsers" (click)="setTo(chartUser)">
-        <ion-col>
-            <ion-item lines="none">
+    <ion-row *ngFor="let chartUser of chatUsers">
+        <ion-col size="10">
+            <ion-icon class="audio" *ngIf="!chartUser?.chatConfig?.audio" name="volume-mute-outline" (click)="setChatConfig('ativar som', chartUser)"></ion-icon>
+            <ion-item lines="none" (click)="setTo(chartUser)">
                 <ion-avatar>
                     <ion-img [src]="chartUser?.user?.image"></ion-img>
                 </ion-avatar>
@@ -18,9 +19,16 @@
                     <ion-label>{{ chartUser?.user?.name }}</ion-label>
                     <ion-note>{{ chartUser?.lastMessage?.message?.substr(0,20) }}</ion-note>
                 </ion-list>
+
             </ion-item>
         </ion-col>
         <ion-col size="2">
+            <div class="configs">
+
+                <ion-icon class="favorite" name="ellipsis-vertical-outline" (click)="openMenu($event, chartUser)"></ion-icon>
+                <ion-icon class="favorite" *ngIf="chartUser?.chatConfig?.favorite" name="eyedrop-outline" (click)="setChatConfig('desafixar', chartUser)"></ion-icon>
+
+            </div>
             <div>
                 <ion-label *ngIf="chartUser?.lastMessage">{{ chartUser?.lastMessage?.date | date:"mm:ss" }}</ion-label>
 

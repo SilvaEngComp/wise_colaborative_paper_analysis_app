@@ -7,9 +7,10 @@ export class Chat{
   file_path: string;
   sender: User;
   receiver: User;
-  date: string;
+  date: number;
+  change: boolean;
 
-  constructor( sender?: User, receiver?: User, date?: string) {
+  constructor( sender?: User, receiver?: User, date?: number) {
     this.message ='';
     this.date = date;
     this.sender = sender;
@@ -19,14 +20,25 @@ export class Chat{
 
 
 export class ChatUser{
-
   user: User;
   notRead: number;
   lastMessage: Chat;
+  chatConfig: ChatConfig;
 
-  constructor(user?: User, notRead?: number, lastMessage?: Chat) {
-    this.user = user;
-    this.notRead = notRead;
-    this.lastMessage = lastMessage;
+  constructor() {
+
   }
+}
+
+
+export class ChatConfig{
+  id: number;
+
+  sender: User;
+  receiver: User;
+  audio: boolean;
+  favorite: boolean;
+
+  constructor() {
+     }
 }

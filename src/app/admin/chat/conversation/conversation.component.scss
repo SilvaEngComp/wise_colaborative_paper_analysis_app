@@ -30,9 +30,13 @@
         }
     }
     ion-note {
+        float: right;
         font-size: 10px;
         font-family: Qanelas-bold;
         color: var(--ion-color-dark)
+    }
+    ion-icon {
+        float: right;
     }
 }
 
@@ -42,9 +46,6 @@
 
 .chat-message-right {
     border-radius: 10px 0px 30px 10px;
-    ion-note {
-        float: right;
-    }
 }
 
 .set-message {

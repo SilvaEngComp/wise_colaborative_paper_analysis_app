@@ -199,7 +199,6 @@ if (this.is_cordova) {
           LoginService.setToken(token);
 
           this.router.navigate(['admin']);
-          this.exceptionService.openLoading('Bem Vindo!', false);
         }
       })
       .catch((error) => {

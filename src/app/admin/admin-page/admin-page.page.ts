@@ -40,6 +40,7 @@ export class AdminPage implements OnInit {
   menu_size_right: string;
 
   windth_device: number;
+  height: number;
   // eslint-disable-next-line @typescript-eslint/member-ordering
   @ViewChild('main', { static: false }) content: IonContent;
 
@@ -57,6 +58,7 @@ export class AdminPage implements OnInit {
   }
   ngOnInit() {
     this.windth_device = this.platform.width();
+    this.height = this.platform.height();
     this.showMenu = true;
     this.menu_itens = Menu.getMenuAdmin();
     this.nivel = 3;
@@ -155,22 +157,26 @@ export class AdminPage implements OnInit {
 
   }
 
-  checkPlaftorm() {
-    if (this.platform.width() <= 500) {
-      if (!this.showMenu) {
-        this.menu_size_left = '0';
-        this.menu_size_right = '12';
-      } else {
-         this.menu_size_left = '8';
-        this.menu_size_right = '0';
-      }
+  checkPlaftorm(ocult: boolean = false) {
+    if (ocult) {
+      this.setShowMenu();
     } else {
-      if (!this.showMenu) {
-        this.menu_size_left = '0';
-        this.menu_size_right = '12';
+      if (this.platform.width() <= 500) {
+        if (!this.showMenu) {
+          this.menu_size_left = '0';
+          this.menu_size_right = '12';
+        } else {
+          this.menu_size_left = '10';
+          this.menu_size_right = '0';
+        }
       } else {
-         this.menu_size_left = '2';
-        this.menu_size_right = '10';
+        if (!this.showMenu) {
+          this.menu_size_left = '0';
+          this.menu_size_right = '12';
+        } else {
+          this.menu_size_left = '2';
+          this.menu_size_right = '10';
+        }
       }
     }
 
@@ -181,12 +187,16 @@ export class AdminPage implements OnInit {
   selectSubPage(page: any, subpage: any) {
     this.page = page;
     UiService.emitirMenu.emit({ subpage });
-    this.checkPlaftorm();
+    const ocult = this.platform.width() <= 500;
+
+    this.checkPlaftorm(ocult);
   }
 
   selectPage(page: any) {
     if (page != '5') {
-    this.checkPlaftorm();
+    const ocult = this.platform.width() <= 500;
+
+    this.checkPlaftorm(ocult);
 
       this.page = String(page);
       localStorage.setItem(environment.LOCALSTORAGE + 'lastPage', this.page);
