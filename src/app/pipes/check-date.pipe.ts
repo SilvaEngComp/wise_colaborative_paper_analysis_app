@@ -24,11 +24,8 @@ export class CheckDatePipe implements PipeTransform {
     const date = new Date(value);
     const today = new Date();
     this.datePipe = new DatePipe('en');
-    console.log(date.getDay() + ' === ' + today.getDay());
     let dayPt;
     if (date.getDay() === today.getDay()) {
-
-
       return 'Hoje';
     }
     else if (date.getDay() - today.getDay() < 7 ) {

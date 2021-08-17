@@ -52,12 +52,17 @@ export class ConversationComponent implements OnInit {
 
     UiService.emitirTo.subscribe(to => {
       this.to = to;
+      this.saveTo(to);
       this.loadConversation();
     });
 
     this.loadConversation();
 
 
+  }
+
+    saveTo(user: User) {
+    localStorage.setItem(environment.LOCALSTORAGE + 'to', JSON.stringify(user));
   }
 
   @HostListener('window:focus', ['$event']) inOutPage(ev)
@@ -98,9 +103,14 @@ export class ConversationComponent implements OnInit {
       this.returnPage.emit({ page: 'users' });
 }
   async loadConversation() {
-    this.chats = await this.chatService.get(this.to.id);
-    this.configChats();
-
+    if (this.to) {
+      if (this.to.id) {
+        this.chats = await this.chatService.get(this.to.id);
+        this.configChats();
+      }
+    } else {
+      this.exceptionService.alertDialog('Escolha alguém para mandar a mensagem');
+    }
   }
 
   configChats() {
@@ -140,14 +150,35 @@ export class ConversationComponent implements OnInit {
     this.message += ev.data;
   }
 
-
-
-  sendMessage() {
-    if (this.message.length > 0) {
+  checkMessage() {
       this.showEmojiPicker = false;
+
+    if (this.message.length === 0) {
+      return false;
+    }
+
+      if (!this.chat.receiver) {
+         if (localStorage.getItem(environment.LOCALSTORAGE + 'to')) {
+      this.chat.receiver = JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'to'));
+         } else {
+           this.exceptionService.alertDialog('Escolha um usuário para enviar a mensagem');
+           return false;
+    }
+      }
+
       this.chat.message = this.message;
       this.message = '';
       this.chat.date = Date.now();
+
+    return true;
+
+
+  }
+
+
+  sendMessage() {
+    if(this.checkMessage()){
+
       this.chatService.store(this.chat).then(messages => {
         this.chats = messages;
         this.scrollBottom();

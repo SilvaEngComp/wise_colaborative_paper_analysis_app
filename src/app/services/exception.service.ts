@@ -32,7 +32,7 @@ export class ExceptionService {
 
   logout() {
     this.authService.signOut();
-    localStorage.removeItem(environment.LOCALSTORAGE + 'token');
+    localStorage.clean();
               window.location.reload();
   }
 
@@ -51,13 +51,14 @@ export class ExceptionService {
 
   async pushMessage(msg: PushNotify) {
 
-    if (msg.icon.audio) {
+    console.log(msg.click_action);
+    if (msg.click_action.chatConfig.audio) {
     const audio = new Audio(msg.audio);
     audio.play();
 
     }
 
-    if (!msg.icon.delete) {
+    if (!msg.click_action.delete) {
       const toast = await this.toastCtrl.create({
         header: msg.title,
         message: msg.body,
@@ -70,8 +71,10 @@ export class ExceptionService {
             text: 'OK',
             handler: () => {
               if (msg.click_action) {
-                UiService.pageMenu.emit(msg.click_action);
-                UiService.emitirTo.emit(msg.icon);
+                if (msg.click_action.page) {
+                  UiService.pageMenu.emit(msg.click_action.page);
+                }
+                UiService.emitirTo.emit(msg.click_action.chatConfig.sender);
               }
             },
           },
@@ -79,15 +82,16 @@ export class ExceptionService {
       });
 
       toast.present();
-    }
-    if (localStorage.getItem(environment.LOCALSTORAGE + 'to')) {
-   if (JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'to')).id === msg.icon.user.id) {
-     UiService.emitirTo.emit(msg.icon.user);
-     return;
-   }
+    } else {
+      if (localStorage.getItem(environment.LOCALSTORAGE + 'to')) {
+        if (JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'to')).id === msg.click_action.chatConfig.sender.id) {
+          UiService.emitirTo.emit(msg.click_action.chatConfig.sender);
+          return;
+        }
+      }
     }
 
-              UiService.emitirRefreshUserChat.emit(msg.icon);
+    UiService.emitirRefreshUserChat.emit(msg.click_action.chatConfig.sender);
 
   }
 

@@ -1,11 +1,12 @@
+import { ChatConfig } from './chat';
 import { User } from './User';
 /* eslint-disable @typescript-eslint/naming-convention */
 export class PushNotify {
   title: string;
   body: string;
-  icon: PushOption;
+  click_action: PushOption;
   message: string;
-  click_action: string;
+  icon: string;
   audio: string;
   constructor(
     title: string,
@@ -16,13 +17,13 @@ export class PushNotify {
     this.audio = './assets/audio/notification.mp3';
     this.title = title;
     this.body = body;
-    this.icon = JSON.parse(icon);
-    this.click_action = click_action;
+    this.icon = icon;
+    this.click_action = JSON.parse(click_action);;
   }
 }
 
 export interface PushOption{
-  user: User;
   delete: boolean;
-  audio: boolean;
+  chatConfig: ChatConfig;
+  page: string;
 }

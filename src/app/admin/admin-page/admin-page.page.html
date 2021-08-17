@@ -5,14 +5,14 @@
                 <ion-img src="./assets/icon/favicon.webp" class="menu-logo"></ion-img>
             </ion-item>
         </ion-buttons>
-        <ion-buttons slot="end" class="menu-right" *ngIf="windth_device>500">
+        <ion-buttons slot="end" class="menu-right">
             <ion-list lines="none">
                 <ion-item>
                     <ion-avatar>
                         <ion-img [src]="user?.image"></ion-img>
                     </ion-avatar>
                 </ion-item>
-                <ion-item>
+                <ion-item *ngIf="windth_device>500">
                     <ion-label>{{ user?.name }}</ion-label>
 
                 </ion-item>
@@ -71,8 +71,8 @@
             </ion-col>
         </ion-row>
     </ion-grid>
-    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <!-- <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Atualizando...">
         </ion-refresher-content>
-    </ion-refresher>
+    </ion-refresher> -->
 </ion-content>
