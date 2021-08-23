@@ -67,6 +67,7 @@ export class PaperService {
       this.checkLogged();
       return Promise.resolve(null);
     }
+     console.log(`${environment.API2}/papers?${filter.getRequest()}`);
     return this.http
       .get<Paper[]>(
         `${environment.API2}/papers?${filter.getRequest()}`,
@@ -108,14 +109,14 @@ export class PaperService {
       )
       .toPromise();
   }
-  async destroy(fileSubtopic: FileReview) {
+  async destroy(paperreview_id: number) {
     if (!(await LoginService.getHeaders())) {
       this.checkLogged();
       return Promise.resolve(null);
     }
     return this.http
       .delete(
-        `${environment.API2}/filesubtopics/${fileSubtopic.id}`,
+        `${environment.API2}/paper_reviews/${paperreview_id}`,
         {
           headers: await LoginService.getHeaders(),
         }

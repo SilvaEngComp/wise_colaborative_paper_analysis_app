@@ -19,10 +19,27 @@ export class Paper{
   paper_review: number;
   status: number;
   issue: string;
-  relevanceTex: string;
+  relevanceText: string;
   relevance: string;
   observation: string;
+  lenguage: string;
   star: boolean;
+  techinique: string;
+  approach: string;
+  features: string;
+  goals: string;
+  hypothesis: string;
+  research_methodology: string;
+  algorithm_comolexity: string;
+  future_work: string;
+  main_contribuition: string;
+  datasets: string;
+  languages: string;
+  baselines: string;
+  evaluation_metrics: string;
+  codelink: string;
+
+
 
   constructor(title?: string) {
     this.title = title;

@@ -171,7 +171,7 @@ export class MySelectListComponent implements OnInit, OnDestroy {
     } else {
       localStorage.setItem(
         environment.LOCALSTORAGE + this.listName,
-        atob(JSON.stringify(this.mySelect))
+        btoa(JSON.stringify(this.mySelect))
       );
     }
   }

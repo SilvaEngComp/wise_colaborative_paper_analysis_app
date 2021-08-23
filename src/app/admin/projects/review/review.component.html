@@ -82,14 +82,11 @@
             </ion-col>
             <ion-col size="1">
                 <ion-icon name="options-outline" (click)="show= !show"></ion-icon>
-
             </ion-col>
-
         </ion-row>
         <ion-row>
             <ion-col>
                 <app-my-select-list *ngIf="show" [dependence_id]="review.id" [edit]="false" [create]="false" label="Base" listName="bases" (selectEmiter)="onSelectBase($event)"></app-my-select-list>
-
             </ion-col>
         </ion-row>
     </ion-grid>
@@ -156,7 +153,11 @@
                 </ion-radio-group>
             </ion-col>
             <ion-col>
+
                 <ion-item lines='none'>
+                    <ion-button slot="end" fill="outline" (click)="descart()">
+                        <ion-label>Descartar</ion-label>
+                    </ion-button>
                     <ion-icon slot="end" color="primary" name="star-outline" *ngIf="!selectedPaper?.star" (click)="setStar()"></ion-icon>
                     <ion-icon slot="end" color="primary" name="star-sharp" *ngIf="selectedPaper?.star" (click)="setStar()"></ion-icon>
                 </ion-item>
@@ -165,8 +166,96 @@
 
         <ion-row class="issue">
             <ion-col>
-                <ion-title>*Problema abordado</ion-title>
-                <ion-textarea rows="5" cols="5" maxlength="2000" [value]="selectedPaper?.issue" (keyup)="setIssue($event)"></ion-textarea>
+                <ion-title>Problema</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="500" [value]="selectedPaper?.issue" (keyup)="setIssue($event)"></ion-textarea>
+                <ion-note>{{selectedPaper?.issue?.length}}/500</ion-note>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-title>Objetivos</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="500" [value]="selectedPaper?.goals" (keyup)="goals($event)"></ion-textarea>
+                <ion-note>{{selectedPaper?.issue?.length}}/500</ion-note>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-title>Principais contribuições</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="500" [value]="selectedPaper?.main_contribuition" (keyup)="future_work($event)"></ion-textarea>
+                <ion-note>{{selectedPaper?.issue?.length}}/500</ion-note>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-title>Abordagens</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="500" [value]="selectedPaper?.approach" (keyup)="approach($event)"></ion-textarea>
+                <ion-note>{{selectedPaper?.issue?.length}}/500</ion-note>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-title>Técnicas</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="500" [value]="selectedPaper?.techinique" (keyup)="techinique($event)"></ion-textarea>
+                <ion-note>{{selectedPaper?.issue?.length}}/500</ion-note>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-title>Hipótesis</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="500" [value]="selectedPaper?.hypothesis" (keyup)="hypothesis($event)"></ion-textarea>
+                <ion-note>{{selectedPaper?.issue?.length}}/500</ion-note>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-title>Métricas de avaliação</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="500" [value]="selectedPaper?.evaluation_metrics" (keyup)="evaluation_metrics($event)"></ion-textarea>
+                <ion-note>{{selectedPaper?.issue?.length}}/500</ion-note>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-title>Ferramentas e recursos</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="500" [value]="selectedPaper?.features" (keyup)="features($event)"></ion-textarea>
+                <ion-note>{{selectedPaper?.issue?.length}}/500</ion-note>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-title>Link do código</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="500" [value]="selectedPaper?.codelink" (keyup)="codelink($event)"></ion-textarea>
+                <ion-note>{{selectedPaper?.issue?.length}}/500</ion-note>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-title>Metodologia</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="500" [value]="selectedPaper?.research_methodology" (keyup)="research_methodology($event)"></ion-textarea>
+                <ion-note>{{selectedPaper?.issue?.length}}/500</ion-note>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-title>Complexidade de algoritmo</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="500" [value]="selectedPaper?.algorithm_comolexity" (keyup)="algorithm_comolexity($event)"></ion-textarea>
+                <ion-note>{{selectedPaper?.issue?.length}}/500</ion-note>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-title>Trabalhos futuros</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="2000" [value]="selectedPaper?.future_work" (keyup)="future_work($event)"></ion-textarea>
                 <ion-note>{{selectedPaper?.issue?.length}}/2000</ion-note>
             </ion-col>
         </ion-row>
@@ -174,13 +263,60 @@
         <ion-row class="issue">
             <ion-col>
                 <ion-item>
-                    <ion-label position="floating">Expressões chave relacionadas</ion-label>
-                    <ion-input placeholder="Digite as palavras ou expressões chave relacionadas ao trabalho" #observationInput (keyup.enter)="setObservation($event, observationInput)"></ion-input>
+                    <ion-label position="floating">Baselines</ion-label>
+                    <ion-input placeholder="Digite um item e pressione enter para inserir à lista" #baselineionInput (keyup.enter)="setBaseline($event, baselineionInput)"></ion-input>
                 </ion-item>
 
-                <ion-chip *ngFor="let obs of observations; let i=index" mod="ios" outline="true">
-                    <ion-label>{{obs}}</ion-label>
+                <ion-chip *ngFor="let item of baselines; let i=index" mod="ios" outline="true">
+                    <ion-label>{{item}}</ion-label>
+                    <ion-icon (click)="onRemoveBaseLine(i)" name="close-outline"></ion-icon>
+                </ion-chip>
+            </ion-col>
+
+        </ion-row>
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-item>
+                    <ion-label position="floating">Datasets</ion-label>
+                    <ion-input placeholder="Digite um item e pressione enter para inserir à lista" #datasetsionInput (keyup.enter)="setDatasets($event, datasetsionInput)"></ion-input>
+                </ion-item>
+
+                <ion-chip *ngFor="let item of datasets; let i=index" mod="ios" outline="true">
+                    <ion-label>{{item}}</ion-label>
+                    <ion-icon (click)="onRemoveDatasets(i)" name="close-outline"></ion-icon>
+                </ion-chip>
+            </ion-col>
+
+        </ion-row>
+
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-item>
+                    <ion-label position="floating">My notes</ion-label>
+                    <ion-input placeholder="Digite um item e pressione enter para inserir à lista" #observationInput (keyup.enter)="setObservation($event, observationInput)"></ion-input>
+                </ion-item>
+
+                <ion-chip *ngFor="let item of observations; let i=index" mod="ios" outline="true">
+                    <ion-label>{{item}}</ion-label>
                     <ion-icon (click)="onRemoveObservation(i)" name="close-outline"></ion-icon>
+                </ion-chip>
+            </ion-col>
+
+        </ion-row>
+
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-item>
+                    <ion-label position="floating">Linguagens</ion-label>
+                    <ion-input placeholder="Digite um item e pressione enter para inserir à lista" #lenguagesInput (keyup.enter)="setLenguages($event, lenguagesInput)"></ion-input>
+                </ion-item>
+
+                <ion-chip *ngFor="let item of lenguages; let i=index" mod="ios" outline="true">
+                    <ion-label>{{item}}</ion-label>
+                    <ion-icon (click)="onRemoveLenguage(i)" name="close-outline"></ion-icon>
                 </ion-chip>
             </ion-col>
 
@@ -211,11 +347,7 @@
             <ion-col offset="1" size="2">
                 <ion-icon name="play-skip-forward-outline" (click)="nextPaper()"></ion-icon>
             </ion-col>
-            <ion-col size="1">
-                <ion-icon name="options-outline" (click)="show= !show"></ion-icon>
-                <app-my-select-list *ngIf="show" [dependence_id]="review.id" [edit]="false" [create]="false" label="Base" listName="bases" (selectEmiter)="onSelectBase($event)"></app-my-select-list>
 
-            </ion-col>
             <ion-col size="1">
                 <ion-spinner name="bubbles" *ngIf="updatting"></ion-spinner>
                 <ion-button (click)="update()" *ngIf="!updatting" fill="clear">

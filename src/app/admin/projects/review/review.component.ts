@@ -4,7 +4,7 @@ import { Base } from './../../../objects/base';
 /* eslint-disable @typescript-eslint/prefer-for-of */
 import { environment } from './../../../../environments/environment';
 /* eslint-disable @typescript-eslint/member-ordering */
-import { IonInput, ModalController, Platform, PopoverController } from '@ionic/angular';
+import { AlertController, IonInput, ModalController, Platform, PopoverController } from '@ionic/angular';
 import { Review } from './../../../objects/review';
 import { ExceptionService } from './../../../services/exception.service';
 import {  AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
@@ -32,6 +32,9 @@ export class ReviewComponent implements OnInit, AfterViewInit {
   base: Base;
   abstract_size: number;
   observations: string[]= [];
+  lenguages: string[]= ['inglês'];
+  baselines: string[]= [];
+  datasets: string[]= [];
   updatting: boolean;
   @Input() review: Review;
   width_device: number;
@@ -42,11 +45,11 @@ export class ReviewComponent implements OnInit, AfterViewInit {
     private paperService: PaperService,
     private modalCtrl: ModalController,
     private popCtrl: PopoverController,
+    private alertCtrl: AlertController,
     private iab: InAppBrowser,
   ) { }
   ngAfterViewInit(): void {
      this.width_device = this.platform.width();
-    console.log(this.width_device);
   }
 
   ngOnInit() {
@@ -85,6 +88,23 @@ export class ReviewComponent implements OnInit, AfterViewInit {
         this.observations = this.selectedPaper.observation.split(',');
       } else {
         this.observations = [];
+      }
+
+      if (this.selectedPaper.languages) {
+        this.lenguages = this.selectedPaper.languages.split(',');
+      } else {
+        this.lenguages = ['inglês'];
+      }
+
+      if (this.selectedPaper.datasets) {
+        this.datasets = this.selectedPaper.datasets.split(',');
+      } else {
+        this.datasets = [];
+      }
+      if (this.selectedPaper.baselines) {
+        this.baselines = this.selectedPaper.baselines.split(',');
+      } else {
+        this.baselines = [];
       }
 
       if (this.selectedPaper.issue) {
@@ -134,6 +154,36 @@ export class ReviewComponent implements OnInit, AfterViewInit {
       }
     }
   }
+
+  async descart() {
+    const alert = await this.alertCtrl.create({
+      header: 'Descarte de Artigo',
+      message: 'Esse artigo será colocado na lista de artigos descartados e você pode recuperar posteriormente. Deseja continuar?',
+      buttons: [
+        {
+          text: 'NÃO',
+          handler:()=>{}
+        }, {
+          text: 'SIM',
+          handler: () => {
+            this.paperService.destroy(this.selectedPaper.paper_review).then(() => {
+              let position = 0;
+              this.papers.filter(paper => {
+                if (paper.id === this.selectedPaper.id) {
+                  this.papers.splice(position, 1);
+                }
+                position++;
+              });
+              this.exeptionService.openLoading('O artigo foi colocado na lista de artigos descartados');
+              this.nextPaper();
+    });
+          }
+        },
+      ]
+    });
+
+    alert.present();
+  }
   nextPaper() {
     if (this.selectedId <= this.papers.length) {
       this.selectedId++;
@@ -170,6 +220,7 @@ export class ReviewComponent implements OnInit, AfterViewInit {
 
     const filter = new PaperFilter(this.base.id, this.review.id);
     this.papers = await this.paperService.show(filter);
+
     if (this.selectedPaper) {
     this.calcProgress();
     } else {
@@ -262,6 +313,55 @@ this.returnPage.emit({ page: 'list' });
     this.selectedPaper.issue = ev.target.value;
     this.save();
   }
+  goals(ev) {
+    this.selectedPaper.goals = ev.target.value;
+    this.save();
+  }
+
+  main_contribuition(ev) {
+    this.selectedPaper.main_contribuition = ev.target.value;
+    this.save();
+  }
+
+  approach(ev) {
+    this.selectedPaper.approach = ev.target.value;
+    this.save();
+  }
+
+  techinique(ev) {
+    this.selectedPaper.techinique = ev.target.value;
+    this.save();
+  }
+  hypothesis(ev) {
+    this.selectedPaper.hypothesis = ev.target.value;
+    this.save();
+  }
+  evaluation_metrics(ev) {
+    this.selectedPaper.evaluation_metrics = ev.target.value;
+    this.save();
+  }
+  features(ev) {
+    this.selectedPaper.features = ev.target.value;
+    this.save();
+  }
+
+  codelink(ev) {
+    this.selectedPaper.codelink = ev.target.value;
+    this.save();
+  }
+  research_methodology(ev) {
+    this.selectedPaper.research_methodology = ev.target.value;
+    this.save();
+  }
+  algorithm_comolexity(ev) {
+    this.selectedPaper.algorithm_comolexity = ev.target.value;
+    this.save();
+  }
+
+  future_work(ev) {
+    this.selectedPaper.future_work = ev.target.value;
+    this.save();
+  }
   onRemoveObservation(i) {
     this.observations.splice(i, 1);
 
@@ -272,6 +372,56 @@ this.returnPage.emit({ page: 'list' });
       this.selectedPaper.observation += obs;
       if (cont <this.observations.length) {
         this.selectedPaper.observation += ',';
+      }
+      cont++;
+    });
+
+    this.save();
+  }
+
+  onRemoveBaseLine(i) {
+    this.baselines.splice(i, 1);
+
+    this.selectedPaper.baselines = '';
+    let cont = 1;
+    this.baselines.filter(obs => {
+
+      this.selectedPaper.baselines += obs;
+      if (cont <this.baselines.length) {
+        this.selectedPaper.baselines += ',';
+      }
+      cont++;
+    });
+
+    this.save();
+  }
+  onRemoveDatasets(i) {
+    this.datasets.splice(i, 1);
+
+    this.selectedPaper.datasets = '';
+    let cont = 1;
+    this.datasets.filter(obs => {
+
+      this.selectedPaper.datasets += obs;
+      if (cont <this.datasets.length) {
+        this.selectedPaper.datasets += ',';
+      }
+      cont++;
+    });
+
+    this.save();
+  }
+
+  onRemoveLenguage(i) {
+    this.lenguages.splice(i, 1);
+
+    this.selectedPaper.languages = '';
+    let cont = 1;
+    this.lenguages.filter(obs => {
+
+      this.selectedPaper.languages += obs;
+      if (cont <this.lenguages.length) {
+        this.selectedPaper.languages += ',';
       }
       cont++;
     });
@@ -291,6 +441,57 @@ this.returnPage.emit({ page: 'list' });
     }
 
     this.observations.push(ev.target.value);
+    obj.value = '';
+    this.save();
+  }
+
+  setBaseline(ev, obj: IonInput) {
+
+    if (!this.selectedPaper.baselines) {
+      this.selectedPaper.baselines =  ev.target.value;
+    } else {
+      if (this.selectedPaper.baselines.length >= 2000) {
+      this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
+      return;
+    }
+      this.selectedPaper.baselines +=  ','+ev.target.value;
+    }
+
+    this.baselines.push(ev.target.value);
+    obj.value = '';
+    this.save();
+  }
+
+  setDatasets(ev, obj: IonInput) {
+
+    if (!this.selectedPaper.datasets) {
+      this.selectedPaper.datasets =  ev.target.value;
+    } else {
+      if (this.selectedPaper.datasets.length >= 2000) {
+      this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
+      return;
+    }
+      this.selectedPaper.datasets +=  ','+ev.target.value;
+    }
+
+    this.datasets.push(ev.target.value);
+    obj.value = '';
+    this.save();
+  }
+
+  setLenguages(ev, obj: IonInput) {
+
+    if (!this.selectedPaper.languages) {
+      this.selectedPaper.languages =  ev.target.value;
+    } else {
+      if (this.selectedPaper.languages.length >= 2000) {
+      this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
+      return;
+    }
+      this.selectedPaper.languages +=  ','+ev.target.value;
+    }
+
+    this.lenguages.push(ev.target.value);
     obj.value = '';
     this.save();
   }

@@ -1,29 +1,40 @@
 <ion-grid>
     <ion-row>
-        <ion-col>
-            <ion-card (click)="register()">
+        <ion-col class="project-select">
+            <div (click)="register()">
                 <ion-card-header>
                     <ion-icon class="icon-new" name="add-outline"></ion-icon>
                 </ion-card-header>
                 <ion-card-content>
                     <ion-label>ADD PROJETO</ion-label>
                 </ion-card-content>
-            </ion-card>
+            </div>
         </ion-col>
 
-        <ion-col *ngFor="let review of reviews">
-            <ion-card (click)="openReview(review)">
+        <ion-col class="project-select" *ngFor="let review of reviews">
+            <ion-item lines='none'>
+                <ion-button fill="outline" (click)="openReview(review)">ENTRAR</ion-button>
+                <ion-button fill="clear" (click)="deleteProject(review)">
+                    <ion-icon slot="end" class="destroy-icon" name="trash-outline" color="danger"></ion-icon>
+                </ion-button>
+            </ion-item>
+            <div>
+
+
                 <ion-card-header>
                     <ion-label class="title-project">{{review?.title}}</ion-label>
+
                 </ion-card-header>
                 <ion-card-content>
-                    <ion-item>
+                    <ion-item lines="none">
                         <ion-avatar *ngFor="let member of review?.members" lines="none">
                             <ion-img *ngIf="member?.accepted===1" [src]="member?.image"></ion-img>
                         </ion-avatar>
                     </ion-item>
+
                 </ion-card-content>
-            </ion-card>
+
+            </div>
         </ion-col>
     </ion-row>
 </ion-grid>

@@ -5,16 +5,21 @@ export class PaperFilter{
   relevance: string;
   status: number;
   star: boolean;
+  discarded: boolean;
 
   constructor(base?: number, review_id?: number) {
     this.base = base;
     this.review_id = review_id;
+    this.discarded = false;
   }
 
   getRequest() {
-    let request = '';
+    let request = 'discarded=' + this.discarded;
 
     if (this.base) {
+       if (request.length > 0) {
+        request += '&';
+      }
       request += 'base_id=' + this.base;
     }
     if (this.review_id) {
@@ -43,6 +48,7 @@ export class PaperFilter{
       }
       request += 'status=' + this.status;
     }
+
 
     return request;
   }
