@@ -1,6 +1,7 @@
 /* eslint-disable eqeqeq */
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { Paper, PaperHeader } from '../objects/paper';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,8 @@ export class UiService {
 
   @Output()
   static emitirRefreshUserChat: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output() static loadPaperHeaderEmitter: EventEmitter<PaperHeader[]> = new EventEmitter<PaperHeader[]>();
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   @Output()

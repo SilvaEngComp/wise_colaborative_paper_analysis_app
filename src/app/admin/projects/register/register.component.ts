@@ -30,7 +30,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   ) { }
  ngOnInit() {
     const token = LoginService.getToken();
-    this.user = token.user;
+   this.user = token.user;
   }
   ngAfterViewInit(): void {
     if (this.review) {
@@ -135,10 +135,12 @@ async onSelectArea(areas: Area[]) {
       return;
     }
 
-    if (!this.review.areas) {
+    if (this.review.areas.length===0) {
       this.exceptionService.alertDialog('Escolha pelo menos uma área de conhecimento');
       return;
     }
+
+    this.review.members.push(this.user);
 
     return true;
   }

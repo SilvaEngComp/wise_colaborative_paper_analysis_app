@@ -1,4 +1,4 @@
-<ion-toolbar>
+<ion-toolbar *ngIf="!notshowHeader">
     <ion-button fill="clear" (click)="back()">
         <ion-icon class="back-button" slot="start" name="chevron-back-outline"></ion-icon>
         <ion-label>VOLTAR</ion-label>
@@ -101,7 +101,7 @@
             <ion-col>
                 <ion-title>Objetivos</ion-title>
                 <ion-textarea rows="5" cols="5" maxlength="500" [value]="paper?.goals" (keyup)="goals($event)"></ion-textarea>
-                <ion-note>{{paper?.issue?.length}}/500</ion-note>
+                <ion-note>{{paper?.goals?.length}}/500</ion-note>
             </ion-col>
         </ion-row>
 
@@ -109,7 +109,7 @@
             <ion-col>
                 <ion-title>Principais contribuições</ion-title>
                 <ion-textarea rows="5" cols="5" maxlength="500" [value]="paper?.main_contribuition" (keyup)="future_work($event)"></ion-textarea>
-                <ion-note>{{paper?.issue?.length}}/500</ion-note>
+                <ion-note>{{paper?.main_contribuition?.length}}/500</ion-note>
             </ion-col>
         </ion-row>
 
@@ -117,7 +117,7 @@
             <ion-col>
                 <ion-title>Abordagens</ion-title>
                 <ion-textarea rows="5" cols="5" maxlength="500" [value]="paper?.approach" (keyup)="approach($event)"></ion-textarea>
-                <ion-note>{{paper?.issue?.length}}/500</ion-note>
+                <ion-note>{{paper?.approach?.length}}/500</ion-note>
             </ion-col>
         </ion-row>
 
@@ -125,7 +125,7 @@
             <ion-col>
                 <ion-title>Técnicas</ion-title>
                 <ion-textarea rows="5" cols="5" maxlength="500" [value]="paper?.techinique" (keyup)="techinique($event)"></ion-textarea>
-                <ion-note>{{paper?.issue?.length}}/500</ion-note>
+                <ion-note>{{paper?.techinique?.length}}/500</ion-note>
             </ion-col>
         </ion-row>
 
@@ -133,7 +133,7 @@
             <ion-col>
                 <ion-title>Hipótesis</ion-title>
                 <ion-textarea rows="5" cols="5" maxlength="500" [value]="paper?.hypothesis" (keyup)="hypothesis($event)"></ion-textarea>
-                <ion-note>{{paper?.issue?.length}}/500</ion-note>
+                <ion-note>{{paper?.hypothesis?.length}}/500</ion-note>
             </ion-col>
         </ion-row>
 
@@ -141,7 +141,7 @@
             <ion-col>
                 <ion-title>Métricas de avaliação</ion-title>
                 <ion-textarea rows="5" cols="5" maxlength="500" [value]="paper?.evaluation_metrics" (keyup)="evaluation_metrics($event)"></ion-textarea>
-                <ion-note>{{paper?.issue?.length}}/500</ion-note>
+                <ion-note>{{paper?.evaluation_metrics?.length}}/500</ion-note>
             </ion-col>
         </ion-row>
 
@@ -149,7 +149,7 @@
             <ion-col>
                 <ion-title>Ferramentas e recursos</ion-title>
                 <ion-textarea rows="5" cols="5" maxlength="500" [value]="paper?.features" (keyup)="features($event)"></ion-textarea>
-                <ion-note>{{paper?.issue?.length}}/500</ion-note>
+                <ion-note>{{paper?.features?.length}}/500</ion-note>
             </ion-col>
         </ion-row>
 
@@ -157,7 +157,7 @@
             <ion-col>
                 <ion-title>Link do código</ion-title>
                 <ion-textarea rows="5" cols="5" maxlength="500" [value]="paper?.codelink" (keyup)="codelink($event)"></ion-textarea>
-                <ion-note>{{paper?.issue?.length}}/500</ion-note>
+                <ion-note>{{paper?.codelink?.length}}/500</ion-note>
             </ion-col>
         </ion-row>
 
@@ -165,7 +165,7 @@
             <ion-col>
                 <ion-title>Metodologia</ion-title>
                 <ion-textarea rows="5" cols="5" maxlength="500" [value]="paper?.research_methodology" (keyup)="research_methodology($event)"></ion-textarea>
-                <ion-note>{{paper?.issue?.length}}/500</ion-note>
+                <ion-note>{{paper?.research_methodology?.length}}/500</ion-note>
             </ion-col>
         </ion-row>
 
@@ -173,7 +173,7 @@
             <ion-col>
                 <ion-title>Complexidade de algoritmo</ion-title>
                 <ion-textarea rows="5" cols="5" maxlength="500" [value]="paper?.algorithm_comolexity" (keyup)="algorithm_comolexity($event)"></ion-textarea>
-                <ion-note>{{paper?.issue?.length}}/500</ion-note>
+                <ion-note>{{paper?.algorithm_comolexity?.length}}/500</ion-note>
             </ion-col>
         </ion-row>
 
@@ -181,7 +181,7 @@
             <ion-col>
                 <ion-title>Trabalhos futuros</ion-title>
                 <ion-textarea rows="5" cols="5" maxlength="2000" [value]="paper?.future_work" (keyup)="future_work($event)"></ion-textarea>
-                <ion-note>{{paper?.issue?.length}}/2000</ion-note>
+                <ion-note>{{paper?.future_work?.length}}/2000</ion-note>
             </ion-col>
         </ion-row>
 

@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ExceptionService } from './exception.service';
 import { LoginService } from './login.service';
-import { Paper } from '../objects/paper';
+import { Paper, PaperHeader } from '../objects/paper';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,7 @@ export class PaperService {
   async upload(
     formData: FormData,
     review: Review,
-    base: Base
+    base: Base,
   ) {
     if (!(await LoginService.getHeaders())) {
       this.checkLogged();

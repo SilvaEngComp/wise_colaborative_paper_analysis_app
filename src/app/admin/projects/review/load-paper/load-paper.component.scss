@@ -8,6 +8,15 @@
     margin: 20px 0;
 }
 
+.col-table {
+    // border-right: 1px solid var(--ion-color-primary);
+}
+
+.undo {
+    font-size: 40px;
+    --ionicon-stroke-width: 40px;
+}
+
 .file-input-container {
     text-align: right;
     input[type="file"] {
@@ -22,4 +31,8 @@
 
 .nv-file-over {
     border: dotted 5px green;
+}
+
+ion-textarea {
+    border: 1px solid var(--ion-color-tertiary);
 }

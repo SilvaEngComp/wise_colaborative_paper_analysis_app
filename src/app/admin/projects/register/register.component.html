@@ -8,18 +8,11 @@
 
 
     <div class="div-body">
-        <ion-item>
-            <ion-label class="lb-title">
-                INFORMAÇÕES INICIAIS
-            </ion-label>
-        </ion-item>
-
-
         <ion-grid>
             <ion-row>
                 <ion-col>
                     <ion-item>
-                        <ion-label position="floating" class="lb-input">*NOME</ion-label>
+                        <ion-label color="primary" position="floating" class="lb-input">*DÊ UM APELIDO PARA A SUA REVISÃO</ion-label>
                         <ion-input [value]="review?.title" (keyup)="onSetName(inputName.value)" #inputName></ion-input>
                     </ion-item>
                 </ion-col>
@@ -27,21 +20,25 @@
 
             <ion-row>
                 <ion-col>
-                    <app-my-select-list [multiple]="true" [edit]="false" [create]="true" label="*instituição" listName="instituition" (selectEmiter)="onSelectInstituition($event)"></app-my-select-list>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col>
                     <app-my-select-list [multiple]="true" [edit]="false" [create]="true" label="*área de conhecimento" listName="area" (selectEmiter)="onSelectArea($event)"></app-my-select-list>
                 </ion-col>
             </ion-row>
 
 
+            <ion-row>
+                <ion-col>
+                    <app-my-select-list [multiple]="true" [edit]="false" [create]="true" label="instituição" listName="instituition" (selectEmiter)="onSelectInstituition($event)"></app-my-select-list>
+                </ion-col>
+            </ion-row>
+
 
 
             <ion-row>
                 <ion-col>
-                    <app-my-select-list [multiple]="true" [edit]="false" [create]="false" label="*colaboradores" listName="members" (selectEmiter)="onSelectMembers($event)"></app-my-select-list>
+                    <ion-chip mod="ios" outline="true">
+                        <ion-label>Pesquisador principal: {{user?.name}}</ion-label>
+                    </ion-chip>
+                    <app-my-select-list [multiple]="true" [edit]="false" [create]="false" label="colaboradores" listName="members" (selectEmiter)="onSelectMembers($event)"></app-my-select-list>
                 </ion-col>
             </ion-row>
             <ion-row>

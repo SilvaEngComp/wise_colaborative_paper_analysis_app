@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 import { AlertController } from '@ionic/angular';
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { IonInput, Platform } from '@ionic/angular';
 import { Base } from 'src/app/objects/base';
@@ -20,7 +21,7 @@ export class PaperSelectedComponent implements OnInit {
   showUpload: boolean;
   papers: Paper[] = [];
   progress: number;
-  paper: Paper;
+  @Input() paper: Paper;
   show: boolean;
   loading: boolean;
   edit: boolean;
@@ -34,6 +35,7 @@ export class PaperSelectedComponent implements OnInit {
   updatting: boolean;
   width_device: number;
   scihub: string;
+  notshowHeader: boolean;
   constructor(
     private exeptionService: ExceptionService,
     private platform: Platform,
@@ -47,10 +49,15 @@ export class PaperSelectedComponent implements OnInit {
     this.width_device = this.platform.width();
     this.abstract_size = 12;
 
-    if (localStorage.getItem(environment.LOCALSTORAGE + 'ps')) {
-      this.paper = JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'ps'));
-      this.initialization();
+    if (!this.paper) {
+      if (localStorage.getItem(environment.LOCALSTORAGE + 'ps')) {
+        this.paper = JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'ps'));
+      }
+    } else {
+      this.notshowHeader = true;
     }
+
+    this.initialization();
 
     UiService.setBackPpage('visualization');
 
