@@ -41,9 +41,20 @@
 <app-load-paper *ngIf="showUpload" [review]="review" (loadEmitter)="loadStatus($event)"></app-load-paper>
 
 <div *ngIf="!showUpload">
-    <ion-spinner name="bubbles" *ngIf="!loading"></ion-spinner>
+    <div *ngIf="!loading" class="spinner">
+        <ion-spinner name="dots"></ion-spinner>
+        <ion-label>Carregando artigos. {{counter>=0 ? 'Tempo estimado '+counter+'s':''}}</ion-label>
+        <ion-spinner name="dots"></ion-spinner>
+    </div>
     <div *ngIf="loading">
         <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label class="lb-title">{{review?.title}}</ion-label>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
             <ion-row>
                 <ion-col>
                     <ion-label>Base: {{base?.name}}</ion-label>
@@ -57,6 +68,35 @@
                 <ion-col size="1">
                     <ion-icon *ngIf="!edit" name="create-outline" (click)="edit = !edit"></ion-icon>
                     <ion-icon *ngIf="edit" name="checkmark-done-outline" (click)="edit = !edit"></ion-icon>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-radio-group [value]="base?.name" mod="ios" (ionChange)="onSelectBase($event)">
+
+                        <div class="relevance">
+
+                            <div lines='none'>
+                                <ion-label>IEEE</ion-label>
+                                <ion-radio slot="start" value="IEEE"></ion-radio>
+                            </div>
+
+                            <div lines='none'>
+                                <ion-label>SPRINGER LINK</ion-label>
+                                <ion-radio slot="start" value="SPRINGER LINK"></ion-radio>
+                            </div>
+
+                            <div lines='none'>
+                                <ion-label>SCOPUS</ion-label>
+                                <ion-radio slot="start" value="SCOPUS"></ion-radio>
+                            </div>
+                            <div lines='none'>
+                                <ion-label>TODAS</ion-label>
+                                <ion-radio slot="start" value="TODAS"></ion-radio>
+                            </div>
+                        </div>
+
+                    </ion-radio-group>
                 </ion-col>
             </ion-row>
             <ion-row>
@@ -81,17 +121,11 @@
                 <ion-col offset="2" size="2">
                     <ion-icon name="play-skip-forward-outline" (click)="nextPaper()"></ion-icon>
                 </ion-col>
-                <ion-col size="1">
-                    <ion-icon name="options-outline" (click)="show= !show"></ion-icon>
-                </ion-col>
             </ion-row>
-            <ion-row>
-                <ion-col>
-                    <app-my-select-list *ngIf="show" [dependence_id]="review.id" [edit]="false" [create]="false" label="Base" listName="bases" (selectEmiter)="onSelectBase($event)"></app-my-select-list>
-                </ion-col>
-            </ion-row>
+
+
         </ion-grid>
-        <app-paper-selected [paper]="selectedPaper" *ngIf="papers.length>0"></app-paper-selected>
+        <app-paper-selected [paper]="selectedPaper" *ngIf="selectedPaper" (returnPage)="returnPageAdmin($event)"></app-paper-selected>
         <ion-grid *ngIf="papers.length>0">
 
             <ion-row>
@@ -117,12 +151,7 @@
                     <ion-icon name="play-skip-forward-outline" (click)="nextPaper()"></ion-icon>
                 </ion-col>
 
-                <ion-col size="1">
-                    <ion-spinner name="bubbles" *ngIf="updatting"></ion-spinner>
-                    <ion-button (click)="update()" *ngIf="!updatting" fill="clear">
-                        <ion-icon name="save-outline"></ion-icon>
-                    </ion-button>
-                </ion-col>
+
 
             </ion-row>
 

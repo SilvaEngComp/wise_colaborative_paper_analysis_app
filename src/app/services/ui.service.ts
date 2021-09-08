@@ -20,6 +20,8 @@ export class UiService {
 
   @Output() static loadPaperHeaderEmitter: EventEmitter<PaperHeader[]> = new EventEmitter<PaperHeader[]>();
 
+  @Output() static setPaperEmitter: EventEmitter<Paper> = new EventEmitter<Paper>();
+
   // eslint-disable-next-line @typescript-eslint/member-ordering
   @Output()
   static loadImageEmitter: EventEmitter<any> = new EventEmitter<any>();

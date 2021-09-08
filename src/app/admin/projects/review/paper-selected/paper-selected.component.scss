@@ -130,3 +130,18 @@ ion-text {
     text-align: center;
     color: var(--ion-color-dark);
 }
+
+.spinner {
+    text-align: center;
+    margin: 20%;
+    ion-spinner {
+        margin-top: 25px;
+        color: var(--ion-color-primary)
+    }
+    ion-label {
+        margin: 1px;
+        font-size: 24pt;
+        font-family: Qanelas-bold;
+        color: var(--ion-color-primary);
+    }
+}

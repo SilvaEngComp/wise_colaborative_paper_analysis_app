@@ -61,8 +61,10 @@ export class VisualizationComponent implements OnInit {
     const filter = new PaperFilter(null, this.review.id);
     filter.relevance = 'desc';
     filter.status = 1;
+    filter.analysed = true;
     filter.star = true;
     this.papers = await this.paperService.show(filter);
+    // console.log(this.papers);
     this.loading = true;
 
     this.papers.sort((a, b) => (a.star > b.star ? -1 : 1));

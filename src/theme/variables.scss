@@ -218,3 +218,14 @@
     font-family: Qanelas-thin;
     src: url(../assets/fonts/Qanelas/Qanelas-thin.otf) format("opentype")
 }
+
+.modal-model {
+    box-shadow: 2px 12px 2px 2px var(--ion-color-light);
+    div {
+        // --background: rgba(44, 39, 45, 0.2);
+    }
+    .modal-wrapper {
+        // width: 70%;
+        border-radius: 30px;
+    }
+}

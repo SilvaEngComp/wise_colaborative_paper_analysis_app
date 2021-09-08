@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { ExceptionService } from './../../../../services/exception.service';
 import { MySelect } from './../../../../objects/mySelect';
-import { ModalController } from '@ionic/angular';
+import { IonInput, ModalController } from '@ionic/angular';
 import { Protocol } from './../../../../objects/protocol';
 import { Review } from 'src/app/objects/review';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
@@ -16,10 +17,13 @@ import { ReviewService } from 'src/app/services/review.service';
 })
 export class ProtocolComponent implements OnInit {
   @Output() returnPage: EventEmitter<any> = new EventEmitter<any>();
-review: Review;
+  review: Review;
+  include_criteria: string[];
+  exclude_criteria: string[];
   constructor(
     private exceptionService: ExceptionService,
     private modalCtrl: ModalController,
+    private exeptionService: ExceptionService,
     private reviewService: ReviewService) { }
 
   ngOnInit() {
@@ -30,16 +34,20 @@ review: Review;
       }
      }
 
-    if (!this.review.includeCriteria) {
-      this.review.includeCriteria = [];
-      this.review.includeCriteria.push(new Protocol());
-    }
 
-    if (!this.review.excludeCriteria) {
-      this.review.excludeCriteria = [];
-      this.review.excludeCriteria.push(new Protocol());
-    }
+    if (this.review.include_criteria) {
+        this.include_criteria = this.review.include_criteria.split(',');
+      } else {
+        this.include_criteria = [];
+      }
+    if (this.review.exclude_criteria) {
+        this.exclude_criteria = this.review.exclude_criteria.split(',');
+      } else {
+        this.exclude_criteria =[];
+      }
   }
+
+
   async addProtocol() {
     const modal = await this.modalCtrl.create({
       component: QuestionComponent
@@ -53,16 +61,72 @@ review: Review;
 
   }
 
- setIncludeAnsware(ev, i) {
-   this.review.includeCriteria[i].answer = ev.target.value;
+
+  setIncludeCriteria(ev, obj: IonInput) {
+
+    if (!this.review.include_criteria) {
+      this.review.include_criteria =  ev.target.value;
+    } else {
+      if (this.review.include_criteria.length >= 2000) {
+      this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
+      return;
+    }
+      this.review.include_criteria +=  ','+ev.target.value;
+    }
+
+    this.include_criteria.push(ev.target.value);
+    obj.value = '';
     this.save();
+  }
 
- }
+  setExcludeCriteria(ev, obj: IonInput) {
 
- setExcludeAnsware(ev, i) {
-   this.review.excludeCriteria[i].answer = ev.target.value;
+    if (!this.review.exclude_criteria) {
+      this.review.exclude_criteria =  ev.target.value;
+    } else {
+      if (this.review.exclude_criteria.length >= 2000) {
+      this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
+      return;
+    }
+      this.review.exclude_criteria +=  ','+ev.target.value;
+    }
+
+    this.exclude_criteria.push(ev.target.value);
+    obj.value = '';
     this.save();
+  }
 
+onRemoveIncludeCriteria(i) {
+    this.include_criteria.splice(i, 1);
+
+    this.review.include_criteria = '';
+    let cont = 1;
+    this.include_criteria.filter(obs => {
+
+      this.review.include_criteria += obs;
+      if (cont <this.include_criteria.length) {
+        this.review.include_criteria += ',';
+      }
+      cont++;
+    });
+
+    this.save();
+  }
+onRemoveExcludeCriteria(i) {
+    this.exclude_criteria.splice(i, 1);
+
+    this.review.exclude_criteria = '';
+    let cont = 1;
+    this.include_criteria.filter(obs => {
+
+      this.review.exclude_criteria += obs;
+      if (cont <this.exclude_criteria.length) {
+        this.review.exclude_criteria += ',';
+      }
+      cont++;
+    });
+
+    this.save();
   }
 
   setTitle(ev) {
@@ -82,13 +146,6 @@ review: Review;
     localStorage.setItem(environment.LOCALSTORAGE + 'r', JSON.stringify(this.review));
   }
 
-  addCriteria(op) {
-    if (op === 1) {
-      this.review.includeCriteria.push(new Protocol(2));
-    } else {
-      this.review.excludeCriteria.push(new Protocol(2));
-    }
-  }
 
   setBackground(ev) {
     this.review.description = ev.target.value;

@@ -66,7 +66,6 @@ export class ProjectsComponent implements OnInit {
   }
 
   callbackPageReturn(obj) {
-    console.log(obj);
     if (obj.page) {this.page = obj.page;}
     if (obj.review) {this.review = obj.review;}
     // if (obj.files) {

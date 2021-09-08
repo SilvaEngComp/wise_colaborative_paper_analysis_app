@@ -16,15 +16,14 @@ export class Review{
   papers: Paper[];
   members: User[];
   protocol: Protocol[];
-  includeCriteria: Protocol[];
-  excludeCriteria: Protocol[];
+  include_criteria: string;
+  exclude_criteria: string;
 
   constructor() {
     this.papers = [];
     this.members = [];
     this.areas = [];
     this.protocol = new Array<Protocol>();
-    this.includeCriteria = new Array<Protocol>();
-    this.excludeCriteria = new Array<Protocol>();
+
   }
 }

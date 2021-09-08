@@ -14,18 +14,28 @@
     </ion-buttons>
 </ion-toolbar>
 
-
-<ion-spinner name="bubbles" *ngIf="!loading"></ion-spinner>
-<div *ngIf="loading">
+<div *ngIf="is_saving" class="spinner">
+    <ion-spinner name="dots"></ion-spinner>
+    <ion-label>Salvando</ion-label>
+    <ion-spinner name="dots"></ion-spinner>
+</div>
+<div *ngIf="!is_saving">
+    <ion-fab vertical="center" horizontal="end">
+        <ion-fab-button (click)="update()">
+            <ion-icon name="save"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
     <ion-grid>
         <ion-row>
             <ion-col>
                 <div class="div-title">
+                    <p> Nível de relacionamento: {{ paper?.relationship_level}}</p>
                     <p> {{ paper?.title | uppercase}}</p>
                     <ion-note>{{paper?.authors}}</ion-note>
                     <ion-note *ngIf="paper?.doi">Doi: {{paper?.doi}}</ion-note>
                     <ion-note>Ano: {{paper?.publication_year}}</ion-note>
-                    <ion-note>link: {{paper?.link}}</ion-note>
+                    <ion-note>Link: {{paper?.link}}</ion-note>
+                    <ion-note>Tipo: {{paper?.type}}</ion-note>
                 </div>
 
             </ion-col>
@@ -105,27 +115,46 @@
             </ion-col>
         </ion-row>
 
+
         <ion-row class="issue">
             <ion-col>
-                <ion-title>Principais contribuições</ion-title>
-                <ion-textarea rows="5" cols="5" maxlength="500" [value]="paper?.main_contribuition" (keyup)="future_work($event)"></ion-textarea>
-                <ion-note>{{paper?.main_contribuition?.length}}/500</ion-note>
+                <ion-title>Metodologia</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="2000" [value]="paper?.research_methodology" (keyup)="research_methodology($event)"></ion-textarea>
+                <ion-note>{{paper?.research_methodology?.length}}/2000</ion-note>
             </ion-col>
         </ion-row>
+
 
         <ion-row class="issue">
             <ion-col>
                 <ion-title>Abordagens</ion-title>
-                <ion-textarea rows="5" cols="5" maxlength="500" [value]="paper?.approach" (keyup)="approach($event)"></ion-textarea>
-                <ion-note>{{paper?.approach?.length}}/500</ion-note>
+                <ion-textarea rows="5" cols="5" maxlength="2000" [value]="paper?.approach" (keyup)="approach($event)"></ion-textarea>
+                <ion-note>{{paper?.approach?.length}}/2000</ion-note>
+            </ion-col>
+        </ion-row>
+
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-title>Principais contribuições</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="2000" [value]="paper?.main_contribuition" (keyup)="mainCotribuition($event)"></ion-textarea>
+                <ion-note>{{paper?.main_contribuition?.length}}/2000</ion-note>
             </ion-col>
         </ion-row>
 
         <ion-row class="issue">
             <ion-col>
                 <ion-title>Técnicas</ion-title>
-                <ion-textarea rows="5" cols="5" maxlength="500" [value]="paper?.techinique" (keyup)="techinique($event)"></ion-textarea>
-                <ion-note>{{paper?.techinique?.length}}/500</ion-note>
+                <ion-textarea rows="5" cols="5" maxlength="2000" [value]="paper?.techinique" (keyup)="techinique($event)"></ion-textarea>
+                <ion-note>{{paper?.techinique?.length}}/2000</ion-note>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="issue">
+            <ion-col>
+                <ion-title>Trabalhos futuros</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="500" [value]="paper?.future_work" (keyup)="future_work($event)"></ion-textarea>
+                <ion-note>{{paper?.future_work?.length}}/500</ion-note>
             </ion-col>
         </ion-row>
 
@@ -161,13 +190,6 @@
             </ion-col>
         </ion-row>
 
-        <ion-row class="issue">
-            <ion-col>
-                <ion-title>Metodologia</ion-title>
-                <ion-textarea rows="5" cols="5" maxlength="500" [value]="paper?.research_methodology" (keyup)="research_methodology($event)"></ion-textarea>
-                <ion-note>{{paper?.research_methodology?.length}}/500</ion-note>
-            </ion-col>
-        </ion-row>
 
         <ion-row class="issue">
             <ion-col>
@@ -177,13 +199,7 @@
             </ion-col>
         </ion-row>
 
-        <ion-row class="issue">
-            <ion-col>
-                <ion-title>Trabalhos futuros</ion-title>
-                <ion-textarea rows="5" cols="5" maxlength="2000" [value]="paper?.future_work" (keyup)="future_work($event)"></ion-textarea>
-                <ion-note>{{paper?.future_work?.length}}/2000</ion-note>
-            </ion-col>
-        </ion-row>
+
 
         <ion-row class="issue">
             <ion-col>
@@ -248,38 +264,7 @@
         </ion-row>
     </ion-grid>
 
-    <ion-grid *ngIf="papers.length>0">
 
-        <ion-row>
-            <ion-col>
-                <ion-label>Progresso {{progress | percent}} </ion-label>
-                <ion-progress-bar [value]="progress"></ion-progress-bar>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col offset="1" size="2">
-                <ion-icon name="play-skip-back-outline" (click)="backPaper()"></ion-icon>
-            </ion-col>
 
-            <ion-col size="4">
-                <div class="set-paper">
-                    <ion-input [value]="selectedId" (keyup)="setPaper($event)"></ion-input>
-                    <ion-label>/{{papers.length}}</ion-label>
-                </div>
 
-            </ion-col>
-
-            <ion-col offset="1" size="2">
-                <ion-icon name="play-skip-forward-outline" (click)="nextPaper()"></ion-icon>
-            </ion-col>
-
-            <ion-col size="1">
-                <ion-spinner name="bubbles" *ngIf="updatting"></ion-spinner>
-                <ion-button (click)="update()" *ngIf="!updatting" fill="clear">
-                    <ion-icon name="save-outline"></ion-icon>
-                </ion-button>
-            </ion-col>
-
-        </ion-row>
-    </ion-grid>
 </div>

@@ -17,8 +17,6 @@ import { HttpClient, HttpEvent, HttpEventType, HttpResponse } from '@angular/com
 import { environment } from 'src/environments/environment';
 import { LoginService } from 'src/app/services/login.service';
 import { PopoverController } from '@ionic/angular';
-import { pipe } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { filterResponse, uploadProgress } from 'src/app/objects/rxjs-operators';
 
 @Component({
@@ -42,19 +40,19 @@ export class LoadPaperComponent implements OnInit {
   selectedFile: File;
   colsBase: PaperHeader[] = [];
   colsdeleted: boolean;
-  types: string[]=['Kb','Mb','Gb','Tb'];
-  abc: string[]=['A','B','C','D','E','F','G','H','I','G','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','Z','AA','AB','AC','AD','AE'];
+  types: string[] = ['Kb', 'Mb', 'Gb', 'Tb'];
+  abc: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'G', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE'];
   progress: number;
+  counter = 30;
 
 
   constructor(
-        private http: HttpClient,
+    private http: HttpClient,
     private exeptionService: ExceptionService,
-  private popCtrl: PopoverController) { }
+    private popCtrl: PopoverController) { }
   @Input() review: Review;
 
   ngOnInit() {
-
     if (localStorage.getItem(environment.LOCALSTORAGE + '_search_terms')) {
       this.search_terms = localStorage.getItem(environment.LOCALSTORAGE + '_search_terms');
     }
@@ -80,8 +78,8 @@ export class LoadPaperComponent implements OnInit {
         this.exeptionService.alertDialog('O aquivo que está tentando enviar está em um formato inválido. Selecione um arquivo do tipo .csv', 'Formato de arquivo inválido!');
         return null;
       } else {
-      // eslint-disable-next-line no-underscore-dangle
-      this.selectedFile = fileItem._file;
+        // eslint-disable-next-line no-underscore-dangle
+        this.selectedFile = fileItem._file;
 
         let cont = 0;
         this.size = Math.round(fileItem.file.size);
@@ -118,51 +116,51 @@ export class LoadPaperComponent implements OnInit {
       const csvRows: string[] = JSON.stringify(myReader.result).split('\\n');
       let titles: string[] = [];
       const titlePos: PaperHeader[] = [];
-          titles = csvRows[0].split(',');
-          let pos = 0;
-          titles.filter(y => {
-            const t = y.replace(/[^a-zA-Z ]/g, '').toLocaleLowerCase();
-            if (t == 'document title' || t == 'title' || t == 'item title') {
-              titlePos.push(new PaperHeader('title', pos));
-            }
-            else if (t == 'authors') {
-              titlePos.push(new PaperHeader(t, pos));
-            }
-            else if (t.includes('year')) {
-              titlePos.push(new PaperHeader('year', pos));
-            } else if (t.includes('volume')) {
-              titlePos.push(new PaperHeader('volume', pos));
-            } else if (t.includes('start') && t.includes('page')) {
-              titlePos.push(new PaperHeader('start page', pos));
-            } else if (t.includes('end') && t.includes('page')) {
-              titlePos.push(new PaperHeader('end page', pos));
-            } else if (t.includes('abstract')) {
-              titlePos.push(new PaperHeader('abstract', pos));
-            } else if (t.includes('issn')) {
-              titlePos.push(new PaperHeader('issn', pos));
-            } else if (t.includes('isbn')) {
-              titlePos.push(new PaperHeader('isbn', pos));
-            } else if (t.includes('doi')) {
-              titlePos.push(new PaperHeader('doi', pos));
-            } else if (t.includes('link') || t.includes('url')) {
-              titlePos.push(new PaperHeader('link', pos));
-            } else if (t.includes('citation count') || t.includes('cited')) {
-              titlePos.push(new PaperHeader('cited_by', pos));
-            } else if (t.includes('publisher') || t.includes('source')) {
-              titlePos.push(new PaperHeader('publisher', pos));
-            }else if (t.includes('language ')) {
-              titlePos.push(new PaperHeader('language ', pos));
-            }else if (t.includes('type')) {
-              titlePos.push(new PaperHeader('type', pos));
-            }else if (t.includes('search terms')) {
-              titlePos.push(new PaperHeader('type', pos));
-            }else if (t.includes('keywords')) {
-              titlePos.push(new PaperHeader('keywords', pos));
-            }
-            pos++;
-          });
+      titles = csvRows[0].split(',');
+      let pos = 0;
+      titles.filter(y => {
+        const t = y.replace(/[^a-zA-Z ]/g, '').toLocaleLowerCase();
+        if (t == 'document title' || t == 'title' || t == 'item title') {
+          titlePos.push(new PaperHeader('title', pos));
+        }
+        else if (t == 'authors') {
+          titlePos.push(new PaperHeader(t, pos));
+        }
+        else if (t.includes('year')) {
+          titlePos.push(new PaperHeader('year', pos));
+        } else if (t.includes('volume')) {
+          titlePos.push(new PaperHeader('volume', pos));
+        } else if (t.includes('start') && t.includes('page')) {
+          titlePos.push(new PaperHeader('start page', pos));
+        } else if (t.includes('end') && t.includes('page')) {
+          titlePos.push(new PaperHeader('end page', pos));
+        } else if (t.includes('abstract')) {
+          titlePos.push(new PaperHeader('abstract', pos));
+        } else if (t.includes('issn')) {
+          titlePos.push(new PaperHeader('issn', pos));
+        } else if (t.includes('isbn')) {
+          titlePos.push(new PaperHeader('isbn', pos));
+        } else if (t.includes('doi')) {
+          titlePos.push(new PaperHeader('doi', pos));
+        } else if (t.includes('link') || t.includes('url')) {
+          titlePos.push(new PaperHeader('link', pos));
+        } else if (t.includes('citation count') || t.includes('cited')) {
+          titlePos.push(new PaperHeader('cited_by', pos));
+        } else if (t.includes('publisher') || t.includes('source')) {
+          titlePos.push(new PaperHeader('publisher', pos));
+        } else if (t.includes('language ')) {
+          titlePos.push(new PaperHeader('language ', pos));
+        } else if (t.includes('type') || t.includes('document identifier')) {
+          titlePos.push(new PaperHeader('type', pos));
+        } else if (t.includes('search terms')) {
+          titlePos.push(new PaperHeader('type', pos));
+        } else if (t.includes('keywords')) {
+          titlePos.push(new PaperHeader('keywords', pos));
+        }
+        pos++;
+      });
 
-          UiService.loadPaperHeaderEmitter.emit(titlePos);
+      UiService.loadPaperHeaderEmitter.emit(titlePos);
 
     };
 
@@ -177,15 +175,16 @@ export class LoadPaperComponent implements OnInit {
 
   save(obj: PaperHeader[]) {
     localStorage.setItem(environment.LOCALSTORAGE + '_cols', JSON.stringify(obj));
-}
+  }
   onSelect() {
     const files = this.getFiles();
     if (this.selectedFile) {
+
       this.isRightCols();
       this.formData = new FormData();
       this.formData.append('file', files[0].rawFile, files[0].name);
     } else {
-    this.uploader = new FileUploader({});
+      this.uploader = new FileUploader({});
     }
   }
 
@@ -203,11 +202,21 @@ export class LoadPaperComponent implements OnInit {
   uploaded: boolean;
   async upload() {
     if (this.valide) {
+      // console.log(JSON.stringify(this.colsBase));
       this.formData.append('headers', JSON.stringify(this.colsBase));
-      this.formData.append('search_terms', JSON.stringify(this.search_terms));
-        this.progress = 0.01;
+      this.formData.append('search_terms', this.search_terms);
+      this.progress = 0.01;
       this.is_loading = true;
-
+      if (this.type.toLocaleLowerCase().includes('mb')) {
+        if (this.size < 10) {
+          this.counter = 30;
+        } else if (this.size < 40) {
+          this.counter = 60;
+        } else {
+          this.counter = 120;
+        }
+      }
+      // console.log(`${environment.API2}/papers/base/${this.selectedBase.id}/review/${this.review.id}/upload`);
       return this.http
         .post(
           `${environment.API2}/papers/base/${this.selectedBase.id}/review/${this.review.id}/upload`,
@@ -218,25 +227,46 @@ export class LoadPaperComponent implements OnInit {
             reportProgress: true,
           }
         )
+
         .pipe(
           uploadProgress(progress => {
             this.progress = progress;
+            if (this.progress === 0.9) {
+              this.setCounter();
+            }
           }),
+
           filterResponse()
         )
-        .subscribe(response => {
-          this.uploaded = true;
-          this.exeptionService.openLoading('Artigos registrados com sucesso!');
-          this.back();
-        });
+        .subscribe(
+          err => {
+            this.exeptionService.erro(err);
+            this.is_loading = false;
+          },
+          () => {
+
+            this.progress = 1;
+            this.uploaded = true;
+            this.back();
+          },
+        );
 
     } else {
-        this.exeptionService.alertDialog('Selecione um arquivo válido no formato .csv', 'Arquivo inválido!');
+      this.exeptionService.alertDialog('Selecione um arquivo válido no formato .csv', 'Arquivo inválido!');
 
     }
   }
 
-back(){
+  setCounter() {
+    setTimeout(() => {
+      this.counter--;
+      if (!this.uploaded && this.counter > 0) {
+        this.setCounter();
+      }
+    }, 1000);
+  }
+
+  back() {
     this.loadEmitter.emit();
   }
 

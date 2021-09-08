@@ -67,7 +67,7 @@ export class PaperService {
       this.checkLogged();
       return Promise.resolve(null);
     }
-     console.log(`${environment.API2}/papers?${filter.getRequest()}`);
+    //  console.log(`${environment.API2}/papers?${filter.getRequest()}`);
     return this.http
       .get<Paper[]>(
         `${environment.API2}/papers?${filter.getRequest()}`,
@@ -83,7 +83,8 @@ export class PaperService {
       this.checkLogged();
       return Promise.resolve(null);
     }
-    console.log(JSON.stringify(paper));
+    // console.log(JSON.stringify(paper));
+    // console.log(`${environment.API2}/paper_reviews/${paper.paper_review}`);
     return this.http
       .patch<Paper[]>(
         `${environment.API2}/paper_reviews/${paper.paper_review}`,

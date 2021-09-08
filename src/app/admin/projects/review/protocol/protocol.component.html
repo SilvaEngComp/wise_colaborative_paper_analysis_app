@@ -4,93 +4,83 @@
             <ion-icon class="back-button" slot="start" name="chevron-back-outline"></ion-icon>
             <ion-label>VOLTAR</ion-label>
         </ion-button>
+
     </ion-buttons>
-    <ion-buttons slot="end">
-        <ion-button (click)="update()">
-            <ion-icon name="save-outline"></ion-icon>
-        </ion-button>
-    </ion-buttons>
+
 </ion-toolbar>
-<ion-item>
-    <ion-label class="title">Configuração do Protocolo</ion-label>
-</ion-item>
-<ion-grid>
-    <ion-row>
-        <ion-col>
-            <ion-label>Nome do projeto</ion-label>
-            <ion-input rows="5" cols="5" [value]="review?.title" (keyup)="setTitle($event)"></ion-input>
-        </ion-col>
-    </ion-row>
+
+<div>
+    <ion-fab vertical="top" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="update()">
+            <ion-icon name="save"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-item lines="none">
+                    <ion-label class="lb-title">Editar Protocolo</ion-label>
+
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-label>Nome do projeto</ion-label>
+                <ion-input rows="5" cols="5" [value]="review?.title" (keyup)="setTitle($event)"></ion-input>
+            </ion-col>
+        </ion-row>
 
 
-    <ion-row>
-        <ion-col>
-            <app-my-select-list [multiple]="true" [edit]="false" [create]="false" label="*colaboradores" listName="members" (selectEmiter)="onSelectMembers($event)"></app-my-select-list>
-        </ion-col>
-    </ion-row>
-    <ion-row>
-        <ion-col>
-            <ion-label>Perqunta que a pesquisa visa responder</ion-label>
-            <ion-textarea rows="5" cols="5" [value]="review?.question" (keyup)="setQuestion($event)"></ion-textarea>
-        </ion-col>
-    </ion-row>
+        <ion-row>
+            <ion-col>
+                <app-my-select-list [multiple]="true" [edit]="false" [create]="false" label="*colaboradores" listName="members" (selectEmiter)="onSelectMembers($event)"></app-my-select-list>
+            </ion-col>
+        </ion-row>
+        <ion-row class="issue">
+            <ion-col>
+                <ion-label>Perqunta que a pesquisa visa responder</ion-label>
+                <ion-textarea rows="5" cols="5" [value]="review?.question" (keyup)="setQuestion($event)"></ion-textarea>
+            </ion-col>
+        </ion-row>
 
-    <ion-row>
-        <ion-col>
-            <ion-label>Pano de fundo da pesquisa</ion-label>
-            <ion-textarea rows="5" cols="5" [value]="review?.description" (keyup)="setBackground($event)"></ion-textarea>
-        </ion-col>
-    </ion-row>
+        <ion-row class="issue">
+            <ion-col>
+                <ion-label>Pano de fundo da pesquisa</ion-label>
+                <ion-textarea rows="5" cols="5" [value]="review?.description" (keyup)="setBackground($event)"></ion-textarea>
+            </ion-col>
+        </ion-row>
 
-    <ion-row>
-        <ion-col>
-            <div>
-                <ion-label slot="start">Outras questões</ion-label>
-                <ion-icon slot="start" name="add-circle-outline" (click)="addProtocol()"></ion-icon>
-            </div>
-        </ion-col>
-    </ion-row>
-</ion-grid>
+        <ion-row>
+            <ion-col>
+                <div class="info">
+                    <ion-label>Os critérios de inclusão serão usados para classificar os estudo, dado maior peso para os dois peimeiros critérios. Desse modo, insira os critários por ordem de importância para seu projeto</ion-label>
+                </div>
+                <ion-item>
+                    <ion-label position="floating">Critérios de inclusão</ion-label>
+                    <ion-input placeholder="Digite e pressione enter para inserir à lista" #IncludeCriteriaInput (keyup.enter)="setIncludeCriteria($event, IncludeCriteriaInput)"></ion-input>
+                </ion-item>
 
+                <ion-chip *ngFor="let item of include_criteria; let i=index" mod="ios" outline="true">
+                    <ion-label>{{item}}</ion-label>
+                    <ion-icon (click)="onRemoveIncludeCriteria(i)" name="close-outline"></ion-icon>
+                </ion-chip>
+            </ion-col>
 
-<ion-grid>
-    <ion-row>
-        <ion-col>
-            <div>
-                <ion-title>Critérios de Inclusão</ion-title>
-                <ion-label slot="start">Add Critério</ion-label>
-                <ion-icon slot="start" name="add-circle-outline" (click)="addCriteria(1)"></ion-icon>
-            </div>
-        </ion-col>
-    </ion-row>
-    <ion-row class="issue" *ngFor="let criteria of review?.includeCriteria; let i=index">
-        <ion-col>
-            <ion-item>
-                <ion-label position="floating">Critério {{i+1}}</ion-label>
-                <ion-input type="text" placeholder="Digite o critério" [value]="criteria?.answer" (keyup)="setIncludeAnsware($event, i)"></ion-input>
-            </ion-item>
+        </ion-row>
+        <ion-row class="issue">
+            <ion-col>
+                <ion-item>
+                    <ion-label position="floating">Critérios de Exclusão</ion-label>
+                    <ion-input placeholder="Digite e pressione enter para inserir à lista" #ExcludeCriteriaInput (keyup.enter)="setExcludeCriteria($event, ExcludeCriteriaInput)"></ion-input>
+                </ion-item>
 
-        </ion-col>
-    </ion-row>
-</ion-grid>
+                <ion-chip *ngFor="let item of exclude_criteria; let i=index" mod="ios" outline="true">
+                    <ion-label>{{item}}</ion-label>
+                    <ion-icon (click)="onRemoveExcludeCriteria(i)" name="close-outline"></ion-icon>
+                </ion-chip>
+            </ion-col>
 
-
-<ion-grid>
-    <ion-row>
-        <ion-col>
-            <div>
-                <ion-title>Critérios de Exclusão</ion-title>
-                <ion-label slot="start">Add Critério</ion-label>
-                <ion-icon slot="start" name="add-circle-outline" (click)="addCriteria(2)"></ion-icon>
-            </div>
-        </ion-col>
-    </ion-row>
-    <ion-row class="issue" *ngFor="let criteria of review?.excludeCriteria; let i=index">
-        <ion-col>
-            <ion-item>
-                <ion-label position="floating">Critério {{i+1}}</ion-label>
-                <ion-input type="text" placeholder="Digite o critério" [value]="criteria?.answer" (keyup)="setExcludeAnsware($event, i)"></ion-input>
-            </ion-item>
-        </ion-col>
-    </ion-row>
-</ion-grid>
+        </ion-row>
+    </ion-grid>
+</div>

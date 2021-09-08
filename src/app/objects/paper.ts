@@ -41,6 +41,8 @@ export class Paper{
   codelink: string;
   article_citation_count: string;
   publisher: string;
+  relationship_level: number;
+  type: string;
 
 
 

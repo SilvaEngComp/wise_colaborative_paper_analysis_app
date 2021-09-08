@@ -14,6 +14,7 @@ import { Paper } from 'src/app/objects/paper';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { MembersComponent } from './members/members.component';
 import { ReviewMenuComponent } from './review-menu/review-menu.component';
+import { UiService } from 'src/app/services/ui.service';
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -39,6 +40,8 @@ export class ReviewComponent implements OnInit, AfterViewInit {
   @Input() review: Review;
   width_device: number;
   scihub: string;
+  counter: number;
+  maxRelationCount: number;
   constructor(
     private exeptionService: ExceptionService,
     private platform: Platform,
@@ -53,6 +56,7 @@ export class ReviewComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
       this.base = new Base(1);
+
 
     this.width_device = this.platform.width();
 
@@ -71,25 +75,97 @@ export class ReviewComponent implements OnInit, AfterViewInit {
     }
 
 
-    console.log(this.base);
-
-    if (localStorage.getItem(environment.LOCALSTORAGE + 'p')) {
-      this.selectedPaper = JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'p'));
-      //this.initialization();
-    }
     this.selectedId = null;
 
     this.load();
   }
 
-  initialization() {
 
-    if (this.selectedPaper) {
+  onSelectBase(ev) {
+      this.base = new Base(null, ev.target.value);
+    this.show = !this.show;
+    this.selectedPaper = null;
+    this.saveBase();
+    this.load();
+  }
+
+
+
+  saveBase() {
+    localStorage.setItem(environment.LOCALSTORAGE + 'b', JSON.stringify(this.base));
+  }
+
+  // savePaper(){
+  //   localStorage.setItem(environment.LOCALSTORAGE + 'ps', JSON.stringify(this.selectedPaper));
+  // }
+
+  backPaper() {
+    if (this.selectedId >= 1) {
+      this.selectedId--;
+      this.selectedPaper = this.papers[this.selectedId - 1];
+          UiService.setPaperEmitter.emit(this.selectedPaper);
+    }
+  }
+
+  setPaper(ev: any) {
+    if (this.papers) {
+      if (ev.target.value >= 1 && ev.target.value <= this.papers.length) {
+        this.selectedId = ev.target.value;
+        this.selectedPaper = this.papers[this.selectedId - 1];
+            UiService.setPaperEmitter.emit(this.selectedPaper);
+      }
+    }
+  }
+
+
+  nextPaper() {
+    if (this.selectedId <= this.papers.length) {
+      this.selectedId++;
+      this.selectedPaper = this.papers[this.selectedId - 1];
+    UiService.setPaperEmitter.emit(this.selectedPaper);
+    }
+
+  }
+
+  calcProgress(change: boolean = false) {
+    if (this.papers) {
+      for (let i = 0; i < this.papers.length; i++) {
+        if (!this.papers[i].status) {
+          this.selectedId = i + 1;
+          break;
+        }
+      }
+
+      if (!this.selectedId) {
+        this.selectedId = this.papers.length;
+        this.selectedPaper = this.papers[this.papers.length - 1];
+      } else {
+        const progress = this.selectedId / this.papers.length;
+        this.progress = Number(progress.toFixed(2));
+        if (change) {
+          this.selectedPaper = this.papers[this.selectedId - 1];
+        }
+      }
+    }
+
+    let paper = null;
+    if (localStorage.getItem(environment.LOCALSTORAGE + 'ps') && localStorage.getItem(environment.LOCALSTORAGE + 'ps')!=='undefined') {
+      paper = JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'ps'));
+    }
+
+    let flag = false;
+    if (paper) {
+      if (paper.id !== this.selectedPaper.id) {
+        flag = true;
+      } else {
+        this.selectedPaper = paper;
+      }
+    }
+
+    if (flag) {
       this.selectedPaper.search_terms = String(this.selectedPaper.search_terms);
 
       this.selectedPaper.relevance = String(this.selectedPaper.relevance);
-
-
       if (this.selectedPaper.observation) {
         this.observations = this.selectedPaper.observation.split(',');
       } else {
@@ -116,115 +192,34 @@ export class ReviewComponent implements OnInit, AfterViewInit {
       if (this.selectedPaper.issue) {
         this.selectedPaper.issue = String(this.selectedPaper.issue);
       } else {
-        this.selectedPaper.relevance = '';
-      }
-      this.save();
-    }
-  }
-  onSelectBase(base: Base) {
-    this.base = base;
-    this.show = !this.show;
-    this.selectedPaper = null;
-    this.load();
-    this.save();
-  }
-
-  decrease() {
-    if (this.abstract_size > 5) {
-      this.abstract_size--;
-    }
-  }
-  increase() {
-    this.abstract_size++;
-  }
-
-  save() {
-    localStorage.setItem(environment.LOCALSTORAGE + 'b', JSON.stringify(this.base));
-    localStorage.setItem(environment.LOCALSTORAGE + 'p', JSON.stringify(this.selectedPaper));
-  }
-
-  backPaper() {
-    if (this.selectedId >= 1) {
-      this.selectedId--;
-      this.selectedPaper = this.papers[this.selectedId - 1];
-      // //this.initialization();
-    }
-  }
-
-  setPaper(ev: any) {
-    if (this.papers) {
-      if (ev.target.value >= 1 && ev.target.value <= this.papers.length) {
-        this.selectedId = ev.target.value;
-        this.selectedPaper = this.papers[this.selectedId - 1];
-        //this.initialization();
-      }
-    }
-  }
-
-  async descart() {
-    const alert = await this.alertCtrl.create({
-      header: 'Descarte de Artigo',
-      message: 'Esse artigo será colocado na lista de artigos descartados e você pode recuperar posteriormente. Deseja continuar?',
-      buttons: [
-        {
-          text: 'NÃO',
-          handler: () => { }
-        }, {
-          text: 'SIM',
-          handler: () => {
-            this.paperService.destroy(this.selectedPaper.paper_review).then(() => {
-              let position = 0;
-              this.papers.filter(paper => {
-                if (paper.id === this.selectedPaper.id) {
-                  this.papers.splice(position, 1);
-                }
-                position++;
-              });
-              this.exeptionService.openLoading('O artigo foi colocado na lista de artigos descartados');
-              this.nextPaper();
-            });
-          }
-        },
-      ]
-    });
-
-    alert.present();
-  }
-  nextPaper() {
-    if (this.selectedId <= this.papers.length) {
-      this.selectedId++;
-      this.selectedPaper = this.papers[this.selectedId - 1];
-    }
-    //this.initialization();
-
-  }
-
-  calcProgress(change: boolean = false) {
-    if (this.papers) {
-      for (let i = 0; i < this.papers.length; i++) {
-        if (!this.papers[i].status) {
-          this.selectedId = i + 1;
-          break;
-        }
+        this.selectedPaper.issue = '';
       }
 
-      if (!this.selectedId) {
-        this.selectedId = this.papers.length;
-        this.selectedPaper = this.papers[this.papers.length - 1];
-      } else {
-        const progress = this.selectedId / this.papers.length;
-        this.progress = Number(progress.toFixed(2));
-        if (change) {
-          this.selectedPaper = this.papers[this.selectedId - 1];
-        }
-      }
+      // this.savePaper();
+
     }
 
+
+
+    UiService.setPaperEmitter.emit(this.selectedPaper);
+  }
+
+   setCounter() {
+    setTimeout(() => {
+      this.counter--;
+      if (!this.loading && this.counter>0) {
+        this.setCounter();
+      }
+    }, 1000);
   }
   async load() {
     this.loading = false;
-    const filter = new PaperFilter(this.base.id, this.review.id);
+    this.counter = 10;
+    this.setCounter();
+     const filter = new PaperFilter(this.base.id, this.review.id);
     this.papers = await this.paperService.show(filter);
+    this.papers.sort((a, b) => ((a.relationship_level >= b.relationship_level && a.relevance >= b.relevance) ? -1 : 1));
+
     if (this.selectedPaper) {
       this.calcProgress();
     } else {
@@ -247,9 +242,6 @@ export class ReviewComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onSelectPaper(paper: Paper) {
-    this.selectedPaper = paper;
-  }
   back() {
     this.returnPage.emit({ page: 'list' });
   }
@@ -317,199 +309,12 @@ export class ReviewComponent implements OnInit, AfterViewInit {
     window.open(link, '_blank');
   }
 
-  setIssue(ev) {
-    this.selectedPaper.issue = ev.target.value;
-    this.save();
+  returnPageAdmin(obj) {
+    console.log(obj);
+    if (obj.next) { this.nextPaper(); }
+    if (obj.back) { this.nextPaper(); }
+    if (obj.setPaper) { this.nextPaper(); }
   }
-  goals(ev) {
-    this.selectedPaper.goals = ev.target.value;
-    this.save();
-  }
-
-  main_contribuition(ev) {
-    this.selectedPaper.main_contribuition = ev.target.value;
-    this.save();
-  }
-
-  approach(ev) {
-    this.selectedPaper.approach = ev.target.value;
-    this.save();
-  }
-
-  techinique(ev) {
-    this.selectedPaper.techinique = ev.target.value;
-    this.save();
-  }
-  hypothesis(ev) {
-    this.selectedPaper.hypothesis = ev.target.value;
-    this.save();
-  }
-  evaluation_metrics(ev) {
-    this.selectedPaper.evaluation_metrics = ev.target.value;
-    this.save();
-  }
-  features(ev) {
-    this.selectedPaper.features = ev.target.value;
-    this.save();
-  }
-
-  codelink(ev) {
-    this.selectedPaper.codelink = ev.target.value;
-    this.save();
-  }
-  research_methodology(ev) {
-    this.selectedPaper.research_methodology = ev.target.value;
-    this.save();
-  }
-  algorithm_comolexity(ev) {
-    this.selectedPaper.algorithm_comolexity = ev.target.value;
-    this.save();
-  }
-
-  future_work(ev) {
-    this.selectedPaper.future_work = ev.target.value;
-    this.save();
-  }
-  onRemoveObservation(i) {
-    this.observations.splice(i, 1);
-
-    this.selectedPaper.observation = '';
-    let cont = 1;
-    this.observations.filter(obs => {
-
-      this.selectedPaper.observation += obs;
-      if (cont < this.observations.length) {
-        this.selectedPaper.observation += ',';
-      }
-      cont++;
-    });
-
-    this.save();
-  }
-
-  onRemoveBaseLine(i) {
-    this.baselines.splice(i, 1);
-
-    this.selectedPaper.baselines = '';
-    let cont = 1;
-    this.baselines.filter(obs => {
-
-      this.selectedPaper.baselines += obs;
-      if (cont < this.baselines.length) {
-        this.selectedPaper.baselines += ',';
-      }
-      cont++;
-    });
-
-    this.save();
-  }
-  onRemoveDatasets(i) {
-    this.datasets.splice(i, 1);
-
-    this.selectedPaper.datasets = '';
-    let cont = 1;
-    this.datasets.filter(obs => {
-
-      this.selectedPaper.datasets += obs;
-      if (cont < this.datasets.length) {
-        this.selectedPaper.datasets += ',';
-      }
-      cont++;
-    });
-
-    this.save();
-  }
-
-  onRemoveLenguage(i) {
-    this.lenguages.splice(i, 1);
-
-    this.selectedPaper.languages = '';
-    let cont = 1;
-    this.lenguages.filter(obs => {
-
-      this.selectedPaper.languages += obs;
-      if (cont < this.lenguages.length) {
-        this.selectedPaper.languages += ',';
-      }
-      cont++;
-    });
-
-    this.save();
-  }
-  setObservation(ev, obj: IonInput) {
-
-    if (!this.selectedPaper.observation) {
-      this.selectedPaper.observation = ev.target.value;
-    } else {
-      if (this.selectedPaper.observation.length >= 2000) {
-        this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
-        return;
-      }
-      this.selectedPaper.observation += ',' + ev.target.value;
-    }
-
-    this.observations.push(ev.target.value);
-    obj.value = '';
-    this.save();
-  }
-
-  setBaseline(ev, obj: IonInput) {
-
-    if (!this.selectedPaper.baselines) {
-      this.selectedPaper.baselines = ev.target.value;
-    } else {
-      if (this.selectedPaper.baselines.length >= 2000) {
-        this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
-        return;
-      }
-      this.selectedPaper.baselines += ',' + ev.target.value;
-    }
-
-    this.baselines.push(ev.target.value);
-    obj.value = '';
-    this.save();
-  }
-
-  setDatasets(ev, obj: IonInput) {
-
-    if (!this.selectedPaper.datasets) {
-      this.selectedPaper.datasets = ev.target.value;
-    } else {
-      if (this.selectedPaper.datasets.length >= 2000) {
-        this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
-        return;
-      }
-      this.selectedPaper.datasets += ',' + ev.target.value;
-    }
-
-    this.datasets.push(ev.target.value);
-    obj.value = '';
-    this.save();
-  }
-
-  setLenguages(ev, obj: IonInput) {
-
-    if (!this.selectedPaper.languages) {
-      this.selectedPaper.languages = ev.target.value;
-    } else {
-      if (this.selectedPaper.languages.length >= 2000) {
-        this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
-        return;
-      }
-      this.selectedPaper.languages += ',' + ev.target.value;
-    }
-
-    this.lenguages.push(ev.target.value);
-    obj.value = '';
-    this.save();
-  }
-
-  setStar() {
-    this.selectedPaper.star = !this.selectedPaper.star;
-    this.save();
-  }
-
-
 
   setSearchTerms(ev) {
     this.papers.filter(
@@ -518,14 +323,9 @@ export class ReviewComponent implements OnInit, AfterViewInit {
       }
     );
     this.selectedPaper.search_terms = ev.target.value;
-    this.save();
+    // this.savePaper();
     this.paperService.ediSearchTerms(this.base, this.review, ev.target.value).then(
       result => console.log(result)).catch(e => console.log(e));
-  }
-
-  setRelevance(ev) {
-    this.selectedPaper.relevance = ev.target.value;
-    this.save();
   }
 
   check(): boolean {
@@ -538,6 +338,7 @@ export class ReviewComponent implements OnInit, AfterViewInit {
       this.exeptionService.alertDialog('defina pelo menos um problema ou caracteristica do artigo');
       return;
     }
+
 
     return true;
   }

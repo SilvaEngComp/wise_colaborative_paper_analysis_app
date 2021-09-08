@@ -6,6 +6,7 @@ export class PaperFilter{
   status: number;
   star: boolean;
   discarded: boolean;
+  analysed: boolean;
 
   constructor(base?: number, review_id?: number) {
     this.base = base;
@@ -47,6 +48,12 @@ export class PaperFilter{
         request += '&';
       }
       request += 'status=' + this.status;
+    }
+    if (this.analysed) {
+      if (request.length > 0) {
+        request += '&';
+      }
+      request += 'analysed=' + this.analysed;
     }
 
 

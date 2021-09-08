@@ -24,7 +24,7 @@ export class ProjectHomeComponent implements OnInit {
 
   async load() {
     this.reviews = await this.reviewService.get();
-    console.log(this.reviews);
+    // console.log(this.reviews);
 
   }
   register() {
@@ -48,14 +48,16 @@ this.returnPage.emit({ page: 'register' });
         }, {
           text: 'SIM, EXCLUA',
           handler: () => {
-            console.log(review);
-            // this.reviewService.destroy(review).then((reviews) => {
-            //   this.reviews = reviews;
-            //   this.exceptionService.openLoading('Projeto excluído com sucesso');
-            // });
+            // console.log(review);
+            this.reviewService.destroy(review).then((reviews) => {
+              this.reviews = reviews;
+              this.exceptionService.openLoading('Projeto excluído com sucesso');
+            });
           }
         },
       ]
     });
+
+    alert.present();
   }
 }

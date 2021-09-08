@@ -1,4 +1,6 @@
     div {
+        z-index: 2000;
+        opacity: 5em;
         display: grid;
         align-content: center;
         align-items: center;
@@ -13,16 +15,19 @@
             height: 50%;
         }
         ion-label {
-            font-size: 20pt;
+            z-index: 9999;
+            margin-top: 30%;
+            font-size: 24pt;
             font-family: Qanelas-bold;
             color: var(--ion-color-primary);
             text-align: center;
         }
         ion-icon {
+            z-index: 9999;
             margin-left: 130px;
             margin-right: 150px;
             font-size: 150px;
             color: var(--ion-color-primary);
-            --ionicon-stroke-width: 16px;
+            --ionicon-stroke-width: 24px;
         }
     }

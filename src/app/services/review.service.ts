@@ -87,8 +87,9 @@ export class ReviewService {
       this.checkLogged();
       return Promise.resolve(null);
     }
+    const user = LoginService.getToken().user;
     return this.http
-      .delete(`${environment.API2}/reviews/${review.id}`, {
+      .delete(`${environment.API2}/reviews/${review.id}/user/${user.id}`, {
         headers: await LoginService.getHeaders(),
       })
       .toPromise();

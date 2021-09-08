@@ -23,6 +23,21 @@
     position: fixed;
 }
 
+.spinner {
+    text-align: center;
+    margin: 20%;
+    ion-spinner {
+        margin-top: 25px;
+        color: var(--ion-color-primary)
+    }
+    ion-label {
+        margin: 1px;
+        font-size: 24pt;
+        font-family: Qanelas-bold;
+        color: var(--ion-color-primary);
+    }
+}
+
 .upload {
     border-radius: 20px;
     background: var(--ion-color-primary);
@@ -126,5 +141,5 @@ ion-text {
     font-size: 20pt;
     font-weight: 900;
     text-align: center;
-    color: var(--ion-color-dark);
+    color: var(--ion-color-primary);
 }

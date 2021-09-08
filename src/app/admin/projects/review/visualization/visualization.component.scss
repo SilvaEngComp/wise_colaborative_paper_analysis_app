@@ -80,8 +80,32 @@ ion-text {
     }
 }
 
+.header-title {
+    margin: 25px;
+    font-family: Qanelas-bold;
+    font-size: 18pt;
+    text-align: center;
+    color: var(--ion-color-dark);
+}
+
+.header {
+    border-bottom: 1px solid var(--ion-color-primary);
+}
+
 .relevance {
     display: flex;
+    align-content: space-around;
+    align-items: space-between;
+    ion-icon {
+        margin: 10px;
+    }
+    ion-label {
+        margin: 10px;
+    }
+    ion-note {
+        floag: right;
+        margin: 10px;
+    }
 }
 
 .issue {
@@ -111,13 +135,27 @@ ion-text {
     }
 }
 
+.spinner {
+    text-align: center;
+    margin: 20%;
+    ion-spinner {
+        margin-top: 25px;
+        color: var(--ion-color-primary)
+    }
+    ion-label {
+        margin: 1px;
+        font-size: 24pt;
+        font-family: Qanelas-bold;
+        color: var(--ion-color-primary);
+    }
+}
+
 .lb-title {
     margin: 15px;
-    font-family: Qanelas;
-    font-size: 20pt;
-    font-weight: 900;
+    font-family: Qanelas-bold;
+    font-size: 24pt;
     text-align: center;
-    color: var(--ion-color-dark);
+    color: var(--ion-color-primary);
 }
 
 .open-div {

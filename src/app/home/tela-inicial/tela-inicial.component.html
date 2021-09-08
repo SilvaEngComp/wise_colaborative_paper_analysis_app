@@ -12,7 +12,15 @@
         </p>
     </div>
 
-    <ion-spinner name="bubbles" *ngIf="is_loading"></ion-spinner>
+    <div *ngIf="is_loading" class="progress">
+        <ion-spinner name="dots"></ion-spinner>
+
+        <ion-label>Bem vindo, estamos preparando tudo para você!</ion-label>
+
+        <ion-spinner name="dots"></ion-spinner>
+
+
+    </div>
 
     <ion-grid *ngIf="!is_loading">
         <ion-row>

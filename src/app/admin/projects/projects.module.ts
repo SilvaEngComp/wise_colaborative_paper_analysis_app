@@ -21,7 +21,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { VisualizationComponent } from './review/visualization/visualization.component';
 import { VisualizationMenuComponent } from './review/visualization/visualization-menu/visualization-menu.component';
-import { PaperSelectedComponent } from './review/visualization/paper-selected/paper-selected.component';
+import { PaperSelectedComponent } from './review/paper-selected/paper-selected.component';
 import { WordRankingComponent } from './review/visualization/word-ranking/word-ranking.component';
 import { ReviewMenuComponent } from './review/review-menu/review-menu.component';
 @NgModule({

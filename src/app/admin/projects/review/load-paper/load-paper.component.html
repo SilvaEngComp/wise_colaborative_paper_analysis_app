@@ -68,15 +68,26 @@
 <ion-grid *ngIf="is_loading">
     <ion-row>
         <ion-col>
-            <ion-label>PROGRESSO {{ progress | percent}}</ion-label>
-            <ion-progress-bar [value]="progress"></ion-progress-bar>
-        </ion-col>
-        <ion-col>
-            <ion-spinner name="bubbles" *ngIf="!uploaded"></ion-spinner>
+            <ion-item lines="none">
+                <ion-spinner slot="end" name="dots" *ngIf="!uploaded"></ion-spinner>
+                <ion-label *ngIf="progress<1">ENVIANDO ARQUIVO {{ progress | percent}}</ion-label>
+                <ion-label *ngIf="progress>=1">PROCESSANDO E RESISTRANDO {{ progress | percent}}</ion-label>
 
-            <ion-button fill="clear" (click)="clean()" *ngIf="uploaded">
-                Enviar outro
-            </ion-button>
+            </ion-item>
+            <ion-progress-bar [value]="progress"></ion-progress-bar>
+
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+
+
+            <div>
+                <ion-label *ngIf="counter>0">Aguarde um instante. Tempo estimado {{counter}} s</ion-label>
+                <ion-label *ngIf="counter<=0">Acabou demorando um pouco mais do que o previsto</ion-label>
+            </div>
+
+
         </ion-col>
     </ion-row>
 </ion-grid>

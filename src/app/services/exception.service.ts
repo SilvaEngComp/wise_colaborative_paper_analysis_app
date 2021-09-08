@@ -39,6 +39,7 @@ export class ExceptionService {
   async openLoading(msg: string, icon: boolean = true, duration: number = 2, reload?: boolean ) {
     const modal = await this.modalCtrl.create({
       component: FinishActionComponent,
+      cssClass: 'modal-model',
       componentProps: { msg, icon, duration },
     });
     await modal.present();

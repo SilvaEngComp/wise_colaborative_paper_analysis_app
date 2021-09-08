@@ -21,12 +21,6 @@ ion-grid {
     right: 5%;
 }
 
-ion-spinner {
-    margin: 20%;
-    margin-left: 40%;
-    color: var(--ion-color-light)
-}
-
 .img-google {
     width: 20px;
     height: 20px;
@@ -51,6 +45,21 @@ ion-button {
     ion-label {
         font-family: Qanelas-bold;
         margin-left: 5%;
+    }
+}
+
+.progress {
+    text-align: center;
+    margin: 20%;
+    ion-spinner {
+        margin-top: 25px;
+        color: var(--ion-color-light)
+    }
+    ion-label {
+        margin: 1px;
+        font-size: 24pt;
+        font-family: Qanelas-bold;
+        color: var(--ion-color-light);
     }
 }
 

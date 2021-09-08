@@ -23,7 +23,7 @@ export class PaperSelectedComponent implements OnInit {
   progress: number;
   @Input() paper: Paper;
   show: boolean;
-  loading: boolean;
+  loaded: boolean;
   edit: boolean;
   selectedId: number;
   base: Base;
@@ -36,6 +36,7 @@ export class PaperSelectedComponent implements OnInit {
   width_device: number;
   scihub: string;
   notshowHeader: boolean;
+  is_saving: boolean;
   constructor(
     private exeptionService: ExceptionService,
     private platform: Platform,
@@ -45,6 +46,7 @@ export class PaperSelectedComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.scihub = environment.scihub;
     this.width_device = this.platform.width();
     this.abstract_size = 12;
@@ -57,56 +59,17 @@ export class PaperSelectedComponent implements OnInit {
       this.notshowHeader = true;
     }
 
-    this.initialization();
+
+    UiService.setPaperEmitter.subscribe(paper => {
+      this.notshowHeader = true;
+      this.paper = paper;
+      this.save();
+
+    });
+
 
     UiService.setBackPpage('visualization');
 
-  }
-
-  initialization() {
-
-    if (this.paper){
-      this.paper.search_terms = String(this.paper.search_terms);
-
-      this.paper.relevance = String(this.paper.relevance);
-
-
-      if (this.paper.observation) {
-        this.observations = this.paper.observation.split(',');
-      } else {
-        this.observations = [];
-      }
-
-       if (this.paper.languages) {
-        this.lenguages = this.paper.languages.split(',');
-      } else {
-        this.lenguages = ['inglês'];
-      }
-
-      if (this.paper.datasets) {
-        this.datasets = this.paper.datasets.split(',');
-      } else {
-        this.datasets = [];
-      }
-      if (this.paper.baselines) {
-        this.baselines = this.paper.baselines.split(',');
-      } else {
-        this.baselines = [];
-      }
-
-      if (this.paper.issue) {
-        this.paper.issue = String(this.paper.issue);
-      } else {
-        this.paper.relevance = '';
-      }
-
-
-
-      this.save();
-
-    }
-
-    this.loading = true;
   }
 
 
@@ -120,37 +83,10 @@ export class PaperSelectedComponent implements OnInit {
   }
 
   save() {
-    localStorage.setItem(environment.LOCALSTORAGE + 'b', JSON.stringify(this.base));
     localStorage.setItem(environment.LOCALSTORAGE + 'ps', JSON.stringify(this.paper));
   }
 
-  backPaper() {
-    if (this.selectedId >=1) {
-      this.selectedId--;
-      this.paper = this.papers[this.selectedId - 1];
-      this.initialization();
-    }
-  }
-
-  setPaper(ev: any) {
-    if(this.papers){
-      if (ev.target.value >= 1 && ev.target.value <= this.papers.length) {
-        this.selectedId = ev.target.value;
-        this.paper = this.papers[this.selectedId - 1];
-        this.initialization();
-      }
-    }
-  }
-  nextPaper() {
-    if (this.selectedId <= this.papers.length) {
-      this.selectedId++;
-      this.paper = this.papers[this.selectedId - 1];
-    }
-      this.initialization();
-
-  }
-
-  calcProgress(change: boolean = false) {
+    calcProgress(change: boolean = false) {
     if (this.papers) {
       for (let i = 0; i < this.papers.length; i++) {
         if (this.papers[i].status === 0) {
@@ -175,7 +111,7 @@ export class PaperSelectedComponent implements OnInit {
 
   back() {
     const page = UiService.getBackPpage();
-this.returnPage.emit({ page: 'visualization' });
+this.returnPage.emit({ page });
   }
    upload() {
     this.showUpload = !this.showUpload;
@@ -205,7 +141,7 @@ this.returnPage.emit({ page: 'visualization' });
     this.save();
   }
 
-  main_contribuition(ev) {
+  mainCotribuition(ev) {
     this.paper.main_contribuition = ev.target.value;
     this.save();
   }
@@ -316,6 +252,7 @@ this.returnPage.emit({ page: 'visualization' });
     this.save();
   }
   setObservation(ev, obj: IonInput) {
+    console.log(this.paper);
 
     if (!this.paper.observation) {
       this.paper.observation =  ev.target.value;
@@ -403,24 +340,18 @@ this.returnPage.emit({ page: 'visualization' });
       buttons: [
         {
           text: 'NÃO',
-          handler:()=>{}
+          handler: () => { }
         }, {
           text: 'SIM',
           handler: () => {
             this.paperService.destroy(this.paper.paper_review).then(() => {
-              let position = 0;
-              this.papers.filter(paper => {
-                if (paper.id === this.paper.id) {
-                  this.papers.splice(position, 1);
-                }
-                position++;
-              });
+              this.back();
               this.exeptionService.openLoading('O artigo foi colocado na lista de artigos descartados');
-              this.nextPaper();
-    });
+            });
           }
         },
       ]
+
     });
 
     alert.present();
@@ -442,15 +373,17 @@ check(): boolean {
 
   update() {
     if (this.check()) {
+      this.is_saving = true;
       this.updatting = true;
       this.paper.status = 1;
       this.paperService.update(this.paper).then(
         (result) => {
-          // localStorage.removeItem(environment.LOCALSTORAGE + 'p');
+          this.is_saving = false;
           this.papers = result;
           this.observations = [];
           this.updatting = false;
           this.exeptionService.openLoading('salvamento completo', true, 1);
+              this.returnPage.emit({ next: true });
 
         }
       ).catch(e=>this.exeptionService.erro(e));
