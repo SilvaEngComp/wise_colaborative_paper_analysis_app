@@ -31,46 +31,10 @@
             </ion-col>
         </ion-row>
         <ion-row>
-            <ion-col>
-                <ion-item>
-                    <ion-checkbox [checked]="cols?.relevance" (ionChange)="onSetColuns(1)"></ion-checkbox>
-                    <ion-label>RELEVÂNCIA</ion-label>
-                </ion-item>
-            </ion-col>
-            <ion-col>
-                <ion-item>
-                    <ion-checkbox [checked]="cols?.title" (ionChange)="onSetColuns(2)"></ion-checkbox>
-                    <ion-label>TÍTULO</ion-label>
-                </ion-item>
-            </ion-col>
-            <ion-col>
-                <ion-item>
-                    <ion-checkbox [checked]="cols?.issue" (ionChange)="onSetColuns(3)"></ion-checkbox>
-                    <ion-label>PROBLEMA</ion-label>
-                </ion-item>
-            </ion-col>
-            <ion-col>
-                <ion-item>
-                    <ion-checkbox [checked]="cols?.observation" (ionChange)="onSetColuns(4)"></ion-checkbox>
-                    <ion-label>OBSERVAÇÕES</ion-label>
-                </ion-item>
-            </ion-col>
-            <ion-col>
-                <ion-item>
-                    <ion-checkbox [checked]="cols?.approach" (ionChange)="onSetColuns(5)"></ion-checkbox>
-                    <ion-label>ABORDAGENS</ion-label>
-                </ion-item>
-            </ion-col>
-            <ion-col>
-                <ion-item>
-                    <ion-checkbox [checked]="cols?.technique" (ionChange)="onSetColuns(6)"></ion-checkbox>
-                    <ion-label>TÉCNICAS</ion-label>
-                </ion-item>
-            </ion-col>
-            <ion-col>
-                <ion-item>
-                    <ion-checkbox [checked]="cols?.year" (ionChange)="onSetColuns(7)"></ion-checkbox>
-                    <ion-label>ANO</ion-label>
+            <ion-col *ngFor="let col of cols; let i=index">
+                <ion-item lines="none">
+                    <ion-checkbox [checked]="col?.show" (ionChange)="onSetColuns(i)"></ion-checkbox>
+                    <ion-label class="lb-check">{{col?.title | uppercase}}</ion-label>
                 </ion-item>
             </ion-col>
         </ion-row>
@@ -81,61 +45,65 @@
                         ESTUDOS ANALISADOS ({{ papers?.length }})
                     </ion-label>
                 </ion-item>
-            </ion-col>
-        </ion-row>
-        <ion-row class="header">
-            <ion-col size="2" *ngIf="cols?.relevance">
-                <ion-label>RELEVÂNCIA</ion-label>
-            </ion-col>
-            <ion-col *ngIf="cols?.title">
-                <ion-label>TÍTULO</ion-label>
-            </ion-col>
-            <ion-col *ngIf="cols?.issue">
-                <ion-label>PROBLEMA</ion-label>
-            </ion-col>
-            <ion-col *ngIf="cols?.observation">
-                <ion-label>OBSERVAÇÕES</ion-label>
-            </ion-col>
-            <ion-col *ngIf="cols?.approach">
-                <ion-label>ABORDAGENS</ion-label>
-            </ion-col>
-            <ion-col *ngIf="cols?.technique">
-                <ion-label>TÉCNICAS</ion-label>
-            </ion-col>
-            <ion-col size="2" *ngIf="cols?.year">
-                <ion-label>ANO</ion-label>
-            </ion-col>
-        </ion-row>
-        <ion-row *ngFor="let paper of papers | slice:0:limit">
-            <ion-col size="2" *ngIf="cols?.relevance">
-                <div class="relevance">
-                    <ion-icon color="warning" name="star-sharp" *ngIf="paper?.star"></ion-icon>
-                    <ion-label>{{paper?.relevanceText | uppercase}}</ion-label>
-                    <ion-note>Nº {{paper?.id}}</ion-note><br><br>
-                </div>
-
-            </ion-col>
-            <ion-col *ngIf="cols?.title">
-                <ion-label>{{paper?.title}}</ion-label>
-            </ion-col>
-            <ion-col *ngIf="cols?.issue">
-                <ion-label>{{paper?.issue}}</ion-label>
-            </ion-col>
-            <ion-col *ngIf="cols?.observation">
-                <ion-label>{{paper?.observation}}</ion-label>
-            </ion-col>
-
-            <ion-col *ngIf="cols?.approach">
-                <ion-label>{{paper?.approach}}</ion-label>
-            </ion-col>
-            <ion-col *ngIf="cols?.technique">
-                <ion-label>{{paper?.techinique}}</ion-label>
-            </ion-col>
-            <ion-col size="2" *ngIf="cols?.year">
-                <ion-item detail="true" lines="none" (click)="openPaper(paper)">
-                    <ion-label>{{paper?.publication_year}}</ion-label>
-
+                <ion-item>
+                    <ion-label>Destaque {{ qtdS }}</ion-label>
+                    <ion-label>Alta {{ qtdH }}</ion-label>
+                    <ion-label>Média {{ qtdM }}</ion-label>
+                    <ion-label>Baixa {{ qtdLow }}</ion-label>
                 </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <table class="centered responsive-responsive">
+
+                    <tr class="header">
+                        <th colspan="2" class="header-title">
+                            <label>RELEVÂNCIA</label>
+                        </th>
+                        <th *ngFor="let col of cols; let i=index">
+                            <label class="header-title" *ngIf="col?.show">{{col?.title | uppercase}}</label>
+                        </th>
+                        <th class="header-title">
+                            <label>ANO</label>
+                        </th>
+                    </tr>
+                    <tr class="header" *ngFor="let paper of papers | slice:0:limit">
+                        <td colspan="2">
+                            <div class="relevance">
+                                <ion-icon color="warning" name="star-sharp" *ngIf="paper?.star"></ion-icon>
+                                <ion-label>{{paper?.relevanceText | uppercase}}</ion-label>
+                                <ion-note>Nº {{paper?.id}}</ion-note><br><br>
+                            </div>
+                        </td>
+                        <td>
+                            <ion-label *ngIf="show('título')">{{paper?.title}}</ion-label>
+                        </td>
+                        <td *ngIf="show('problema')">
+                            <ion-label>{{paper?.issue}}</ion-label>
+                        </td>
+                        <td *ngIf="show('abordagem')">
+                            <ion-label>{{paper?.approach}}</ion-label>
+                        </td>
+                        <td *ngIf="show('metodologia')">
+                            <ion-label>{{paper?.research_methodology}}</ion-label>
+                        </td>
+                        <td *ngIf="show('contribuição')">
+                            <ion-label>{{paper?.main_contribuition}}</ion-label>
+                        </td>
+                        <td *ngIf="show('observação')">
+                            <ion-label>{{paper?.observation}}</ion-label>
+                        </td>
+                        <!-- <td *ngIf="show('técnica')">
+                            <ion-label>{{paper?.techinique}}</ion-label>
+                        </td> -->
+                        <td>
+                            <ion-item detail="true" lines="none" (click)="openPaper(paper)">
+                                <ion-label>{{paper?.publication_year}}</ion-label>
+                            </ion-item>
+                        </td>
+                    </tr>
+                </table>
             </ion-col>
         </ion-row>
     </ion-grid>

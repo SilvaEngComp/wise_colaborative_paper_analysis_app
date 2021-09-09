@@ -8,21 +8,12 @@ export class WordCaount{
   }
 }
 export class VisualizationCols {
-  title: boolean;
-  approach: boolean;
-  issue: boolean;
-  technique: boolean;
-  year: boolean;
-  relevance: boolean;
-  observation: boolean;
+  title: string;
+  show: boolean;
 
-  constructor() {
-    this.title = true;
-    this.relevance = true;
-    this.issue = true;
-    this.year = true;
-    this.observation = false;
-    this.technique = false;
-    this.approach = false;
+
+  constructor(title: string, show: boolean) {
+    this.title = title;
+    this.show = show;
   }
 }

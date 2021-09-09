@@ -43,6 +43,7 @@ export class Paper{
   publisher: string;
   relationship_level: number;
   type: string;
+  updated_at: string;
 
 
 

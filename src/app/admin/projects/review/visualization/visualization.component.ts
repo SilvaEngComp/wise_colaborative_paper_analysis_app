@@ -20,13 +20,19 @@ export class VisualizationComponent implements OnInit {
 
   loading: boolean;
   papers: Paper[] = [];
-  headers: string[] = ['RELEVÂNCIA', 'TITULO', 'PROBLEMA', 'ANO'];
+  headers: string[] = ['título', 'problema',
+    'abordagem', 'metodologia', 'contribuição', 'observação',
+    ];
   review: Review;
   windth_device: number;
   height: number;
   limit: number;
+  qtdS: number;
+  qtdH: number;
+  qtdM: number;
+  qtdLow: number;
 
-  cols: VisualizationCols;
+  cols: VisualizationCols[];
 
   constructor(
     private paperService: PaperService,
@@ -34,6 +40,7 @@ export class VisualizationComponent implements OnInit {
     private popCtrl: PopoverController
   ) {}
   ngOnInit() {
+
     if (!this.review) {
       if (localStorage.getItem(environment.LOCALSTORAGE + 'r')) {
         this.review = JSON.parse(
@@ -47,7 +54,16 @@ export class VisualizationComponent implements OnInit {
         localStorage.getItem(environment.LOCALSTORAGE + 'cols')
       );
     } else {
-      this.cols = new VisualizationCols();
+      this.cols = [];
+      let cont = 0;
+      this.headers.filter(x => {
+        let show = false;
+        if (cont < 6) {
+          show = true;
+        }
+        this.cols.push(new VisualizationCols(x, show));
+        cont++;
+      });
     }
 
     this.limit = 30;
@@ -57,6 +73,7 @@ export class VisualizationComponent implements OnInit {
   }
 
   async load() {
+
     this.loading = false;
     const filter = new PaperFilter(null, this.review.id);
     filter.relevance = 'desc';
@@ -67,33 +84,39 @@ export class VisualizationComponent implements OnInit {
     // console.log(this.papers);
     this.loading = true;
 
-    this.papers.sort((a, b) => (a.star > b.star ? -1 : 1));
-  }
+    this.papers.sort((a, b) => ((a.star > b.star && a.updated_at > b.updated_at) ? -1 : 1));
 
-  onSetColuns(op) {
-    switch (op) {
-      case 1:
-        this.cols.relevance = !this.cols.relevance;
-        break;
-      case 2:
-        this.cols.title = !this.cols.title;
-        break;
-      case 3:
-        this.cols.issue = !this.cols.issue;
-        break;
-      case 4:
-        this.cols.observation = !this.cols.observation;
-        break;
-      case 5:
-        this.cols.approach = !this.cols.approach;
-        break;
-      case 6:
-        this.cols.technique = !this.cols.technique;
-        break;
-      case 7:
-        this.cols.year = !this.cols.year;
-        break;
+    this.qtdS = 0;
+    this.qtdH = 0;
+    this.qtdM = 0;
+    this.qtdLow = 0;
+    this.papers.filter((p) => {
+      if (p.star) {
+        this.qtdS++;
+      }
+      if (p.relevance !== '') {
+        if (Number(p.relevance) === 1) {
+          this.qtdLow++;
+        } else if (Number(p.relevance)=== 2) {
+          this.qtdM++;
+        } else if (Number(p.relevance) === 3) {
+            this.qtdH++;
+        }
+      }
+    });
+
+  }
+  show(head: string): boolean {
+    const i = this.headers.indexOf(head);
+    if (i >= 0) {
+      if (this.cols[i].show) {
+        return true;
+      }
     }
+    return false;
+}
+  onSetColuns(i: number) {
+    this.cols[i].show = !this.cols[i].show;
     this.saveCols();
   }
 
