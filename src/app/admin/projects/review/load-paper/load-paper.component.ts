@@ -239,12 +239,11 @@ export class LoadPaperComponent implements OnInit {
           filterResponse()
         )
         .subscribe(
-          err => {
-            this.exeptionService.erro(err);
-            this.is_loading = false;
-          },
+          // err => {
+          //   this.exeptionService.erro(err);
+          //   this.is_loading = false;
+          // },
           () => {
-
             this.progress = 1;
             this.uploaded = true;
             this.back();

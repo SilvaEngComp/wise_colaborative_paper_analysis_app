@@ -87,8 +87,16 @@ ion-text {
     color: var(--ion-color-dark);
 }
 
+.ocult {
+    width: 0px;
+    visibility: hidden;
+}
+
 .header {
     text-align: center;
+    ion-col {
+        // border-right: 1px solid var(--ion-color-primary);
+    }
     border-bottom: 1px solid var(--ion-color-primary);
 }
 
