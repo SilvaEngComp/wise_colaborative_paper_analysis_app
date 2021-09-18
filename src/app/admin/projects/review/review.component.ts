@@ -11,10 +11,10 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@
 import { PaperService } from 'src/app/services/paper.service';
 import { PaperFilter } from 'src/app/objects/paperFilter';
 import { Paper } from 'src/app/objects/paper';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { MembersComponent } from './members/members.component';
 import { ReviewMenuComponent } from './review-menu/review-menu.component';
 import { UiService } from 'src/app/services/ui.service';
+import { ProtocolComponent } from './protocol/protocol.component';
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -48,8 +48,6 @@ export class ReviewComponent implements OnInit, AfterViewInit {
     private paperService: PaperService,
     private modalCtrl: ModalController,
     private popCtrl: PopoverController,
-    private alertCtrl: AlertController,
-    private iab: InAppBrowser,
   ) { }
   ngAfterViewInit(): void {
   }
@@ -63,11 +61,7 @@ export class ReviewComponent implements OnInit, AfterViewInit {
     this.scihub = environment.scihub;
 
     this.abstract_size = 12;
-    if (!this.review) {
-      if (localStorage.getItem(environment.LOCALSTORAGE + 'r')) {
-        this.review = JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'r'));
-      }
-    }
+
     if (localStorage.getItem(environment.LOCALSTORAGE + 'b')) {
       if (localStorage.getItem(environment.LOCALSTORAGE + 'b') != 'undefined') {
         this.base = JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'b'));
@@ -89,7 +83,9 @@ export class ReviewComponent implements OnInit, AfterViewInit {
     this.load();
   }
 
-
+  segmentChanged(ev) {
+    console.log(ev);
+}
 
   saveBase() {
     localStorage.setItem(environment.LOCALSTORAGE + 'b', JSON.stringify(this.base));
@@ -228,22 +224,15 @@ export class ReviewComponent implements OnInit, AfterViewInit {
     this.loading = true;
   }
 
-  async addMembers() {
+
+  async back() {
     const modal = await this.modalCtrl.create({
-      component: MembersComponent,
-      componentProps: ({ review: this.review })
+      component: ProtocolComponent,
     });
+
     modal.present();
 
-    const { data } = await modal.onDidDismiss();
-
-    if (data) {
-      this.review = data.review;
-    }
-  }
-
-  back() {
-    this.returnPage.emit({ page: 'list' });
+    // this.returnPage.emit({ page: 'list' });
   }
   upload() {
     this.showUpload = !this.showUpload;
@@ -283,9 +272,7 @@ export class ReviewComponent implements OnInit, AfterViewInit {
         case 2:
           this.config();
           break;
-        case 3:
-          this.addMembers();
-          break;
+
         case 4:
           this.visualization();
           break;
@@ -296,10 +283,6 @@ export class ReviewComponent implements OnInit, AfterViewInit {
     }
   }
 
-  openLink() {
-    const link = environment.scihub + this.selectedPaper.link;
-    const browser = this.iab.create(link);
-  }
 
   openSciHub() {
     let link = environment.scihub + this.selectedPaper.link;

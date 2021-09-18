@@ -1,0 +1,50 @@
+<ion-toolbar>
+    <ion-button fill="clear" (click)="back()" *ngIf="!showUpload">
+        <ion-icon class="back-button" slot="start" name="chevron-back-outline"></ion-icon>
+        <ion-label>VOLTAR</ion-label>
+    </ion-button>
+
+
+    <ion-buttons slot="end">
+        <ion-button (click)="mobibleMenu($event)">
+            <ion-icon name="ellipsis-horizontal-circle-sharp"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+
+</ion-toolbar>
+
+
+<app-load-paper *ngIf="showUpload" (loadEmitter)="upload()"></app-load-paper>
+
+<div *ngIf="!showUpload">
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-item lines="none">
+                    <ion-label class="lb-title">{{review?.title}}</ion-label>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-segment (ionChange)="segmentChanged($event)" mode="ios" [value]="page">
+                    <ion-segment-button value="studies">
+                        <ion-label>ESTUDOS</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="visualization">
+                        <ion-label>VISUALIZAÇÃO</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="protocol">
+                        <ion-label>PROTOCOLO</ion-label>
+                    </ion-segment-button>
+                </ion-segment>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <div class="open-div" [ngSwitch]="page">
+        <app-review [review]="review" *ngSwitchCase="'studies'" (returnPage)="callbackPageReturn($event)"></app-review>
+        <app-protocol *ngSwitchCase="'protocol'" (returnPage)="callbackPageReturn($event)"></app-protocol>
+        <app-visualization [review]="review" *ngSwitchCase="'visualization'" (returnPage)="callbackPageReturn($event)"></app-visualization>
+    </div>
+</div>

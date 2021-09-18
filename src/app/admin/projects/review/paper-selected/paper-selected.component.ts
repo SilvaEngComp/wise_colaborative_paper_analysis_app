@@ -181,6 +181,10 @@ this.returnPage.emit({ page });
     this.save();
   }
 
+  open_works(ev) {
+    this.paper.open_works = ev.target.value;
+    this.save();
+  }
   future_work(ev) {
     this.paper.future_work = ev.target.value;
     this.save();

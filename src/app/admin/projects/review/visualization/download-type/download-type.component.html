@@ -1,0 +1,42 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="end">
+            <ion-button color="secondary" *ngIf="!showOptions" (click)="showOptions = !showOptions">
+                <ion-label>ESCOLHER PROPRIEDADES</ion-label>
+            </ion-button>
+
+            <ion-button fill="clear" *ngIf="showOptions" (click)="concluido()">
+                <ion-label color="success">OK</ion-label>
+                <ion-icon color="success" slot="end" name="checkmark-circle-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-item lines="none">
+            <ion-checkbox [checked]="checkAll" (ionChange)="onSelectAll(CheckBoxcheckAll.checked)" #CheckBoxcheckAll></ion-checkbox>
+            <ion-label>TODOS</ion-label>
+        </ion-item>
+    </ion-toolbar>
+</ion-header>
+
+
+<div class="open-div">
+
+    <ion-list *ngIf="showOptions" lines="none">
+        <ion-item *ngFor="let item of selectedHeader; let i=index">
+            <ion-checkbox [checked]="item?.checked" (ionChange)="onSelectHeaders(i,checkOptions.checked)" #checkOptions></ion-checkbox>
+            <ion-label>{{ item?.name | uppercase }}</ion-label>
+        </ion-item>
+    </ion-list>
+
+
+
+    <ion-list *ngIf="!showOptions" lines="none">
+        <ion-item (click)="download()">
+            <ion-label>PLANILHA EXCEL</ion-label>
+        </ion-item>
+        <ion-item (click)="sendEmail()">
+            <ion-label>EMAIL</ion-label>
+        </ion-item>
+    </ion-list>
+
+</div>

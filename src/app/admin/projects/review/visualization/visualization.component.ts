@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Platform, PopoverController } from '@ionic/angular';
 import { Paper } from 'src/app/objects/paper';
 import { PaperFilter } from 'src/app/objects/paperFilter';
@@ -8,7 +9,7 @@ import { Review } from 'src/app/objects/review';
 import { VisualizationCols } from 'src/app/objects/visualization';
 import { PaperService } from 'src/app/services/paper.service';
 import { environment } from 'src/environments/environment';
-import { VisualizationMenuComponent } from './visualization-menu/visualization-menu.component';
+import { MenuVisualizationComponent } from './menu-visualization/menu-visualization.component';
 
 @Component({
   selector: 'app-visualization',
@@ -23,7 +24,6 @@ export class VisualizationComponent implements OnInit {
   headers: string[] = ['título', 'problema',
     'abordagem', 'metodologia', 'contribuição', 'observação',
     ];
-  review: Review;
   windth_device: number;
   height: number;
   limit: number;
@@ -31,7 +31,7 @@ export class VisualizationComponent implements OnInit {
   qtdH: number;
   qtdM: number;
   qtdLow: number;
-
+  @Input() review: Review;
   cols: VisualizationCols[];
 
   constructor(
@@ -106,6 +106,29 @@ export class VisualizationComponent implements OnInit {
     });
 
   }
+
+
+   async mobibleMenu(ev, paper: Paper){
+    const pop = await this.popCtrl.create({
+      component: MenuVisualizationComponent,
+      event: ev
+    });
+
+    pop.present();
+
+    const { data } = await pop.onWillDismiss();
+
+    if (data) {
+      switch (data.op) {
+        case 1:
+          this.openPaper(paper);
+          break;
+      }
+    }
+   }
+
+
+
   show(head: string): boolean {
     const i = this.headers.indexOf(head);
     if (i >= 0) {
@@ -115,6 +138,8 @@ export class VisualizationComponent implements OnInit {
     }
     return false;
 }
+
+
   onSetColuns(i: number) {
     this.cols[i].show = !this.cols[i].show;
     this.saveCols();
@@ -125,19 +150,7 @@ export class VisualizationComponent implements OnInit {
     this.returnPage.emit({ page: 'word-ranking' });
   }
 
-  async openMenu(paper: Paper, ev) {
-    const pop = await this.popCtrl.create({
-      component: VisualizationMenuComponent,
-      event: ev,
-    });
 
-    pop.present();
-
-    const { data } = await pop.onWillDismiss();
-    if (data) {
-      this.openPaper(paper);
-    }
-  }
 
   save(paper: Paper) {
     localStorage.setItem(

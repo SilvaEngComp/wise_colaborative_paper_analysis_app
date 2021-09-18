@@ -1,16 +1,3 @@
-<ion-toolbar>
-    <ion-buttons>
-        <ion-button fill="clear" (click)="back()">
-            <ion-icon class="back-button" slot="start" name="chevron-back-outline"></ion-icon>
-            <ion-label>VOLTAR</ion-label>
-        </ion-button>
-
-    </ion-buttons>
-
-</ion-toolbar>
-
-
-
 <div *ngIf="!loading" class="spinner">
     <ion-spinner name="dots"></ion-spinner>
     <ion-label>Carregando estudos analisados</ion-label>
@@ -168,7 +155,7 @@
             <ion-card-header>
                 <ion-item lines="none">
                     <ion-icon color="warning" name="star-sharp" *ngIf="paper?.star"></ion-icon>
-                    <ion-icon slot="end" name="ellipsis-vertical-sharp" (click)="openMenu(paper, $event)"></ion-icon>
+                    <ion-icon slot="end" name="ellipsis-vertical-sharp" (click)="mobibleMenu($event, paper)"></ion-icon>
                 </ion-item>
             </ion-card-header>
             <ion-grid>

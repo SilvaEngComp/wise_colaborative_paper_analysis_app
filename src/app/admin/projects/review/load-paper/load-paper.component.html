@@ -4,6 +4,12 @@
             <ion-label>{{selectedBase ? selectedBase?.name : 'ESCOLHA UMA BASE'}}</ion-label>
         </ion-button>
     </ion-buttons>
+
+    <ion-buttons slot="end">
+        <ion-button (click)="back()" color="danger">
+            <ion-label>CANCELAR</ion-label>
+        </ion-button>
+    </ion-buttons>
 </ion-toolbar>
 
 <div *ngIf="!is_loading">

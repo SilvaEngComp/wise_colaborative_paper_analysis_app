@@ -145,9 +145,9 @@
 
         <ion-row class="issue">
             <ion-col>
-                <ion-title>Técnicas</ion-title>
-                <ion-textarea rows="5" cols="5" maxlength="2000" [value]="paper?.techinique" (keyup)="techinique($event)"></ion-textarea>
-                <ion-note>{{paper?.techinique?.length}}/2000</ion-note>
+                <ion-title>Problemas em aberto</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="2000" [value]="paper?.open_works" (keyup)="open_works($event)"></ion-textarea>
+                <ion-note>{{paper?.open_works?.length}}/2000</ion-note>
             </ion-col>
         </ion-row>
 
@@ -159,6 +159,13 @@
             </ion-col>
         </ion-row>
 
+        <ion-row class="issue">
+            <ion-col>
+                <ion-title>Técnicas</ion-title>
+                <ion-textarea rows="5" cols="5" maxlength="2000" [value]="paper?.techinique" (keyup)="techinique($event)"></ion-textarea>
+                <ion-note>{{paper?.techinique?.length}}/2000</ion-note>
+            </ion-col>
+        </ion-row>
         <ion-row class="issue">
             <ion-col>
                 <ion-title>Hipótesis</ion-title>
