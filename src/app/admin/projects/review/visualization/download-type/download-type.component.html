@@ -17,9 +17,13 @@
         </ion-item>
     </ion-toolbar>
 </ion-header>
+<div *ngIf="!loading" class="spinner">
+    <ion-spinner name="dots"></ion-spinner>
+    <ion-label>Carregando</ion-label>
+    <ion-spinner name="dots"></ion-spinner>
+</div>
 
-
-<div class="open-div">
+<div class="open-div" *ngIf="loading">
 
     <ion-list *ngIf="showOptions" lines="none">
         <ion-item *ngFor="let item of selectedHeader; let i=index">

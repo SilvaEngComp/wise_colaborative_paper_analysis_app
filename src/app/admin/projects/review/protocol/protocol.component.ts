@@ -36,12 +36,12 @@ export class ProtocolComponent implements OnInit {
 
 
     if (this.review.include_criteria) {
-        this.include_criteria = this.review.include_criteria.split(',');
+        this.include_criteria = this.review.include_criteria.split(';');
       } else {
         this.include_criteria = [];
       }
     if (this.review.exclude_criteria) {
-        this.exclude_criteria = this.review.exclude_criteria.split(',');
+        this.exclude_criteria = this.review.exclude_criteria.split(';');
       } else {
         this.exclude_criteria =[];
       }
@@ -71,7 +71,7 @@ export class ProtocolComponent implements OnInit {
       this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
       return;
     }
-      this.review.include_criteria +=  ','+ev.target.value;
+      this.review.include_criteria +=  ';'+ev.target.value;
     }
 
     this.include_criteria.push(ev.target.value);
@@ -88,7 +88,7 @@ export class ProtocolComponent implements OnInit {
       this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
       return;
     }
-      this.review.exclude_criteria +=  ','+ev.target.value;
+      this.review.exclude_criteria +=  ';'+ev.target.value;
     }
 
     this.exclude_criteria.push(ev.target.value);
@@ -105,7 +105,7 @@ onRemoveIncludeCriteria(i) {
 
       this.review.include_criteria += obs;
       if (cont <this.include_criteria.length) {
-        this.review.include_criteria += ',';
+        this.review.include_criteria += ';';
       }
       cont++;
     });
@@ -121,7 +121,7 @@ onRemoveExcludeCriteria(i) {
 
       this.review.exclude_criteria += obs;
       if (cont <this.exclude_criteria.length) {
-        this.review.exclude_criteria += ',';
+        this.review.exclude_criteria += ';';
       }
       cont++;
     });

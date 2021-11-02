@@ -4,6 +4,7 @@ import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular
 import { Paper } from 'src/app/objects/paper';
 import { WordCaount } from 'src/app/objects/visualization';
 import { environment } from 'src/environments/environment';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-word-ranking',
@@ -17,7 +18,8 @@ export class WordRankingComponent implements OnInit, AfterViewInit {
   issueLlist: WordCaount[]=[];
   abstractLlist: WordCaount[]=[];
   loading: boolean;
-  constructor() { }
+  limit: number;
+  constructor(private popCtrl: PopoverController) { }
   ngAfterViewInit(): void {
         this.wordsCount();
     this.loading = true;
@@ -25,6 +27,7 @@ export class WordRankingComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
+    this.limit = 10;
     if (localStorage.getItem(environment.LOCALSTORAGE + 'vps')) {
         this.papers = JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'vps'));
     }
@@ -34,14 +37,13 @@ export class WordRankingComponent implements OnInit, AfterViewInit {
 
 
   back() {
-    const page = UiService.getBackPpage();
-this.returnPage.emit({ page });
+    this.popCtrl.dismiss();
   }
 
   wordsCount() {
     const baseWords = new Set(['', 'na', 'se', 'no', 'são', 'tem', 'era', 'ter', 'ver', 'ou', 'seu', 'sua', 'meu', 'minha', 'teu', 'tua', 'nós', 'vós', 'ele', 'eles', 'propõe', 'o', 'os', 'as', 'a', 'que', 'às', 'do', 'da', 'dos', 'das', 'ante', 'após', 'até', 'com', 'contra', 'de', 'desde', 'em', 'entre', 'para', 'perante', 'por', 'per', 'sem', 'sob', 'sobre', 'trás', 'um', 'uma', 'uns', 'umas', 'e', 'mais', 'alémdisso', 'também', 'emadição', 'some-seaisto', 'somando', 'acrescenta-setambém', 'apropósito', 'também', 'portanto', 'assim', 'dessaforma', 'conclui-seque', 'resumindo', 'então', 'poroutrolado', 'aopassoque', 'recomenda-se', 'devido', 'porisso', 'porsuavez', 'dessaforma', 'domesmomodo', 'igualmente', 'comcerteza', 'possivelmente', 'demuito', 'depouco', 'detodo', 'bastante', 'demasiadamente', 'profundamente', 'qualquerqueseja', 'assimque', 'emseguida', 'atéque', 'quando', 'porfim', 'depoisde', 'antesque', 'porora', 'derepente', 'devezemquando', 'atempo', 'àsvezes', 'dequandoemquando', 'emalgummomento', 'maisadiante', 'durante', 'todavia', 'após', 'porexemplo', 'istoé', 'como', 'decerto', 'provavelmente', 'porcerto', 'quersaber', 'quandosefala', 'oreferido', 'emoutraspalavras', 'emresumo', 'defato', 'emsíntese', 'naverdade', 'deveras', 'certamente', 'realmente', 'efetivamente', 'mas', 'porém', 'entretanto', 'todavia', 'aocontrário', 'emvezde', 'poroutrolado', 'aopassoque', 'ora', 'talvez', 'porventura', 'ademais', 'taiscuidados', 'desde', 'enquanto', 'aoladode', 'sobre', 'sob', 'àdireita', 'nocentro', 'nofundo', 'àfrente', 'àesquerda', 'àtona', 'àdistância', 'àentrada', 'àsaída', 'aofundo', 'aolongo', 'defora', 'delado', 'porfora', 'emfrente', 'pordentro', 'porperto', 'naopiniãode', 'deacordocom', 'afirma', 'para', 'navisãode', 'dopontodevistade', 'segundo', 'exemplifica', 'quandoafirma', 'comocaracteriza', 'emvamosencontraroseguinteesclarecimento', 'nodizerde', 'explicitaseuspressupostos', 'utiliza-sedaseguinteargumentação', 'comodescritopor', 'outroensinamentode', 'alegaque', 'caracteriza', 'conceitua']);
 
-    const baseWords2 = new Set(['','the','has','of','all','enter','to','it','is','this','such','in','if','in','are','have','was','have','see','or','your','your','mine' ,'my','your','your','we','you','he','they','propose','the','the','as','the',' that','at','do','da','dos','das','before','after','until','with','against','from','from' ,'in','between','to','before','by','per','without','under','on','behind','one','one',' some','some','and','more','in addition','also','addition','add-seaisto','adding','add also','by the way','also' ,'therefore','thus','in this way','it is concluded','summarizing','then','by other side','at the same time','it is recommended','due','therefore',' rather','this way','at the same way','equally','certainly','possibly','too much','too little','everything','very much','too much','deeply','whatever' ,'so','then','until','when','finally','after','before','bye','suddenly','should when','when','sometimes',' from time to time','at sometime','further on','during','however','after','for example','this is','as','of course','probably','of course' ,'want to know','when speaking','the referred','in other words','in summary','in fact','in summary','in truth','indeed','certainly','really','effectively',' but','however','however','however','on the contrary','instead of','on the other hand','while','now','perhaps','perhaps','in addition','such care' ,'from','while','beside','over','under','right','in the center','in the background','in front','left','surface','in the distance',' to the entrance','to the exit','in the background','along','outside','side','outside','in front','inside','nearby','in the view of','according to','affirms' ,'to','in the view of','from the point of view of','second','exemplifies','when it states','as it characterizes','in the saying of','explicit its assumptions','uses the following argumentation by','as described' ,'another teaching of','claims','characterizes','concepts']);
+    const baseWords2 = new Set(['use','era','that','this','for','be','no','et','an','','the','has','of','all','enter','to','it','is','this','such','in','if','in','are','have','was','have','see','or','your','your','mine' ,'my','your','your','we','you','he','they','propose','the','the','as','the',' that','at','do','da','dos','das','before','after','until','with','against','from','from' ,'in','between','to','before','by','per','without','under','on','behind','one','one',' some','some','and','more','in addition','also','addition','add-seaisto','adding','add also','by the way','also' ,'therefore','thus','in this way','it is concluded','summarizing','then','by other side','at the same time','it is recommended','due','therefore',' rather','this way','at the same way','equally','certainly','possibly','too much','too little','everything','very much','too much','deeply','whatever' ,'so','then','until','when','finally','after','before','bye','suddenly','should when','when','sometimes',' from time to time','at sometime','further on','during','however','after','for example','this is','as','of course','probably','of course' ,'want to know','when speaking','the referred','in other words','in summary','in fact','in summary','in truth','indeed','certainly','really','effectively',' but','however','however','however','on the contrary','instead of','on the other hand','while','now','perhaps','perhaps','in addition','such care' ,'from','while','beside','over','under','right','in the center','in the background','in front','left','surface','in the distance',' to the entrance','to the exit','in the background','along','outside','side','outside','in front','inside','nearby','in the view of','according to','affirms' ,'to','in the view of','from the point of view of','second','exemplifies','when it states','as it characterizes','in the saying of','explicit its assumptions','uses the following argumentation by','as described' ,'another teaching of','claims','characterizes','concepts']);
     let wordsIssue = '';
     let wordsAbs = '';
      const issue = new Set();
@@ -83,5 +85,6 @@ this.returnPage.emit({ page });
     }
 
       this.issueLlist.sort((a, b) => (a.ocorrency > b.ocorrency) ? -1 : 1);
+      this.abstractLlist.sort((a, b) => (a.ocorrency > b.ocorrency) ? -1 : 1);
 }
 }

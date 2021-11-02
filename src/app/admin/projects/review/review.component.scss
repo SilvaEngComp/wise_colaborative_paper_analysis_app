@@ -38,6 +38,24 @@
     }
 }
 
+.init-upload {
+    cursor: pointer;
+    border: 1px dotted var(--ion-color-primary);
+    margin: 40px;
+    div {
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        ion-icon {
+            font-size: 80px
+        }
+        ion-label {
+            font-family: Qanelas-bold;
+            color: var(--ion-color-primary);
+            font-size: 40pt;
+        }
+    }
+}
+
 .upload {
     border-radius: 20px;
     background: var(--ion-color-primary);

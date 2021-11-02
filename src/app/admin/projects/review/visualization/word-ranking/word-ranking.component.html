@@ -8,14 +8,22 @@
 
 <ion-spinner name="bubbles" *ngIf="!loading"></ion-spinner>
 
-<div *ngIf="loading">
+<div class="open-div" *ngIf="loading">
 
     <details>
         <summary>
             <ion-label>ABSTRACTS</ion-label>
         </summary>
         <ion-grid>
-            <ion-row *ngFor="let item of abstractLlist">
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="floating">As {{limit}} mais</ion-label>
+                        <ion-input [(ngModel)]="limit"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row *ngFor="let item of abstractLlist|slice:0:limit">
                 <ion-col>{{item?.word}}</ion-col>
                 <ion-col>{{item?.ocorrency}} vezes</ion-col>
             </ion-row>
@@ -27,7 +35,15 @@
             <ion-label>PROBLEMAS IDENTIFICADOS</ion-label>
         </summary>
         <ion-grid>
-            <ion-row *ngFor="let item of issueLlist">
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="floating">As {{limit}} mais</ion-label>
+                        <ion-input [(ngModel)]="limit"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row *ngFor="let item of issueLlist |slice:0:limit">
                 <ion-col>{{item?.word}}</ion-col>
                 <ion-col>{{item?.ocorrency}} vezes</ion-col>
             </ion-row>

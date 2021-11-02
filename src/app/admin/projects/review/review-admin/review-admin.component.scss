@@ -17,6 +17,25 @@
             color: var(--ion-color-tertiary)
         }
     }
+    .lb-title {
+        margin: 15px;
+        font-family: Qanelas;
+        font-size: 12pt;
+        font-weight: 900;
+        text-align: center;
+        color: var(--ion-color-primary);
+    }
+}
+
+@media (min-width: 500px) {
+    .lb-title {
+        margin: 15px;
+        font-family: Qanelas;
+        font-size: 20pt;
+        font-weight: 900;
+        text-align: center;
+        color: var(--ion-color-primary);
+    }
 }
 
 .progress {
@@ -36,6 +55,11 @@
         font-family: Qanelas-bold;
         color: var(--ion-color-primary);
     }
+}
+
+ion-segment {
+    background: var(--ion-color-medium);
+    color: var(--ion-color-primary);
 }
 
 .upload {
@@ -133,13 +157,4 @@ ion-text {
     ion-label {
         margin: 10px;
     }
-}
-
-.lb-title {
-    margin: 15px;
-    font-family: Qanelas;
-    font-size: 20pt;
-    font-weight: 900;
-    text-align: center;
-    color: var(--ion-color-primary);
 }

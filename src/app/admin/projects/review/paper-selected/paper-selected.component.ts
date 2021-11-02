@@ -17,7 +17,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./paper-selected.component.scss'],
 })
 export class PaperSelectedComponent implements OnInit {
-@Output() returnPage: EventEmitter<any> = new EventEmitter<any>();
+  @Output() returnPage: EventEmitter<any> = new EventEmitter<any>();
   showUpload: boolean;
   papers: Paper[] = [];
   progress: number;
@@ -28,14 +28,14 @@ export class PaperSelectedComponent implements OnInit {
   selectedId: number;
   base: Base;
   abstract_size: number;
-  observations: string[]= [];
-  lenguages: string[]= ['inglês'];
-  baselines: string[]= [];
-  datasets: string[]= [];
+  observations: string[] = [];
+  lenguages: string[] = ['inglês'];
+  baselines: string[] = [];
+  datasets: string[] = [];
   updatting: boolean;
   width_device: number;
   scihub: string;
-  notshowHeader: boolean;
+  @Input() notshowHeader: boolean;
   is_saving: boolean;
   constructor(
     private exeptionService: ExceptionService,
@@ -46,6 +46,7 @@ export class PaperSelectedComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.paper.baselines);
 
     this.scihub = environment.scihub;
     this.width_device = this.platform.width();
@@ -55,8 +56,6 @@ export class PaperSelectedComponent implements OnInit {
       if (localStorage.getItem(environment.LOCALSTORAGE + 'ps')) {
         this.paper = JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'ps'));
       }
-    } else {
-      this.notshowHeader = true;
     }
 
 
@@ -75,7 +74,7 @@ export class PaperSelectedComponent implements OnInit {
 
   decrease() {
     if (this.abstract_size > 5) {
-    this.abstract_size--;
+      this.abstract_size--;
     }
   }
   increase() {
@@ -86,7 +85,7 @@ export class PaperSelectedComponent implements OnInit {
     localStorage.setItem(environment.LOCALSTORAGE + 'ps', JSON.stringify(this.paper));
   }
 
-    calcProgress(change: boolean = false) {
+  calcProgress(change: boolean = false) {
     if (this.papers) {
       for (let i = 0; i < this.papers.length; i++) {
         if (this.papers[i].status === 0) {
@@ -111,12 +110,12 @@ export class PaperSelectedComponent implements OnInit {
 
   back() {
     const page = UiService.getBackPpage();
-this.returnPage.emit({ page });
+    this.returnPage.emit({ page });
   }
-   upload() {
+  upload() {
     this.showUpload = !this.showUpload;
 
-   }
+  }
 
 
   openLink() {
@@ -125,9 +124,14 @@ this.returnPage.emit({ page });
   }
 
   openSciHub() {
-    let link = environment.scihub + this.paper.link;
-    if (this.paper.doi) {
-    link = environment.scihub +  this.paper.doi;
+    let link = '';
+    if (this.paper.link.includes('drive.google.com')) {
+      link = this.paper.link;
+    } else {
+      link = environment.scihub + this.paper.link;
+      if (this.paper.doi) {
+        link = environment.scihub + this.paper.doi;
+      }
     }
     window.open(link, '_blank');
   }
@@ -181,8 +185,8 @@ this.returnPage.emit({ page });
     this.save();
   }
 
-  open_works(ev) {
-    this.paper.open_works = ev.target.value;
+  open_issues(ev) {
+    this.paper.open_issues = ev.target.value;
     this.save();
   }
   future_work(ev) {
@@ -197,8 +201,8 @@ this.returnPage.emit({ page });
     this.observations.filter(obs => {
 
       this.paper.observation += obs;
-      if (cont <this.observations.length) {
-        this.paper.observation += ',';
+      if (cont < this.observations.length) {
+        this.paper.observation += ';';
       }
       cont++;
     });
@@ -214,8 +218,8 @@ this.returnPage.emit({ page });
     this.baselines.filter(obs => {
 
       this.paper.baselines += obs;
-      if (cont <this.baselines.length) {
-        this.paper.baselines += ',';
+      if (cont < this.baselines.length) {
+        this.paper.baselines += ';';
       }
       cont++;
     });
@@ -230,8 +234,8 @@ this.returnPage.emit({ page });
     this.datasets.filter(obs => {
 
       this.paper.datasets += obs;
-      if (cont <this.datasets.length) {
-        this.paper.datasets += ',';
+      if (cont < this.datasets.length) {
+        this.paper.datasets += ';';
       }
       cont++;
     });
@@ -247,8 +251,8 @@ this.returnPage.emit({ page });
     this.lenguages.filter(obs => {
 
       this.paper.languages += obs;
-      if (cont <this.lenguages.length) {
-        this.paper.languages += ',';
+      if (cont < this.lenguages.length) {
+        this.paper.languages += ';';
       }
       cont++;
     });
@@ -259,13 +263,13 @@ this.returnPage.emit({ page });
     console.log(this.paper);
 
     if (!this.paper.observation) {
-      this.paper.observation =  ev.target.value;
+      this.paper.observation = ev.target.value;
     } else {
       if (this.paper.observation.length >= 2000) {
-      this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
-      return;
-    }
-      this.paper.observation +=  ','+ev.target.value;
+        this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
+        return;
+      }
+      this.paper.observation += ';' + ev.target.value;
     }
 
     this.observations.push(ev.target.value);
@@ -276,30 +280,32 @@ this.returnPage.emit({ page });
   setBaseline(ev, obj: IonInput) {
 
     if (!this.paper.baselines) {
-      this.paper.baselines =  ev.target.value;
+      this.paper.baselines = ev.target.value;
     } else {
       if (this.paper.baselines.length >= 2000) {
-      this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
-      return;
+        this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
+        return;
+      }
     }
-      this.paper.baselines +=  ','+ev.target.value;
-    }
+
+    this.paper.baselines += ';' + ev.target.value;
 
     this.baselines.push(ev.target.value);
     obj.value = '';
+
     this.save();
   }
 
   setDatasets(ev, obj: IonInput) {
 
     if (!this.paper.datasets) {
-      this.paper.datasets =  ev.target.value;
+      this.paper.datasets = ev.target.value;
     } else {
       if (this.paper.datasets.length >= 2000) {
-      this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
-      return;
-    }
-      this.paper.datasets +=  ','+ev.target.value;
+        this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
+        return;
+      }
+      this.paper.datasets += ';' + ev.target.value;
     }
 
     this.datasets.push(ev.target.value);
@@ -310,13 +316,13 @@ this.returnPage.emit({ page });
   setLenguages(ev, obj: IonInput) {
 
     if (!this.paper.languages) {
-      this.paper.languages =  ev.target.value;
+      this.paper.languages = ev.target.value;
     } else {
       if (this.paper.languages.length >= 2000) {
-      this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
-      return;
-    }
-      this.paper.languages +=  ','+ev.target.value;
+        this.exeptionService.alertDialog('Limite de 2000 caracteres alcançado');
+        return;
+      }
+      this.paper.languages += ';' + ev.target.value;
     }
 
     this.lenguages.push(ev.target.value);
@@ -349,7 +355,7 @@ this.returnPage.emit({ page });
           text: 'SIM',
           handler: () => {
             this.paperService.destroy(this.paper.paper_review).then(() => {
-              this.back();
+              this.returnPage.emit({ next: true });
               this.exeptionService.openLoading('O artigo foi colocado na lista de artigos descartados');
             });
           }
@@ -361,19 +367,19 @@ this.returnPage.emit({ page });
     alert.present();
   }
 
-check(): boolean {
-  if (!this.paper.relevance) {
-    this.exeptionService.alertDialog('Determina a relevância do artigo para a revisão');
-    return;
-  }
+  check(): boolean {
+    if (!this.paper.relevance) {
+      this.exeptionService.alertDialog('Determina a relevância do artigo para a revisão');
+      return;
+    }
 
-  if (!this.paper.issue) {
-    this.exeptionService.alertDialog('defina pelo menos um problema ou caracteristica do artigo');
-    return;
-  }
+    if (!this.paper.issue) {
+      this.exeptionService.alertDialog('defina pelo menos um problema ou caracteristica do artigo');
+      return;
+    }
 
-  return true;
-}
+    return true;
+  }
 
   update() {
     if (this.check()) {
@@ -387,10 +393,10 @@ check(): boolean {
           this.observations = [];
           this.updatting = false;
           this.exeptionService.openLoading('salvamento completo', true, 1);
-              this.returnPage.emit({ next: true });
+          this.returnPage.emit({ next: true });
 
         }
-      ).catch(e=>this.exeptionService.erro(e));
+      ).catch(e => this.exeptionService.erro(e));
 
     }
 

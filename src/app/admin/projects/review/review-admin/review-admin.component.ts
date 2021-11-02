@@ -78,13 +78,7 @@ export class ReviewAdminComponent implements OnInit {
 
 
   async back() {
-    const modal = await this.modalCtrl.create({
-      component: ProtocolComponent,
-    });
-
-    modal.present();
-
-    // this.returnPage.emit({ page: 'list' });
+    this.returnPage.emit({ page: 'list' });
   }
   upload() {
     this.showUpload = !this.showUpload;
@@ -153,6 +147,7 @@ async getDownload() {
   callbackPageReturn(obj) {
     if (obj.page) {this.page = obj.page;}
     if (obj.review) {this.review = obj.review;}
+    if (obj.upload) { this.upload();}
 
     // if (obj.callbackPage) {
     //   this.callbackPage = obj.callbackPage;

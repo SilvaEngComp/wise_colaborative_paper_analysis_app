@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { BrMaskerModule } from 'br-mask';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { MenuVisualizationComponent } from './menu-visualization/menu-visualization.component';
+import { PaperSelectedModule } from '../paper-selected/paper-selected.module';
 
 
 
@@ -23,6 +24,7 @@ import { MenuVisualizationComponent } from './menu-visualization/menu-visualizat
     BrMaskerModule,
     UiModule,
     PipesModule,
+    PaperSelectedModule
   ],
   exports: [VisualizationComponent],
   entryComponents:[MenuVisualizationComponent, WordRankingComponent]

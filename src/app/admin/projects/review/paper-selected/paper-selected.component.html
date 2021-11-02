@@ -1,17 +1,8 @@
-<ion-toolbar *ngIf="!notshowHeader">
+<ion-toolbar *ngIf="notshowHeader">
     <ion-button fill="clear" (click)="back()">
         <ion-icon class="back-button" slot="start" name="chevron-back-outline"></ion-icon>
         <ion-label>VOLTAR</ion-label>
-
-
     </ion-button>
-
-    <ion-buttons slot="end">
-        <ion-spinner name="bubbles" *ngIf="updatting"></ion-spinner>
-        <ion-button (click)="update()" *ngIf="!updatting" fill="clear">
-            <ion-icon name="save-outline"></ion-icon>
-        </ion-button>
-    </ion-buttons>
 </ion-toolbar>
 
 <div *ngIf="is_saving" class="spinner">
@@ -146,8 +137,8 @@
         <ion-row class="issue">
             <ion-col>
                 <ion-title>Problemas em aberto</ion-title>
-                <ion-textarea rows="5" cols="5" maxlength="2000" [value]="paper?.open_works" (keyup)="open_works($event)"></ion-textarea>
-                <ion-note>{{paper?.open_works?.length}}/2000</ion-note>
+                <ion-textarea rows="5" cols="5" maxlength="2000" [value]="paper?.open_issues" (keyup)="open_issues($event)"></ion-textarea>
+                <ion-note>{{paper?.open_issues?.length}}/2000</ion-note>
             </ion-col>
         </ion-row>
 
@@ -217,7 +208,7 @@
                 </ion-item>
 
                 <ion-chip *ngFor="let item of baselines; let i=index" mod="ios" outline="true">
-                    <ion-label>{{item}}</ion-label>
+                    <ion-label>{{ item }}</ion-label>
                     <ion-icon (click)="onRemoveBaseLine(i)" name="close-outline"></ion-icon>
                 </ion-chip>
             </ion-col>

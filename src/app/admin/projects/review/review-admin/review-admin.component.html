@@ -1,9 +1,14 @@
 <ion-toolbar>
-    <ion-button fill="clear" (click)="back()" *ngIf="!showUpload">
-        <ion-icon class="back-button" slot="start" name="chevron-back-outline"></ion-icon>
-        <ion-label>VOLTAR</ion-label>
-    </ion-button>
+    <ion-buttons slot="start">
+        <ion-button fill="clear" (click)="back()" *ngIf="!showUpload">
+            <ion-icon class="back-button" slot="start" name="chevron-back-outline"></ion-icon>
+            <ion-label>VOLTAR</ion-label>
+        </ion-button>
+    </ion-buttons>
 
+    <ion-item lines="none" *ngIf="width_device > 500">
+        <ion-title class="lb-title">{{review?.title}}</ion-title>
+    </ion-item>
 
     <ion-buttons slot="end">
         <ion-button (click)="mobibleMenu($event)">
@@ -13,18 +18,15 @@
 
 </ion-toolbar>
 
+<ion-toolbar *ngIf="width_device<=500">
+    <ion-label class="lb-title">{{review?.title}}</ion-label>
+</ion-toolbar>
 
 <app-load-paper *ngIf="showUpload" (loadEmitter)="upload()"></app-load-paper>
 
 <div *ngIf="!showUpload">
     <ion-grid>
-        <ion-row>
-            <ion-col>
-                <ion-item lines="none">
-                    <ion-label class="lb-title">{{review?.title}}</ion-label>
-                </ion-item>
-            </ion-col>
-        </ion-row>
+
         <ion-row>
             <ion-col>
                 <ion-segment (ionChange)="segmentChanged($event)" mode="ios" [value]="page">

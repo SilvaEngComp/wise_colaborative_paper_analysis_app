@@ -108,8 +108,9 @@ export class ConversationComponent implements OnInit {
         this.chats = await this.chatService.get(this.to.id);
         this.configChats();
       }
-    } else {
+       else {
       this.exceptionService.alertDialog('Escolha alguém para mandar a mensagem');
+    }
     }
   }
 

@@ -17,13 +17,18 @@ export class PaperCSV{
     issue: string;
     goals: string;
   imposto_total: string;
-  open_works: string;
+  open_issues: string;
   languages: string;
   baselines: string;
   datasets: string;
   algorithm_comolexity: string;
   observation: string;
-  doi: string;
+    doi: string;
+    issn: string;
+    document_type: string;
+    year: string;
+    link: string;
+
 
 
     constructor(paper: Paper, id: string) {
@@ -92,12 +97,26 @@ export class PaperCSV{
               this.languages = paper.languages;
           }
 
-          if (paper.open_works) {
-              this.open_works = paper.open_works;
+          if (paper.open_issues) {
+              this.open_issues = paper.open_issues;
           }
 
           if (paper.observation) {
               this.observation = paper.observation;
+            }
+          if (paper.doi) {
+              this.doi = paper.doi;
+            }
+          if (paper.issn) {
+              this.issn = paper.issn;
+            }
+          if (paper.publication_year) {
+              this.year = paper.publication_year;
+            }
+          if (paper.link) {
+              this.link = paper.link;
+            }   if (paper.type) {
+              this.document_type = paper.type;
             }
 
         }
@@ -154,9 +173,9 @@ export class PaperCSV{
                                 relatorioList.push('');
                             }
                         }
-                        else if (c.name === 'open_works' && c.checked) {
-                             if (r.open_works) {
-                             relatorioList.push(PaperCSV.organize(r.open_works));
+                        else if (c.name === 'open_issues' && c.checked) {
+                             if (r.open_issues) {
+                             relatorioList.push(PaperCSV.organize(r.open_issues));
                             } else {
                                 relatorioList.push('');
                             }
@@ -236,9 +255,51 @@ export class PaperCSV{
                             } else {
                                 relatorioList.push('');
                             }
-                        }else if (c.name === 'open_works' && c.checked) {
-                              if (r.open_works) {
-                            relatorioList.push(PaperCSV.organize(r.open_works));
+                        }else if (c.name === 'open_issues' && c.checked) {
+                              if (r.open_issues) {
+                            relatorioList.push(PaperCSV.organize(r.open_issues));
+                            } else {
+                                relatorioList.push('');
+                            }
+                        }else if (c.name === 'baselines' && c.checked) {
+                              if (r.baselines) {
+                            relatorioList.push(PaperCSV.organize(r.baselines));
+                            } else {
+                                relatorioList.push('');
+                            }
+                        }else if (c.name === 'datasets' && c.checked) {
+                              if (r.datasets) {
+                            relatorioList.push(PaperCSV.organize(r.datasets));
+                            } else {
+                                relatorioList.push('');
+                            }
+                        }else if (c.name === 'document_type' && c.checked) {
+                              if (r.document_type) {
+                            relatorioList.push(PaperCSV.organize(r.document_type));
+                            } else {
+                                relatorioList.push('');
+                            }
+                        }else if (c.name === 'doi' && c.checked) {
+                              if (r.doi) {
+                            relatorioList.push(PaperCSV.organize(r.doi));
+                            } else {
+                                relatorioList.push('');
+                            }
+                        }else if (c.name === 'issn' && c.checked) {
+                              if (r.issn) {
+                            relatorioList.push(PaperCSV.organize(r.issn));
+                            } else {
+                                relatorioList.push('');
+                            }
+                        }else if (c.name === 'link' && c.checked) {
+                              if (r.link) {
+                            relatorioList.push(PaperCSV.organize(r.link));
+                            } else {
+                                relatorioList.push('');
+                            }
+                        }else if (c.name === 'year' && c.checked) {
+                              if (r.year) {
+                            relatorioList.push(PaperCSV.organize(r.year));
                             } else {
                                 relatorioList.push('');
                             }
@@ -265,11 +326,18 @@ export class PaperCSV{
             'approach',
           'evaluation_metrics',
             'future_work',
-            'codelink',
             'hypothesis',
             'techinique',
-            'open_works',
-            'observation',];
+            'open_issues',
+          'observation',
+            'baselines',
+            'datasets',
+            'doi',
+            'issn',
+            'document_type',
+            'year',
+            'link',
+        ];
 
 
         names.filter(
@@ -291,7 +359,7 @@ export class PaperCSV{
             }
         );
         return csvHeader;
-        // return  [ 'name', 'techinique',  'marca','open_works','research_methodology', 'approach','evaluation_metrics','codelink'];
+        // return  [ 'name', 'techinique',  'marca','open_issues','research_methodology', 'approach','evaluation_metrics','codelink'];
     }
 
   static getRelatorio(papers: Paper[]) {

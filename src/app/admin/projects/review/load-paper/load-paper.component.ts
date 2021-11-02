@@ -56,6 +56,12 @@ export class LoadPaperComponent implements OnInit {
     if (localStorage.getItem(environment.LOCALSTORAGE + '_search_terms')) {
       this.search_terms = localStorage.getItem(environment.LOCALSTORAGE + '_search_terms');
     }
+
+     if (!this.review) {
+      if (localStorage.getItem(environment.LOCALSTORAGE + 'r')) {
+        this.review = JSON.parse(localStorage.getItem(environment.LOCALSTORAGE + 'r'));
+      }
+    }
   }
 
 
@@ -216,7 +222,8 @@ export class LoadPaperComponent implements OnInit {
           this.counter = 120;
         }
       }
-      // console.log(`${environment.API2}/papers/base/${this.selectedBase.id}/review/${this.review.id}/upload`);
+      console.log(this.selectedBase);
+      console.log(`${environment.API2}/papers/base/${this.selectedBase.id}/review/${this.review.id}/upload`);
       return this.http
         .post(
           `${environment.API2}/papers/base/${this.selectedBase.id}/review/${this.review.id}/upload`,
@@ -279,6 +286,7 @@ export class LoadPaperComponent implements OnInit {
     const { data } = await pop.onDidDismiss();
     if (data) {
       this.selectedBase = data.base;
+      console.log(this.selectedBase);
     }
   }
 }

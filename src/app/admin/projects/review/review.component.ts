@@ -23,7 +23,7 @@ import { ProtocolComponent } from './protocol/protocol.component';
 export class ReviewComponent implements OnInit, AfterViewInit {
   @Output() returnPage: EventEmitter<any> = new EventEmitter<any>();
   showUpload: boolean;
-  papers: Paper[] = [];
+  papers: Paper[];
   progress: number;
   selectedPaper: Paper;
   show: boolean;
@@ -74,6 +74,9 @@ export class ReviewComponent implements OnInit, AfterViewInit {
     this.load();
   }
 
+  initUpload() {
+    this.returnPage.emit({ upload: true });
+  }
 
   onSelectBase(ev) {
       this.base = new Base(null, ev.target.value);
@@ -158,29 +161,29 @@ export class ReviewComponent implements OnInit, AfterViewInit {
       }
     }
 
-    if (flag) {
+    if (this.selectedPaper) {
       this.selectedPaper.search_terms = String(this.selectedPaper.search_terms);
 
       this.selectedPaper.relevance = String(this.selectedPaper.relevance);
       if (this.selectedPaper.observation) {
-        this.observations = this.selectedPaper.observation.split(',');
+        this.observations = this.selectedPaper.observation.split(';');
       } else {
         this.observations = [];
       }
 
       if (this.selectedPaper.languages) {
-        this.lenguages = this.selectedPaper.languages.split(',');
+        this.lenguages = this.selectedPaper.languages.split(';');
       } else {
         this.lenguages = ['inglês'];
       }
 
       if (this.selectedPaper.datasets) {
-        this.datasets = this.selectedPaper.datasets.split(',');
+        this.datasets = this.selectedPaper.datasets.split(';');
       } else {
         this.datasets = [];
       }
       if (this.selectedPaper.baselines) {
-        this.baselines = this.selectedPaper.baselines.split(',');
+        this.baselines = this.selectedPaper.baselines.split(';');
       } else {
         this.baselines = [];
       }
@@ -190,14 +193,8 @@ export class ReviewComponent implements OnInit, AfterViewInit {
       } else {
         this.selectedPaper.issue = '';
       }
-
-      // this.savePaper();
-
+      UiService.setPaperEmitter.emit(this.selectedPaper);
     }
-
-
-
-    UiService.setPaperEmitter.emit(this.selectedPaper);
   }
 
    setCounter() {
@@ -214,12 +211,14 @@ export class ReviewComponent implements OnInit, AfterViewInit {
     this.setCounter();
      const filter = new PaperFilter(this.base.id, this.review.id);
     this.papers = await this.paperService.show(filter);
-    this.papers.sort((a, b) => ((a.relationship_level >= b.relationship_level && a.relevance >= b.relevance) ? -1 : 1));
+    if (this.papers) {
+      this.papers.sort((a, b) => ((a.relationship_level >= b.relationship_level && a.relevance >= b.relevance) ? -1 : 1));
 
-    if (this.selectedPaper) {
-      this.calcProgress();
-    } else {
-      this.calcProgress(true);
+      if (this.selectedPaper) {
+        this.calcProgress();
+      } else {
+        this.calcProgress(true);
+      }
     }
     this.loading = true;
   }

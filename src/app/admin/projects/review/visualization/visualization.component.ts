@@ -2,14 +2,16 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Platform, PopoverController } from '@ionic/angular';
+import { ModalController, Platform, PopoverController } from '@ionic/angular';
 import { Paper } from 'src/app/objects/paper';
 import { PaperFilter } from 'src/app/objects/paperFilter';
 import { Review } from 'src/app/objects/review';
 import { VisualizationCols } from 'src/app/objects/visualization';
 import { PaperService } from 'src/app/services/paper.service';
 import { environment } from 'src/environments/environment';
+import { PaperSelectedComponent } from '../paper-selected/paper-selected.component';
 import { MenuVisualizationComponent } from './menu-visualization/menu-visualization.component';
+import { WordRankingComponent } from './word-ranking/word-ranking.component';
 
 @Component({
   selector: 'app-visualization',
@@ -21,8 +23,9 @@ export class VisualizationComponent implements OnInit {
 
   loading: boolean;
   papers: Paper[] = [];
-  headers: string[] = ['título', 'problema',
-    'abordagem', 'metodologia', 'contribuição', 'observação',
+  headers: string[] = ['título', 'problema','t. futuros',
+    'abordagem', 'metodologia', 'contribuição', 'observação', 'objetivo',
+     'problemas abertos', 'baselines','datasets'
     ];
   windth_device: number;
   height: number;
@@ -33,11 +36,13 @@ export class VisualizationComponent implements OnInit {
   qtdLow: number;
   @Input() review: Review;
   cols: VisualizationCols[];
-
+  selectedPaper: Paper;
+  seeSelectedPaper: boolean;
   constructor(
     private paperService: PaperService,
     private platform: Platform,
-    private popCtrl: PopoverController
+    private popCtrl: PopoverController,
+    private modalCtrl: ModalController,
   ) {}
   ngOnInit() {
 
@@ -107,6 +112,14 @@ export class VisualizationComponent implements OnInit {
 
   }
 
+  onSelectPaper(papers: Paper[]) {
+    // console.log(papers);
+    if(papers.length<=0) {
+      this.load();
+    } else {
+    this.papers = papers;
+    }
+  }
 
    async mobibleMenu(ev, paper: Paper){
     const pop = await this.popCtrl.create({
@@ -146,8 +159,11 @@ export class VisualizationComponent implements OnInit {
   }
 
   async openRanking() {
-    this.savePapers();
-    this.returnPage.emit({ page: 'word-ranking' });
+    const pop = await this.popCtrl.create({
+      component: WordRankingComponent,
+    });
+
+    pop.present();
   }
 
 
@@ -173,10 +189,13 @@ export class VisualizationComponent implements OnInit {
     );
   }
 
-  openPaper(paper) {
-    this.save(paper);
 
-    this.returnPage.emit({ page: 'paper-selected' });
+  returnSubPage(ev) {
+    this.seeSelectedPaper = false;
+  }
+  async openPaper(paper: Paper) {
+    this.selectedPaper = paper;
+    this.seeSelectedPaper = true;
   }
 
   back() {

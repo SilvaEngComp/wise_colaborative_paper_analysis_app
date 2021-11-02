@@ -16,7 +16,7 @@ export class Paper{
   link: string;
   keywords: string;
   search_terms: string;
-  open_works: string;
+  open_issues: string;
 
   paper_review: number;
   status: number;

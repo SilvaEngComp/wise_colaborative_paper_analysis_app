@@ -24,6 +24,7 @@ import { UserService } from 'src/app/services/user.service';
 import { AreaService } from 'src/app/services/area.service';
 import { MySelect } from 'src/app/objects/mySelect';
 import { Area } from 'src/app/objects/area';
+import { PaperFilter } from 'src/app/objects/paperFilter';
 
 @Component({
   selector: 'app-my-select-list',
@@ -81,6 +82,14 @@ export class MySelectListComponent implements OnInit, OnDestroy {
         );
       }
     }
+
+    if (!this.dependence_id) {
+      if (localStorage.getItem(environment.LOCALSTORAGE + 'r')) {
+        this.dependence_id = JSON.parse(
+          localStorage.getItem(environment.LOCALSTORAGE + 'r')
+        ).id;
+      }
+    }
   }
 
   async showInfo(ev: any, item: any) {
@@ -135,7 +144,7 @@ export class MySelectListComponent implements OnInit, OnDestroy {
   async load() {
    if (this.listName == 'members') {
       this.listObj = await this.userService.getUsers();
-      this.list = MySelect.toMySelectAny(this.listObj);
+      this.list = MySelect.toMySelectMembers(this.listObj);
     } else if (this.listName == 'instituition') {
       this.listObj = await this.instituitionService.get();
       this.list = MySelect.toMySelectInstituition(this.listObj);
@@ -144,6 +153,14 @@ export class MySelectListComponent implements OnInit, OnDestroy {
       this.list = MySelect.toMySelectAny(this.listObj);
     }else if (this.listName == 'papers') {
       this.listObj = await this.paperSerice.get(this.dependence_id);
+      this.list = MySelect.toMySelectPaper(this.listObj);
+   } else if (this.listName == 'visualization') {
+      const filter = new PaperFilter(null, this.dependence_id); //dependence_id é o review id
+    filter.relevance = 'desc';
+    filter.status = 1;
+    filter.analysed = true;
+    filter.star = true;
+    this.listObj = await this.paperSerice.show(filter);
       this.list = MySelect.toMySelectPaper(this.listObj);
     }else if (this.listName == 'bases') {
       this.listObj = await this.baseService.get();
@@ -217,11 +234,21 @@ export class MySelectListComponent implements OnInit, OnDestroy {
       }
     });
 
+
     this.selectEmiter.emit(this.listObjAux);
+    this.mySelect.value = '';
   }
 
    onRemoveMultiple(ev: MySelect) {
-          this.mySelectList.splice(this.mySelectList.indexOf(ev), 1);
+     this.mySelectList.splice(this.mySelectList.indexOf(ev), 1);
+
+     this.listObj.filter((obj) => {
+          this.mySelectList.push(ev);
+          this.listObjAux.push(obj);
+    });
+
+    this.mySelect = new MySelect();
+    this.selectEmiter.emit(this.listObjAux);
   }
   createNew() {
     if (this.listName == 'area') {

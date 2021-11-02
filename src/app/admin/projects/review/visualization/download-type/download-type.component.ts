@@ -33,7 +33,7 @@ export class DownloadTypeComponent implements OnInit {
   selectedHeader: CsvHeader[] = [];
   checkAll: boolean;
   loading: boolean;
-  @Input() papers: Paper[] = [];
+  papers: Paper[];
   @Input() review: Review;
 
   ngOnInit() {
@@ -41,6 +41,8 @@ export class DownloadTypeComponent implements OnInit {
     this.checkAll = true;
 
     this.selectedHeader = PaperCSV.headersOptions();
+
+    this.load();
   }
 
   async load() {
@@ -53,11 +55,10 @@ export class DownloadTypeComponent implements OnInit {
     filter.star = true;
     this.papers = await this.paperService.show(filter);
     // console.log(this.papers);
-    this.loading = true;
 
     this.papers.sort((a, b) => ((a.star > b.star && a.updated_at > b.updated_at) ? -1 : 1));
-
-
+    console.log(this.papers);
+    this.loading = true;
   }
 
   onSelectAll(checked) {

@@ -12,7 +12,11 @@
     </ion-item>
 
     <div *ngIf="multiple">
+
         <ion-chip *ngFor="let item of mySelectList" mod="ios" outline="true">
+            <ion-avatar>
+                <ion-img [src]="item?.image"></ion-img>
+            </ion-avatar>
             <ion-label>{{item.value}}</ion-label>
             <ion-icon (click)="onRemoveMultiple(item)" name="close-outline"></ion-icon>
         </ion-chip>
@@ -23,8 +27,14 @@
     <div [ngClass]="{'open-div': show}" *ngIf="show" (scroll)="onScroll($event)">
         <ion-radio-group [value]="mySelect?.id">
             <div class="div-list" *ngFor="let item of list | slice:0:limit ">
-                <ion-label (click)="onSelect(item)" lines="none"> {{ item?.value | uppercase}}</ion-label>
-                <ion-note>{{item?.info}}</ion-note>
+                <ion-avatar>
+                    <ion-img [src]="item?.image"></ion-img>
+                </ion-avatar>
+                <div>
+                    <ion-label (click)="onSelect(item)" lines="none"> {{ item?.value | uppercase}}</ion-label>
+                    <ion-note>{{item?.info}}</ion-note>
+                </div>
+
             </div>
         </ion-radio-group>
 
